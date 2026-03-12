@@ -1786,7 +1786,7 @@
   <div class="popup-content">
     <div class="popup-header">
       <h3 id="detailTitle">Деталі послуги</h3>
-      <button class="popup-close" onclick="closePopup('detail')">×</button>
+      <button class="popup-close" onclick="closeDetailAndReturn()">×</button>
     </div>
     <div class="popup-body" id="detailBody">
       <!-- Динамічний контент -->
@@ -2325,6 +2325,13 @@
     }
   }
 
+  function closeDetailAndReturn(){
+    closePopup('detail');
+    if(window.lastDetailCategory){
+      openCompactList(window.lastDetailCategory);
+    }
+  }
+
   // Відкрити детальний модал для конкретної послуги (елемент всередині popup-body)
   // Карта послуг на зображення
   const SERVICE_IMAGE_MAP = {
@@ -2379,6 +2386,7 @@
     const orderBtn = document.getElementById('detailOrderBtn');
     if(!detailOverlay || !detailTitle || !detailBody) return;
     detailTitle.textContent = title;
+    window.lastDetailCategory = category || window.lastDetailCategory || '';
     
     // Визначити зображення для послуги
     let imageHtml = '<div class="detail-image"></div>';
@@ -2845,8 +2853,12 @@
   document.querySelectorAll('.popup-overlay').forEach(overlay => {
     overlay.addEventListener('click', (e) => {
       if (e.target === overlay) {
-        overlay.classList.remove('active');
-        document.body.style.overflow = '';
+        if(overlay.id === 'popup-detail'){
+          closeDetailAndReturn();
+        } else {
+          overlay.classList.remove('active');
+          document.body.style.overflow = '';
+        }
       }
     });
   });
@@ -2871,6 +2883,11 @@
   // Закриття попапу клавішею Escape
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
+      const detailPopup = document.getElementById('popup-detail');
+      if(detailPopup && detailPopup.classList.contains('active')){
+        closeDetailAndReturn();
+        return;
+      }
       document.querySelectorAll('.popup-overlay.active').forEach(popup => {
         popup.classList.remove('active');
         document.body.style.overflow = '';
