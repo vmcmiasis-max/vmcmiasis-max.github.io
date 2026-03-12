@@ -2596,13 +2596,20 @@
           // Витягуємо img (якщо є) та description разом
           let imageHtml = '';
           const imgTag = article.querySelector('img');
-          if(imgTag && imgTag.src){
-            // Переконуємось що шлях починається з ./
-            let imgSrc = imgTag.src;
-            if(!imgSrc.startsWith('./') && !imgSrc.startsWith('http')){
+          const rawImgSrc = imgTag?.getAttribute('src');
+          if(imgTag && rawImgSrc){
+            // Беремо оригінальний src з HTML, щоб уникнути перетворення у file:/// або абсолютний URL
+            let imgSrc = rawImgSrc.trim();
+            if(
+              !imgSrc.startsWith('./') &&
+              !imgSrc.startsWith('/') &&
+              !imgSrc.startsWith('http://') &&
+              !imgSrc.startsWith('https://') &&
+              !imgSrc.startsWith('data:')
+            ){
               imgSrc = './' + imgSrc;
             }
-            imageHtml = `<img src="${imgSrc}" alt="${imgTag.alt}" style="${imgTag.getAttribute('style')}">`;
+            imageHtml = `<img src="${imgSrc}" alt="${imgTag.alt || ''}" style="${imgTag.getAttribute('style') || ''}">`;
           }
           
           const descriptionHtml = article.querySelector('.description')?.innerHTML || '';
@@ -2674,6 +2681,15 @@
         let servicesHTML = '';
         const categoryDescriptions = SERVICE_DESCRIPTIONS[category] || {};
         
+        const normalizeServiceTitle = (text) => {
+          return (text || '')
+            .replace(/^[\d\.\s]+/g, '')
+            .replace(/[\u2019']/g, "'")
+            .replace(/\s+/g, ' ')
+            .trim()
+            .toLowerCase();
+        };
+
         services.forEach((svc, idx) => {
           const title = svc.title;
           let description = '';
@@ -2683,12 +2699,16 @@
             description = categoryDescriptions[title];
           } else {
             // Якщо точного матчу немає - пробуємо нормалізовані версії
-            const titleNorm = title.replace(/^[\d\.\s]+/g, '').trim();
+            const titleNorm = normalizeServiceTitle(title);
             
             for(let key in categoryDescriptions){
-              const keyNorm = key.replace(/^[\d\.\s]+/g, '').trim();
+              const keyNorm = normalizeServiceTitle(key);
               
-              if(keyNorm.toLowerCase() === titleNorm.toLowerCase()){
+              if(
+                keyNorm === titleNorm ||
+                keyNorm.includes(titleNorm) ||
+                titleNorm.includes(keyNorm)
+              ){
                 description = categoryDescriptions[key];
                 break;
               }
