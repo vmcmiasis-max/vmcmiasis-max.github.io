@@ -1040,15 +1040,12 @@
     }
 
     /* Детальний модал стиль */
-    #popup-detail .popup-content{max-width:900px;padding:0;max-height:calc(100vh - 60px);overflow-y:auto;display:flex;flex-direction:column}
+    #popup-detail .popup-content{max-width:980px;width:min(980px,96%);height:calc(100vh - 40px);padding:0;max-height:none;overflow:hidden;display:flex;flex-direction:column}
+    #popup-detail .popup-header{align-items:flex-start;gap:12px}
+    #popup-detail .popup-header h3{flex:1;padding-right:8px}
+    #popup-detail .popup-close{align-self:flex-start;margin-top:2px}
     
-    /* Стиль скролбару для деталей попапу */
-    #popup-detail .popup-content::-webkit-scrollbar{width:8px}
-    #popup-detail .popup-content::-webkit-scrollbar-track{background:transparent}
-    #popup-detail .popup-content::-webkit-scrollbar-thumb{background:#d0d0d0;border-radius:4px;transition:background 0.3s}
-    #popup-detail .popup-content::-webkit-scrollbar-thumb:hover{background:#999}
-    
-    #popup-detail .popup-body{display:flex;flex-direction:column;gap:18px;padding:18px}
+    #popup-detail .popup-body{display:flex;flex-direction:column;gap:18px;padding:18px;flex:1;overflow:auto;min-height:0}
     .detail-image{width:100%;height:auto;border-radius:8px;background:#f3f4f6;display:flex;align-items:center;justify-content:center;font-size:40px;flex-shrink:0}
     .detail-main{flex:1}
     .detail-price{margin-top:12px;padding:12px;background:#f8f9fc;border-left:4px solid var(--accent);border-radius:6px}
