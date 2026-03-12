@@ -1,0 +1,2975 @@
+﻿<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Муніципальний центр містобудування і архітектури</title>
+  <style>
+    :root{
+      --bg:#ffffff;
+      --card:#ffffff;
+      --text:#000000;
+      --muted:#5b6776;
+      --accent:#2667ff;
+      --accent-hover:#1a50d9;
+      --border:#e5e9f1;
+      --shadow:0 4px 20px rgba(0,0,0,.08);
+      --radius:12px;
+      --max:1200px;
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      margin:0;
+      font-family:'Montserrat',Arial,sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      line-height:1.6;
+      font-size:18px;
+      font-weight:400;
+    }
+
+    header{
+      position:sticky;
+      top:0;
+      z-index:50;
+      background:var(--card);
+      border-bottom:1px solid var(--border);
+      padding:20px 0;
+      box-shadow:0 2px 10px rgba(0,0,0,.05);
+    }
+
+    .wrap{
+      max-width:var(--max);
+      margin:0 auto;
+      padding:0 30px;
+    }
+
+    .topbar{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:20px;
+      flex-wrap:nowrap;
+      position:relative;
+    }
+
+    .toolbar{
+      display:flex;
+      flex-direction:column;
+      align-self: stretch;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap: 8px;
+    }
+
+    
+
+    .header-search{display:flex;align-items:center;margin-top:auto;}
+    .header-search .search-input-large{width:220px;max-width:260px;}
+    nav{display:flex;gap:8px;flex-wrap:nowrap;}
+    @media (max-width:900px){
+      .topbar{display:flex;flex-wrap:wrap;position:relative;}
+      .header-search{width:100%;padding:8px 10px;justify-content:center;}
+      nav{order:1;width:100%;display:flex;justify-content:center;padding-left:0;margin-left:0}
+      .toolbar{width:100%;align-items:flex-start;}
+      .burger-menu{display:flex;}
+    }
+    @media (max-width:600px){
+      .header-search{justify-content:center;width:calc(100% - 20px);margin-left:10px;margin-right:10px;}
+      .burger-menu{top:15px;right:20px;}
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      width:33%;
+    }
+
+    .brand img{
+      max-height: 100px;
+      width:auto;
+    }
+
+    .brand-text{
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+    }
+
+    .brand strong{
+      font-size:16px;
+      color:var(--text);
+      font-weight:600;
+      line-height:1.3;
+    }
+
+    .brand span{
+      font-size:14px;
+      color:var(--muted);
+      font-weight:400;
+    }
+
+    nav{
+      display:flex;
+      flex-wrap: nowrap;
+      gap: 8px;
+      align-items:center;
+    }
+
+    .burger-menu{
+      display:none;
+      flex-direction:column;
+      gap: 8px;
+      background:transparent;
+      border:none;
+      cursor:pointer;
+      padding:8px;
+      z-index:100;
+      position:absolute;
+      top:10px;
+      right:30px;
+    }
+
+    .burger-menu span{
+      display:block;
+      width:28px;
+      height:3px;
+      background:var(--text);
+      border-radius:2px;
+      transition:.3s;
+      margin:4px 0;
+    }
+
+    .burger-menu.active span:nth-child(1){
+      transform:rotate(45deg) translate(8px, 8px);
+    }
+
+    .burger-menu.active span:nth-child(2){
+      opacity:0;
+    }
+
+    .burger-menu.active span:nth-child(3){
+      transform:rotate(-45deg) translate(7px, -7px);
+    }
+
+    .mobile-nav{
+      display:none;
+      position:fixed;
+      top:70px;
+      left:0;
+      right:0;
+      background:var(--card);
+      border-bottom:1px solid var(--border);
+      box-shadow:0 4px 20px rgba(0,0,0,.1);
+      z-index:99;
+      opacity:0;
+      transform:translateY(-100%);
+      transition:opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    .mobile-nav.active{
+      display:block;
+      opacity:1;
+      transform:translateY(0);
+    }
+
+    .mobile-nav nav{
+      display:flex;
+      flex-direction:column;
+      padding:20px;
+      gap:0;
+    }
+
+    .mobile-nav .btn{
+      width:100%;
+      text-align:center;
+      border-radius:0;
+      border:none;
+      border-bottom:1px solid var(--border);
+      padding:15px 20px;
+      background:transparent;
+      color:var(--text);
+      font-family:'Poppins',Arial,sans-serif;
+    }
+
+    .mobile-nav .btn:hover{
+      background:#f8f9fc;
+    }
+
+    .mobile-nav .btn.active{
+      background:var(--text);
+      color:#fff;
+    }
+
+    .mobile-nav .btn:last-child{
+      border-bottom:none;
+    }
+
+    .btn{
+      border:2px solid var(--text);
+      background:transparent;
+      padding:10px 20px;
+      border-radius:8px;
+      cursor:pointer;
+      font-size:16px;
+      font-weight:500;
+      color:var(--text);
+      transition:.3s;
+      font-family:'Montserrat',Arial,sans-serif;
+      margin-right: 8px;
+      white-space:nowrap;
+      min-height:44px;
+      line-height:20px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .topbar .btn:last-child {
+      margin-right: 0;
+    }
+
+    .btn:hover{
+      background:var(--text);
+      color:#fff;
+    }
+
+    .btn.active{
+      background:var(--text);
+      color:#fff;
+      border-color:var(--text);
+    }
+
+    /* Головний екран */
+    .hero{
+      min-height:100vh;
+      display:flex;
+      align-items:flex-start;
+      justify-content:center;
+      padding:150px 0 40px;
+      background-color:#f8f9fc;
+      background-image:linear-gradient(135deg, rgba(248,249,252,0.7) 0%, rgba(255,255,255,0.7) 100%), url(./image/img_bilding/9.jpg);
+      background-repeat:no-repeat;
+      background-size:cover;
+      background-position:center;
+      background-attachment:fixed;
+    }
+
+    .hero-content{
+      text-align:center;
+      max-width:900px;
+    }
+
+    h1{
+      margin:0 0 15px;
+      font-size:42px;
+      color:var(--text);
+      font-weight:700;
+      line-height:1.2;
+    }
+
+    .hero-text{
+      margin:0;
+      color:var(--muted);
+      font-size:18px;
+      line-height:1.6;
+    }
+
+    /* Секції */
+    section{
+      padding:50px 0;
+      scroll-margin-top:80px;
+    }
+
+    section.fullscreen{
+      min-height:100vh;
+      display:flex;
+      align-items:flex-start;
+      padding-top:50px;
+    }
+
+    section.fullscreen.contacts{
+      padding-top:150px;
+    }
+
+    section.fullscreen .wrap{
+      width:100%;
+    }
+
+    .section-title{
+      font-size:36px;
+      font-weight:700;
+      margin:0 0 30px;
+      text-align:center;
+      color:var(--text);
+    }
+
+    /* Карусель */
+    .carousel-container{
+      position:relative;
+      overflow:hidden;
+      margin-bottom:30px;
+    }
+
+    .about-carousel-wrapper{
+      position:relative;
+      padding:10px 0 40px;
+    }
+
+    .about-carousel{
+      overflow:hidden;
+      position:relative;
+      width:100%;
+      padding-top:4px;
+    }
+
+    .about-carousel-track{
+      display:flex;
+      gap:20px;
+      transition:transform 0.5s ease-in-out;
+      will-change:transform;
+    }
+
+    .carousel{
+      display:flex;
+      gap:20px;
+      overflow-x:auto;
+      scroll-behavior:smooth;
+      padding:10px 0 20px;
+      scrollbar-width:thin;
+      scrollbar-color:var(--border) transparent;
+    }
+
+    .carousel::-webkit-scrollbar{
+      height:8px;
+    }
+
+    .carousel::-webkit-scrollbar-track{
+      background:transparent;
+    }
+
+    .carousel::-webkit-scrollbar-thumb{
+      background:var(--border);
+      border-radius:4px;
+    }
+
+    .carousel::-webkit-scrollbar-thumb:hover{
+      background:var(--muted);
+    }
+
+    .carousel-card{
+      min-width:300px;
+      flex:0 0 300px;
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      padding:20px;
+      box-shadow:var(--shadow);
+      transition:.3s;
+      cursor:pointer;
+      margin:0 3px;
+    }
+
+    .carousel-card:hover{
+      box-shadow:0 8px 30px rgba(0,0,0,.12);
+      transform:translateY(-4px);
+    }
+
+    .carousel-card h3{
+      margin:0 0 15px;
+      font-size:22px;
+      color:var(--text);
+      font-weight:700;
+    }
+
+    .carousel-card p{
+      margin:0;
+      font-size:16px;
+      line-height:1.6;
+      color:var(--muted);
+    }
+
+    .carousel-card ul{
+      margin:0;
+      padding-left:20px;
+    }
+
+    .carousel-card ul li{
+      margin-bottom:8px;
+      font-size:16px;
+      color:var(--muted);
+    }
+
+    .carousel-card ul li:last-child{
+      margin-bottom:0;
+    }
+
+    .carousel-card .icon{
+      width:45px;
+      height:45px;
+      background:linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 100%);
+      border-radius:10px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:22px;
+      color:#fff;
+      margin-bottom:15px;
+    }
+
+    /* Плаваючі кнопки (наверх + соцмережі) */
+    .floating-actions{
+      position:fixed;
+      right:20px;
+      bottom:20px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      z-index:1000;
+      align-items:center;
+    }
+
+    .float-btn{
+      width:52px;
+      height:52px;
+      border-radius:50%;
+      background:var(--accent);
+      color:#fff;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      box-shadow:0 6px 18px rgba(38,103,255,0.18);
+      border:none;
+      cursor:pointer;
+      font-size:20px;
+    }
+
+    .float-btn.secondary{
+      width:44px;
+      height:44px;
+      background:#fff;
+      color:var(--text);
+      border:none;
+      font-size:18px;
+      padding:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      overflow:visible;
+      box-shadow:0 4px 12px rgba(0,0,0,0.12);
+    }
+    
+    .float-btn.secondary img{
+      width:38px;
+      height:38px;
+      object-fit:contain;
+    }
+    
+    #viberBtn{
+      overflow:hidden;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    
+    #viberBtn img{
+      width:42px !important;
+      height:42px !important;
+      margin:auto;
+      display:block;
+    }
+    
+    #waBtn img{
+      width:38px !important;
+      height:38px !important;
+    }
+
+    #callBtn{
+      overflow:hidden;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    #callBtn img{
+      width:38px !important;
+      height:38px !important;
+    }
+
+    .float-label{
+      font-size:12px;
+      color:var(--text);
+      margin-top:4px;
+    }
+
+    /* Модаль пошуку */
+    .search-modal{
+      position:fixed;
+      left:50%;
+      top:12%;
+      transform:translateX(-50%);
+      width:min(720px, 92%);
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:12px;
+      box-shadow:0 12px 40px rgba(0,0,0,0.12);
+      z-index:1200;
+      display:none;
+      padding:14px;
+    }
+
+    .search-modal.show{display:block}
+
+    .search-input-large{
+      width:100%;
+      padding:12px 14px;
+      border:1px solid var(--border);
+      border-radius:8px;
+      font-size:16px;
+      outline:none;
+    }
+
+    .search-results-list{max-height:320px;overflow:auto;margin-top:10px}
+
+    .search-result{padding:10px;border-bottom:1px solid var(--border);cursor:pointer}
+
+    /* Компактний список послуг */
+    .compact-modal{position:fixed;left:50%;top:12%;transform:translateX(-50%);width:min(920px,96%);background:#fff;border:1px solid var(--border);border-radius:10px;box-shadow:0 18px 50px rgba(0,0,0,0.12);z-index:1250;display:none;padding:12px}
+    .compact-modal.show{display:block}
+    /* Список послуг у вигляді компактного списку */
+    .compact-list{display:flex;flex-direction:column;gap:6px;max-height:70vh;overflow:auto;padding:6px}
+    .compact-item{padding:10px;border-radius:8px;border:1px solid var(--border);cursor:pointer;font-size:14px;display:flex;justify-content:space-between;align-items:center}
+    .compact-item small{color:var(--muted);font-size:12px}
+    .compact-price{margin-left:12px;display:flex;align-items:center}
+    .compact-price-snippet{font-size:13px;color:var(--accent);background:#f8fbff;padding:6px 8px;border-radius:6px;border:1px solid rgba(38,103,255,0.08)}
+
+    /* Стилі для кнопок навігації каруселі (праворуч/ліворуч) */
+    .carousel-nav-btn{position:absolute;top:50%;transform:translateY(-50%);width:48px;height:48px;border-radius:50%;background:rgba(0,0,0,0.06);border:1px solid rgba(0,0,0,0.08);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:20px;color:var(--text);box-shadow:0 4px 12px rgba(0,0,0,0.06);transition:transform .12s ease,opacity .12s ease;opacity:0.95;z-index:40}
+    .carousel-nav-btn:hover{transform:translateY(-50%) scale(1.06);opacity:1}
+    .carousel-nav-btn.prev{left:6px}
+    .carousel-nav-btn.next{right:6px}
+    @media (max-width:767px){.carousel-nav-btn{width:40px;height:40px;font-size:18px}}
+
+
+    /* Блок діяльності */
+    .activity-block{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      padding:25px;
+      box-shadow:var(--shadow);
+      margin-top:30px;
+      max-width:var(--max);
+      margin-left:auto;
+      margin-right:auto;
+    }
+
+    .activity-block h3{
+      margin:0 0 15px;
+      font-size:24px;
+      color:var(--text);
+      font-weight:700;
+    }
+
+    .activity-block ul{
+      margin:0;
+      padding-left:25px;
+    }
+
+    .activity-block ul li{
+      margin-bottom:12px;
+      font-size:18px;
+      color:var(--text);
+      line-height:1.6;
+    }
+
+    .activity-block ul li:last-child{
+      margin-bottom:0;
+    }
+
+    .activity-block ul li b{
+      color:var(--accent);
+      font-weight:600;
+    }
+
+    /* Великі картки напрямків */
+    .directions-carousel-wrapper{
+      position:relative;
+      padding:10px 0 40px;
+    }
+
+    .directions-carousel{
+      overflow:hidden;
+      position:relative;
+      width:100%;
+      padding-top: 5px;
+    }
+
+    .carousel-track{
+      display:flex;
+      gap:32px;
+      transition:transform 0.5s ease-in-out;
+      will-change:transform;
+    }
+
+    .direction-card{
+      min-width:calc((100% - 40px) / 3);
+      flex:0 0 calc((100% - 40px) / 3);
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      overflow:hidden;
+      box-shadow:var(--shadow);
+      transition:all .3s;
+      cursor:pointer;
+      opacity:1;
+      margin:0 3px;
+    }
+
+    .carousel-dots{
+      display:flex;
+      justify-content:center;
+      gap:10px;
+      margin-top:30px;
+    }
+
+    .carousel-dot{
+      width:12px;
+      height:12px;
+      border-radius:50%;
+      background:var(--border);
+      border:none;
+      cursor:pointer;
+      transition:.3s;
+      padding:0;
+      margin:0 5px;
+    }
+
+    .carousel-dot:hover{
+      background:var(--muted);
+    }
+
+    .carousel-dot.active{
+      background:var(--accent);
+      width:30px;
+      border-radius:6px;
+    }
+
+    .direction-card:hover{
+      box-shadow:0 10px 40px rgba(0,0,0,.15);
+      transform:translateY(-5px);
+    }
+
+    .direction-img{
+      width:100%;
+      height:180px;
+      background:linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:48px;
+      color:#fff;
+    }
+
+    .direction-img.geo{
+      background:linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    }
+
+    .direction-img.land{
+      background:linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    }
+
+    .direction-img.urban{
+      background:linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    }
+
+    .direction-img.arch{
+      background:linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+    }
+
+    .direction-content{
+      padding:20px;
+    }
+
+    .direction-content h3{
+      margin:0 0 12px;
+      font-size:22px;
+      color:var(--text);
+      font-weight:700;
+    }
+
+    .direction-content p{
+      margin:0;
+      font-size:16px;
+      line-height:1.6;
+      color:var(--muted);
+    }
+
+    /* Послуги - великі категорії */
+    .services-grid{
+      display:grid;
+      grid-template-columns:repeat(6,1fr);
+      gap:20px;
+    }
+
+    /* Центрування останніх двох карток */
+    .service-card{
+      grid-column:span 2;
+    }
+
+    .services-grid .service-card:nth-child(4){
+      grid-column:2 / 4;
+    }
+
+    .services-grid .service-card:nth-child(5){
+      grid-column:4 / 6;
+    }
+
+    .service-card{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      overflow:hidden;
+      box-shadow:var(--shadow);
+      transition:.3s;
+      display:flex;
+      flex-direction:column;
+    }
+
+    .service-card:hover{
+      box-shadow:0 10px 40px rgba(0,0,0,.15);
+      transform:translateY(-5px);
+    }
+
+    .service-img{
+      width:100%;
+      height:150px;
+      background:linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:40px;
+      color:#fff;
+    }
+
+    .service-img.geodetic{
+      background:linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    }
+
+    .service-img.land-service{
+      background:linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    }
+
+    .service-img.urban-service{
+      background:linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    }
+
+    .service-img.arch-service{
+      background:linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+    }
+
+    .service-img.facade-service{
+      background:linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+    }
+
+    .service-content{
+      padding:20px;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+      height:100%;
+    }
+
+    .service-content h3{
+      margin:0 0 12px;
+      font-size:22px;
+      color:var(--text);
+      font-weight:700;
+    }
+
+    .service-content p{
+      margin:0 0 15px;
+      font-size:15px;
+      line-height:1.6;
+      color:var(--muted);
+    }
+
+    .service-content ul{
+      margin:0;
+      padding-left:20px;
+    }
+
+    .service-content ul li{
+      margin-bottom:8px;
+      font-size:15px;
+      color:var(--text);
+    }
+
+    .service-content ul li:last-child{
+      margin-bottom:0;
+    }
+
+    /* Контакти */
+    .contacts-wrapper{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:30px;
+      align-items:start;
+    }
+
+    .contacts-grid{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:20px;
+    }
+
+    .contact-card{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      padding:20px;
+      box-shadow:var(--shadow);
+    }
+
+    .contact-card h3{
+      margin:0 0 12px;
+      font-size:20px;
+      color:var(--text);
+      font-weight:700;
+    }
+
+    .contact-item{
+      display:flex;
+      align-items:flex-start;
+      gap:15px;
+      margin-bottom:12px;
+    }
+
+    .contact-item:last-child{
+      margin-bottom:0;
+    }
+
+    .contact-icon{
+      width:36px;
+      height:36px;
+      background:var(--accent);
+      border-radius:8px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:18px;
+      color:#fff;
+      flex-shrink:0;
+    }
+
+    .contact-info{
+      flex:1;
+      padding-left:15px;
+    }
+
+    .contact-info strong{
+      display:block;
+      font-size:13px;
+      color:var(--muted);
+      margin-bottom:4px;
+      font-weight:500;
+    }
+
+    .contact-info span{
+      display:block;
+      font-size:16px;
+      color:var(--text);
+      font-weight:600;
+    }
+
+    /* Google Maps */
+    .map-container{
+      width:100%;
+      height:100%;
+      min-height:380px;
+      border-radius:var(--radius);
+      overflow:hidden;
+      box-shadow:var(--shadow);
+      border:1px solid var(--border);
+    }
+
+    .map-container iframe{
+      width:100%;
+      height:100%;
+      border:0;
+    }
+
+    /* Підвал */
+    footer{
+      background:#f8f9fc;
+      border-top:1px solid var(--border);
+      padding:40px 0 20px;
+    }
+
+    .footer-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:30px;
+      margin-bottom:30px;
+    }
+
+    .footer-col h4{
+      margin:0 0 20px;
+      font-size:18px;
+      color:var(--text);
+      font-weight:700;
+    }
+
+    .footer-col p{
+      margin:0 0 12px;
+      font-size:16px;
+      color:var(--muted);
+      line-height:1.6;
+    }
+
+    .footer-col p:last-child{
+      margin-bottom:0;
+    }
+
+    .footer-col a{
+      color:var(--accent);
+      text-decoration:none;
+      transition:.3s;
+    }
+
+    .footer-col a:hover{
+      color:var(--accent-hover);
+      text-decoration:underline;
+    }
+
+    .footer-bottom{
+      border-top:1px solid var(--border);
+      padding-top:30px;
+      text-align:center;
+      color:var(--muted);
+      font-size:14px;
+    }
+
+    /* Адаптивність */
+    @media (max-width:1024px){
+      .services-grid{
+        grid-template-columns:1fr;
+      }
+      
+      .services-grid .service-card:nth-child(4),
+      .services-grid .service-card:nth-child(5){
+        grid-column:1;
+      }
+      
+      .direction-card{
+        min-width:calc((100% - 20px) / 2);
+        flex:0 0 calc((100% - 20px) / 2);
+      }
+      
+      .brand span{
+        display:none;
+      }
+      
+      nav{
+        display:none;
+      }
+      
+      .burger-menu{
+        display:flex;
+      }
+    }
+
+    @media (max-width:767px){
+      .wrap{padding:0 20px;}
+      h1{font-size:28px;}
+      .hero-text{font-size:16px;}
+      .section-title{font-size:26px;}
+      .btn{font-size:14px;padding:8px 15px;}
+      nav{gap:5px;}
+      section{padding:40px 0;}
+      .hero{padding:30px 0;}
+      .carousel-card{min-width:280px;flex:0 0 280px;}
+      .activity-block{padding:20px;}
+      .contacts-grid{grid-template-columns:1fr;}
+      .contacts-wrapper{grid-template-columns:1fr;}
+      .map-container{min-height:300px;}
+      .footer-grid{grid-template-columns:1fr;}
+      .direction-card{min-width:100%;flex:0 0 100%;}
+      .direction-img{height:140px;font-size:36px;}
+      .service-img{height:120px;font-size:32px;}
+      .map-container{height:300px;}
+    }
+
+    /* Попап стилі */
+    .popup-overlay{
+      display:none;
+      position:fixed;
+      top:0;
+      left:0;
+      width:100%;
+      height:100%;
+      background:rgba(0,0,0,0.7);
+      z-index:1000;
+      overflow-y:auto;
+      padding:20px;
+    }
+
+    .popup-overlay.active{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .popup-content{
+      background:var(--card);
+      border-radius:var(--radius);
+      max-width:800px;
+      width:100%;
+      max-height:90vh;
+      overflow-y:auto;
+      position:relative;
+      box-shadow:0 20px 60px rgba(0,0,0,0.3);
+      animation:popupSlideIn 0.3s ease-out;
+    }
+
+    /* Детальний модал стиль */
+    #popup-detail .popup-content{max-width:900px;padding:0;max-height:calc(100vh - 60px);overflow-y:auto;display:flex;flex-direction:column}
+    
+    /* Стиль скролбару для деталей попапу */
+    #popup-detail .popup-content::-webkit-scrollbar{width:8px}
+    #popup-detail .popup-content::-webkit-scrollbar-track{background:transparent}
+    #popup-detail .popup-content::-webkit-scrollbar-thumb{background:#d0d0d0;border-radius:4px;transition:background 0.3s}
+    #popup-detail .popup-content::-webkit-scrollbar-thumb:hover{background:#999}
+    
+    #popup-detail .popup-body{display:flex;flex-direction:column;gap:18px;padding:18px}
+    .detail-image{width:100%;height:auto;border-radius:8px;background:#f3f4f6;display:flex;align-items:center;justify-content:center;font-size:40px;flex-shrink:0}
+    .detail-main{flex:1}
+    .detail-price{margin-top:12px;padding:12px;background:#f8f9fc;border-left:4px solid var(--accent);border-radius:6px}
+
+    @keyframes popupSlideIn{
+      from{
+        opacity:0;
+        transform:translateY(-30px);
+      }
+      to{
+        opacity:1;
+        transform:translateY(0);
+      }
+    }
+    
+    @keyframes fadeInOut{
+      0%{opacity:0;transform:scale(0.9);}
+      50%{opacity:1;transform:scale(1);}
+      100%{opacity:0;transform:scale(0.9);}
+    }
+    
+    @keyframes fadeOut{
+      from{opacity:1;}
+      to{opacity:0;}
+    }
+
+    .popup-header{
+      padding:25px 30px;
+      border-bottom:1px solid var(--border);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      position:sticky;
+      top:0;
+      background:var(--card);
+      z-index:10;
+    }
+
+    .popup-header h3{
+      margin:0;
+      font-size:24px;
+      color:var(--text);
+      font-weight:700;
+    }
+
+    .popup-close{
+      width:35px;
+      height:35px;
+      border:none;
+      background:var(--border);
+      border-radius:50%;
+      cursor:pointer;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:22px;
+      color:var(--text);
+      transition:.3s;
+      flex-shrink:0;
+    }
+
+    .popup-close:hover{
+      background:var(--text);
+      color:#fff;
+    }
+
+    .popup-body{
+      display: flex;
+      flex-direction: column;
+      padding:30px;
+    }
+
+    .popup-body ul{
+      margin:0;
+      padding-left:25px;
+    }
+
+    .popup-body ul li{
+      margin-bottom:12px;
+      font-size:16px;
+      color:var(--text);
+      line-height:1.6;
+    }
+
+    .popup-body ul li:last-child{
+      margin-bottom:0;
+    }
+
+    .popup-price-btn{
+      display:block;
+      width:100%;
+      padding:15px 24px;
+      margin-top:30px;
+      background:var(--accent);
+      color:#fff;
+      border:none;
+      border-radius:8px;
+      font-size:18px;
+      font-weight:600;
+      text-align:center;
+      text-decoration:none;
+      transition:.3s;
+      font-family:'Poppins',Arial,sans-serif;
+      cursor:pointer;
+    }
+
+    .popup-price-btn:hover{
+      background:var(--accent-hover);
+      transform:translateY(-2px);
+      box-shadow:0 5px 20px rgba(38,103,255,0.4);
+    }
+
+    .service-btn{
+      margin-top:0;
+      padding:12px 24px;
+      background:var(--accent);
+      color:#fff;
+      border:none;
+      border-radius:8px;
+      cursor:pointer;
+      font-size:16px;
+      font-weight:600;
+      transition:.3s;
+      font-family:'Poppins',Arial,sans-serif;
+      width:100%;
+    }
+
+    .service-btn:hover{
+      background:var(--accent-hover);
+      transform:translateY(-2px);
+      box-shadow:0 5px 15px rgba(38,103,255,0.3);
+    }
+
+    .service-card{
+      cursor:pointer;
+    }
+
+    @media (max-width:767px){
+      .popup-content{
+        max-width:100%;
+        max-height:95vh;
+      }
+      
+      .popup-header{
+        padding:20px;
+      }
+      
+      .popup-header h3{
+        font-size:20px;
+      }
+      
+      .popup-body{
+        padding:20px;
+      }
+    }
+
+    /* Стилі для таблиці з цінами в popup */
+    .popup-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      font-size: 14px;
+      font-family: 'Montserrat', Arial, sans-serif;
+    }
+
+    .popup-body table tr {
+      border-bottom: 1px solid var(--border);
+    }
+
+    .popup-body table tr:last-child {
+      border-bottom: none;
+    }
+
+    .popup-body table td {
+      padding: 10px 12px;
+      text-align: left;
+      color: var(--text);
+    }
+
+    .popup-body table td:first-child {
+      width: 65%;
+      font-weight: 500;
+    }
+
+    .popup-body table td:last-child {
+      width: 35%;
+      text-align: right;
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .popup-body h4 + h4 {
+      margin-top: 20px;
+    }
+
+    .popup-body h4 {
+      margin-top: 20px;
+      margin-bottom: 10px;
+      font-size: 15px;
+      color: var(--muted);
+      font-weight: 600;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand">
+        <img id="headerLogo" src="image/Логотип/2.jpg" alt="Логотип" />
+        <div class="brand-text">
+          <strong>МКП «Вінницький муніципальний центр містобудування і архітектури»</strong>
+          <span>Офіційний інформаційний ресурс</span>
+        </div>
+      </div>
+      <div class="toolbar">
+        <nav>
+          <button class="btn" data-section="about">Про нас</button>
+          <button class="btn" data-section="directions">Напрямки</button>
+          <button class="btn" data-section="services">Послуги</button>
+          <a href="prices.html" class="btn" style="text-decoration:none;">Ціни</a>
+          <button class="btn" data-section="contacts">Контакти</button>
+        </nav>
+        <div class="header-search">
+          <input id="siteSearchHeaderInput" class="search-input-large" placeholder="Пошук по сайту..." style="width:220px;padding:8px 10px;font-size:14px;" />
+        </div>
+      </div>
+
+      <button class="burger-menu" id="burgerMenu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </div>
+  
+  <div class="mobile-nav" id="mobileNav">
+    <nav>
+      <button class="btn" data-section="about">Про нас</button>
+      <button class="btn" data-section="directions">Напрямки</button>
+      <button class="btn" data-section="services">Послуги</button>
+      <a href="prices.html" class="btn" style="text-decoration:none; display:block;">Ціни</a>
+      <button class="btn" data-section="contacts">Контакти</button>
+    </nav>
+  </div>
+</header>
+
+<!-- Головний екран -->
+<div class="hero">
+  <div class="wrap">
+    <div class="hero-content">
+      <h1>Ми формуємо майбутнє — відповідально, професійно, в інтересах громад</h1>
+      <p class="hero-text">
+        Вінницький муніципальний центр містобудування і архітектури — фахове підприємство, створене для забезпечення системного, професійного та відповідального розвитку територій та інфраструктури.
+      </p>
+    </div>
+  </div>
+</div>
+
+<main>
+
+  <!-- Про нас -->
+  <section id="about">
+    <div class="wrap">
+      <h2 class="section-title">Про нас</h2>
+
+      <!-- Карусель -->
+      <div class="about-carousel-wrapper">
+        <div class="about-carousel">
+          <div class="about-carousel-track">
+          <div class="carousel-card">
+            <div class="icon">🎯</div>
+            <h3>Наша місія</h3>
+            <p>
+              Забезпечити гармонійний, прогнозований та сталий розвиток територій через якісне містобудівне планування, відповідальну архітектуру, екологічну безпеку, збереження культурної спадщини та ефективне управління простором.
+            </p>
+          </div>
+
+          <div class="carousel-card">
+            <div class="icon">⚙️</div>
+            <h3>Наша роль</h3>
+            <ul>
+              <li>Стратегічне планування</li>
+              <li>Якість проектування</li>
+              <li>Баланс інтересів</li>
+              <li>Довгостроковий розвиток</li>
+            </ul>
+          </div>
+
+          <div class="carousel-card">
+            <div class="icon">🗺️</div>
+            <h3>Ключові напрямки</h3>
+            <ul>
+              <li>Планування територій</li>
+              <li>Землевпорядні роботи</li>
+              <li>Захист історичного середовища</li>
+              <li>Екологічна безпека</li>
+            </ul>
+          </div>
+
+          <div class="carousel-card">
+            <div class="icon">💎</div>
+            <h3>Цінності</h3>
+            <ul>
+              <li><b>Відповідальність</b> — містобудівні рішення мають довгострокові перспективи</li>
+              <li><b>Професійність</b> — фахові знання та сучасні підходи</li>
+              <li><b>Публічність і відкритість</b> — прозорість процесів та діалог</li>
+              <li><b>Баланс інтересів</b> — рішення на користь громад</li>
+            </ul>
+          </div>
+
+          <div class="carousel-card">
+            <div class="icon">🏢</div>
+            <h3>Хто ми</h3>
+            <p>
+              Вінницький муніципальний центр містобудування і архітектури — фахове підприємство, створене для забезпечення системного, професійного та відповідального розвитку територій та інфраструктури.
+            </p>
+          </div>
+
+          <div class="carousel-card">
+            <div class="icon">🎓</div>
+            <h3>Кваліфікації</h3>
+            <p style="margin-bottom:15px;">Команда підприємства об'єднує фахівців у сферах:</p>
+            <ul>
+              <li>Містобудування</li>
+              <li>Архітектури</li>
+              <li>Землевпорядкування</li>
+              <li>Геодезії</li>
+              <li>Охорони навколишнього природного середовища</li>
+            </ul>
+          </div>
+
+          <div class="carousel-card">
+            <div class="icon">🤝</div>
+            <h3>Наші прагнення</h3>
+            <ul>
+              <li>Кожне містобудівне рішення є обґрунтованим</li>
+              <li>Забудова міста відповідає інтересам громади</li>
+              <li>Міський простір залишається комфортним, безпечним і впізнаваним</li>
+            </ul>
+          </div>
+
+          <div class="carousel-card">
+            <div class="icon">🔍</div>
+            <h3>Прозорість і публічність</h3>
+            <p style="margin-bottom:15px;">Ми підтримуємо відкритий діалог та доступність інформації:</p>
+            <ul>
+              <li>Вартість та послуги — детальна інформація про наші послуги</li>
+              <li>Обговорення/Новини — актуальні події та обговорення</li>
+              <li>Проєкти — відкритість наших проектів</li>
+            </ul>
+          </div>
+          </div>
+        </div>
+        </div>
+
+        <div class="carousel-dots">
+          <button class="carousel-dot active" data-slide="0" data-carousel="about"></button>
+          <button class="carousel-dot" data-slide="1" data-carousel="about"></button>
+          <button class="carousel-dot" data-slide="2" data-carousel="about"></button>
+          <button class="carousel-dot" data-slide="3" data-carousel="about"></button>
+          <button class="carousel-dot" data-slide="4" data-carousel="about"></button>
+          <button class="carousel-dot" data-slide="5" data-carousel="about"></button>
+          <button class="carousel-dot" data-slide="6" data-carousel="about"></button>
+          <button class="carousel-dot" data-slide="7" data-carousel="about"></button>
+        </div>
+      </div>
+
+      <!-- Блок діяльності (перенесений з окремої вкладки) -->
+      <div class="activity-block">
+        <h3>Наші напрямки роботи</h3>
+        <p style="margin-bottom:15px; color:var(--text); font-size:17px;">
+          На відміну від приватних проєктних організацій, діяльність Центру не орієнтована на окремий комерційний результат, а спрямована на довгострокову якість середовища.
+        </p>
+        <p style="margin-bottom:15px; color:var(--text); font-size:17px; font-weight:600;">Ми працюємо за напрямками:</p>
+        <ul>
+          <li>Містобудівної політики</li>
+          <li>Архітектурного планування</li>
+          <li>Землекористування</li>
+          <li>Геодезії</li>
+          <li>Публічних інтересів</li>
+        </ul>
+        <!-- Секція КВЕД видалена згідно з вимогою -->
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Напрямки -->
+  <section id="directions">
+    <div class="wrap">
+      <h2 class="section-title">Напрямки діяльності</h2>
+
+      <div class="directions-carousel-wrapper">
+        <div class="directions-carousel">
+          <div class="carousel-track">
+        <div class="direction-card">
+          <div class="direction-img geo">📐</div>
+          <div class="direction-content">
+            <h3>Геодезія</h3>
+            <p>
+              Створюємо детальні плани місцевості в масштабі, фіксуємо фактичне положення збудованих об'єктів та мереж — необхідний етап для успішного введення об'єкта в експлуатацію та звітності, точно встановимо межі вашої власності на місцевості. Використання сучасного обладнання та технологій.
+            </p>
+          </div>
+        </div>
+
+        <div class="direction-card">
+          <div class="direction-img land">🗺️</div>
+          <div class="direction-content">
+            <h3>Землевпорядкування</h3>
+            <p>
+              Розробка землевпорядної документації, встановлення меж земельних ділянок,
+              внесення даних до Державного земельного кадастру, супровід угод з нерухомістю.
+              Оформлення прав на земельні ділянки у найкоротші терміни.
+            </p>
+          </div>
+        </div>
+
+        <div class="direction-card">
+          <div class="direction-img urban">🏙️</div>
+          <div class="direction-content">
+            <h3>Містобудування</h3>
+            <p>
+              Розробка генеральних планів, детальних планів території, містобудівних умов та обмежень.
+              Планування розвитку міських територій з урахуванням сучасних вимог та європейських стандартів
+              містобудування.
+            </p>
+          </div>
+        </div>
+
+        <div class="direction-card">
+          <div class="direction-img arch">🏛️</div>
+          <div class="direction-content">
+            <h3>Архітектура</h3>
+            <p>
+              Архітектурно-будівельне проєктування житлових, громадських та промислових об'єктів від концепції до робочого проекту.
+              Проектні пропозиції, ескізи намірів, робочі проекти, благоустрій територій, паспорти фасадів та схеми розміщення вивісок.
+              Реконструкція та реставрація історичних будівель з дотриманням архітектурної спадщини міста.
+            </p>
+          </div>
+          </div>
+        </div>
+        </div>
+
+        <div class="carousel-dots">
+          <button class="carousel-dot active" data-slide="0" data-carousel="directions"></button>
+          <button class="carousel-dot" data-slide="1" data-carousel="directions"></button>
+          <button class="carousel-dot" data-slide="2" data-carousel="directions"></button>
+          <button class="carousel-dot" data-slide="3" data-carousel="directions"></button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Послуги -->
+  <section id="services" class="fullscreen">
+    <div class="wrap">
+      <h2 class="section-title">Наші послуги</h2>
+
+      <div class="services-grid">
+        
+        <!-- Геодезичні послуги -->
+        <div class="service-card" data-popup="geodetic" style="text-align:center;background-image:url('./image/КартинкиГВ/Іконка на послуги.jpg');background-size:cover;background-repeat:no-repeat;background-position:center;">
+          <div class="service-img geodetic" style="visibility:hidden;"></div>
+          <div class="service-content" style="background:rgba(255,255,255,0.75);padding:20px;border-radius:8px;">
+            <h3>Геодезичні послуги</h3>
+            <p>Повний комплекс геодезичних робіт для будівництва та землевпорядкування</p>
+            <button class="service-btn">Переглянути всі послуги</button>
+          </div>
+        </div>
+
+        <!-- Землевпорядні послуги -->
+        <div class="service-card" data-popup="land">
+          <div class="service-img land-service">🗺️</div>
+          <div class="service-content">
+            <h3>Землевпорядні послуги</h3>
+            <p>Професійна підготовка землевпорядної документації</p>
+            <button class="service-btn">Переглянути всі послуги</button>
+          </div>
+        </div>
+
+        <!-- Містобудівні послуги -->
+        <div class="service-card" data-popup="urban">
+          <div class="service-img urban-service">🏙️</div>
+          <div class="service-content">
+            <h3>Містобудівні послуги</h3>
+            <p>Розробка містобудівної документації всіх рівнів</p>
+            <button class="service-btn">Переглянути всі послуги</button>
+          </div>
+        </div>
+
+        <!-- Архітектурне проектування -->
+        <div class="service-card" data-popup="arch">
+          <div class="service-img arch-service">🏛️</div>
+          <div class="service-content">
+            <h3>Архітектурне проектування</h3>
+            <p>Повний цикл архітектурних послуг від ідеї до реалізації</p>
+            <button class="service-btn">Переглянути всі послуги</button>
+          </div>
+        </div>
+
+        <!-- Фасади та зовнішній вигляд -->
+        <div class="service-card" data-popup="facade">
+          <div class="service-img facade-service">🎨</div>
+          <div class="service-content">
+            <h3>Фасади та зовнішній вигляд</h3>
+            <p>Впорядкування та естетика міського простору</p>
+            <button class="service-btn">Переглянути всі послуги</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Контакти -->
+  <section id="contacts" class="contacts">
+    <div class="wrap">
+      <h2 class="section-title">Контакти</h2>
+
+      <div class="contacts-wrapper">
+        
+        <div class="contacts-grid">
+          <div class="contact-card">
+            <h3>Зв'яжіться з нами</h3>
+            
+            <div class="contact-item">
+              <div class="contact-icon">📞</div>
+              <div class="contact-info">
+                <strong>Телефон</strong>
+                <span><a href="tel:+380672434589" style="color:var(--text); text-decoration:none;">+380 (67) 243-45-89</a></span>
+              </div>
+            </div>
+
+            <div class="contact-item">
+              <div class="contact-icon">✉️</div>
+              <div class="contact-info">
+                <strong>Електронна пошта</strong>
+                <span>info@mkp-vinnytsia.gov.ua</span>
+              </div>
+            </div>
+
+            <div class="contact-item">
+              <div class="contact-icon">⏰</div>
+              <div class="contact-info">
+                <strong>Графік роботи</strong>
+                <span>Пн-Пт: 08:30–13:00, 13:30–17:00</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="contact-card">
+            <h3>Наша адреса</h3>
+            
+            <div class="contact-item">
+              <div class="contact-icon">📍</div>
+              <div class="contact-info">
+                <strong>Місцезнаходження</strong>
+                <span>21050, м. Вінниця,<br>вул. Григорія Сковороди, 38</span>
+              </div>
+            </div>
+
+            <div class="contact-item">
+              <div class="contact-icon">🏢</div>
+              <div class="contact-info">
+                <strong>Розташування</strong>
+                <span>Центральна частина міста,<br>зручний транспортний доступ</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Google Maps -->
+        <div class="map-container">
+          <iframe 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2630.826!2d28.468228!3d49.233095!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x472d5b64e6f1e6e1%3A0x8e1e1e1e1e1e1e1e!2z0LLRg9C7LiDQk9GA0LjQs9C-0YDRltGPINCh0LrQvtCy0L7RgNC-0LTQuCwgMzgsINCS0ZbQvdC90LjRhtGPLCDQktGW0L3QvdC40YbRjNC60LAg0L7QsdC70LDRgdGC0YwsIDIxMDUw!5e0!3m2!1suk!2sua!4v1707234000000!5m2!1suk!2sua" 
+            allowfullscreen="" 
+            loading="lazy" 
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Місцезнаходження МКП Вінницький муніципальний центр містобудування і архітектури">
+          </iframe>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- Попапи для послуг -->
+<!-- Геодезичні послуги -->
+<div class="popup-overlay" id="popup-geodetic">
+  <div class="popup-content">
+    <div class="popup-header">
+      <h3>Геодезичні послуги</h3>
+      <button class="popup-close" onclick="closePopup('geodetic')">×</button>
+    </div>
+    <div class="popup-body">
+      <!-- Послуги будуть завантажені динамічно -->
+    </div>
+  </div>
+</div>
+
+<!-- Землевпорядні послуги -->
+<div class="popup-overlay" id="popup-land">
+  <div class="popup-content">
+    <div class="popup-header">
+      <h3>Землевпорядні послуги</h3>
+      <button class="popup-close" onclick="closePopup('land')">×</button>
+    </div>
+    <div class="popup-body">
+      <!-- Послуги будуть завантажені динамічно -->
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Містобудівні послуги -->
+<div class="popup-overlay" id="popup-urban">
+  <div class="popup-content">
+    <div class="popup-header">
+      <h3>Містобудівні послуги</h3>
+      <button class="popup-close" onclick="closePopup('urban')">×</button>
+    </div>
+    <div class="popup-body">
+      <!-- Послуги будуть завантажені динамічно -->
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Архітектурне проектування -->
+<div class="popup-overlay" id="popup-arch">
+  <div class="popup-content">
+    <div class="popup-header">
+      <h3>Архітектурне проектування</h3>
+      <button class="popup-close" onclick="closePopup('arch')">×</button>
+    </div>
+    <div class="popup-body">
+      <!-- Послуги будуть завантажені динамічно -->
+    </div>
+  </div>
+</div>
+
+<!-- Фасади та зовнішній вигляд -->
+<div class="popup-overlay" id="popup-facade">
+  <div class="popup-content">
+    <div class="popup-header">
+      <h3>Фасади та зовнішній вигляд</h3>
+      <button class="popup-close" onclick="closePopup('facade')">×</button>
+    </div>
+    <div class="popup-body">
+      <!-- Послуги будуть завантажені динамічно -->
+    </div>
+  </div>
+</div>
+        
+
+<!-- Фасади та зовнішній вигляд -->
+<div class="popup-overlay" id="popup-facade">
+  <div class="popup-content">
+    <div class="popup-header">
+      <h3>Фасади та зовнішній вигляд</h3>
+      <button class="popup-close" onclick="closePopup('facade')">×</button>
+    </div>
+    <div class="popup-body">
+      <!-- Послуги будуть завантажені динамічно -->
+    </div>
+  </div>
+</div>
+
+<!-- Підвал -->
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      
+      <div class="footer-col">
+        <h4>Контакти</h4>
+        <p><strong>Телефон:</strong> <a href="tel:+380672434589" style="color:var(--accent); text-decoration:none;">+380 (67) 243-45-89</a></p>
+        <p><strong>Email:</strong> <a href="mailto:info@mkp-vinnytsia.gov.ua">info@mkp-vinnytsia.gov.ua</a></p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Адреса</h4>
+        <p>21050, м. Вінниця</p>
+        <p>вул. Григорія Сковороди, 38</p>
+        <p>Центральна частина міста</p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Про підприємство</h4>
+        <p>МКП «Вінницький муніципальний центр містобудування і архітектури»</p>
+        <p>Професійні послуги у сфері містобудування, архітектури, геодезії та землевпорядкування</p>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom" style="display:flex;align-items:center;justify-content:center;gap:12px;">
+      <img src="image/Логотип/2.jpg" alt="Логотип" style="height:30px;width:auto;" />
+      <span>© <span id="year"></span> МКП «Вінницький муніципальний центр містобудування і архітектури». Всі права захищені.</span>
+    </div>
+  </div>
+</footer>
+
+<!-- Плаваючі кнопки та модаль пошуку -->
+<div class="floating-actions" id="floatingActions">
+  <button id="backToTop" class="float-btn" title="Вгору" style="display:none">↑</button>
+    <div style="display:flex;flex-direction:column;gap:8px;align-items:center;margin-top:6px;">
+    <button id="callBtn" class="float-btn secondary" title="Телефон"><img src="./image/phone.png" alt="Телефон"/></button>
+    <button id="viberBtn" class="float-btn secondary" title="Viber"><img src="./image/viber.png" alt="Viber"/></button>
+    <button id="waBtn" class="float-btn secondary" title="WhatsApp"><img src="./image/whatsapp.png" alt="WhatsApp"/></button>
+  </div>
+</div>
+
+<div class="search-modal" id="searchModal" role="dialog" aria-modal="true">
+  <input id="siteSearchInput" class="search-input-large" placeholder="Шукати послуги, напрямки..." />
+  <div class="search-results-list" id="siteSearchResults"></div>
+</div>
+
+<!-- Компактний список послуг (тепер повноекранний попап) -->
+<div class="popup-overlay" id="popup-compact" role="dialog" aria-modal="true">
+  <div class="popup-content" style="max-width:980px;height:calc(100vh - 40px);overflow:auto;">
+    <div class="popup-header">
+      <h3 id="compactTitle">Послуги</h3>
+      <button class="popup-close" onclick="closePopup('compact')">×</button>
+    </div>
+    <div class="popup-body">
+      <div class="compact-list" id="compactList"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Детальний модал для окремої послуги -->
+<div class="popup-overlay" id="popup-detail">
+  <div class="popup-content">
+    <div class="popup-header">
+      <h3 id="detailTitle">Деталі послуги</h3>
+      <button class="popup-close" onclick="closePopup('detail')">×</button>
+    </div>
+    <div class="popup-body" id="detailBody">
+      <!-- Динамічний контент -->
+    </div>
+    <div style="padding:16px;display:flex;gap:10px;justify-content:flex-end;">
+      <button id="detailConsultBtn" class="btn" style="background:var(--border);color:var(--text)">Консультація</button>
+      <button id="detailOrderBtn" class="btn">Замовити послугу</button>
+    </div>
+  </div>
+</div>
+
+<!-- ПОПАП ВИБОРУ: Телефон чи Месенджер -->
+<div class="popup-overlay" id="popup-contact-choice">
+  <div class="popup-content" style="max-width:400px;">
+    <div class="popup-header">
+      <h3 id="choiceTitle">Спосіб зв'язку</h3>
+      <button class="popup-close" onclick="closePopup('contact-choice')">×</button>
+    </div>
+    <div class="popup-body" style="padding:30px;text-align:center;">
+      <p id="choiceText" style="margin:0 0 25px;font-size:15px;color:var(--muted);">Виберіть зручний для вас спосіб зв'язку</p>
+      <div style="display:flex;flex-direction:column;gap:20px;">
+        <button onclick="callPhone()" style="padding:15px;background:#4CAF50;color:white;border:none;border-radius:8px;cursor:pointer;font-weight:600;font-size:16px;">☎️ Зателефонувати</button>
+        <button onclick="openContactForm()" style="padding:15px;background:var(--accent);color:white;border:none;border-radius:8px;cursor:pointer;font-weight:600;font-size:16px;display:flex;align-items:center;justify-content:center;gap:8px;"><img src="./image/whatsapp.png" alt="" style="width:20px;height:20px;filter:brightness(0) invert(1);"/> Написати в месенджер</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ФОРМА КОНТАКТУ: Консультація або Замовлення -->
+<div class="popup-overlay" id="popup-contact-form">
+  <div class="popup-content" style="max-width:500px;">
+    <div class="popup-header">
+      <h3 id="formTitle">Контактна форма</h3>
+      <button class="popup-close" onclick="closePopup('contact-form')">×</button>
+    </div>
+    <div class="popup-body" style="padding:25px;display:flex;flex-direction:column;gap:12px;">
+      <input type="text" id="contactName" placeholder="Ім'я" style="padding:12px;border:1px solid var(--border);border-radius:6px;font-size:14px;margin-bottom:4px;"/>
+      <input type="text" id="contactSurname" placeholder="Прізвище" style="padding:12px;border:1px solid var(--border);border-radius:6px;font-size:14px;margin-bottom:4px;"/>
+      <textarea id="contactQuestion" placeholder="Текст запитання" style="padding:12px;border:1px solid var(--border);border-radius:6px;font-size:14px;resize:vertical;min-height:100px;margin-bottom:8px;"></textarea>
+      
+      <div style="display:flex;gap:10px;margin-top:12px;">
+        <button onclick="sendViaMessenger('viber')" style="flex:1;padding:12px;background:#665cce;color:white;border:none;border-radius:6px;cursor:pointer;font-weight:600;font-size:14px;display:flex;align-items:center;justify-content:center;gap:6px;"><img src="./image/viber.png" alt="Viber" style="width:20px;height:20px;"/> Viber</button>
+        <button onclick="sendViaMessenger('whatsapp')" style="flex:1;padding:12px;background:#25d366;color:white;border:none;border-radius:6px;cursor:pointer;font-weight:600;font-size:14px;display:flex;align-items:center;justify-content:center;gap:6px;"><img src="./image/whatsapp.png" alt="WhatsApp" style="width:20px;height:20px;"/> WhatsApp</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Бургер-меню
+  const burgerMenu = document.getElementById('burgerMenu');
+  const mobileNav = document.getElementById('mobileNav');
+  
+  if (burgerMenu && mobileNav) {
+    burgerMenu.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      burgerMenu.classList.toggle('active');
+      mobileNav.classList.toggle('active');
+    });
+    
+    // Закриття меню при кліку поза ним
+    document.addEventListener('click', (e) => {
+      if (!burgerMenu.contains(e.target) && !mobileNav.contains(e.target)) {
+        burgerMenu.classList.remove('active');
+        mobileNav.classList.remove('active');
+      }
+    });
+  }
+
+  // Карта відповідностей між назвами послуг у mkp.html та назвами категорій у prices.html
+  const SERVICE_NAME_TO_PRICE_CATEGORY = {
+    // ПРОЄКТНІ РОБОТИ
+    'Проектна пропозиція': '1. Проєктна пропозиція (на все інше, крім ТС)',
+    'Містобудівний розрахунок': '2. Містобудівний розрахунок',
+    'Ескіз намірів забудови земельної ділянки': '3. Ескіз намірів забудови земельної ділянки',
+    'Робочий проект': '4. Робочий проект',
+    'Проект індивідуального благоустрою': '5. Проєкт індивідуального благоустрою',
+    'Проект розподілу території': '6. Проєкт комплексного благоустрою території',
+    'Обґрунтування визначення меж і площі земельної ділянки': '7. Обґрунтування визначення меж і площі земельної ділянки',
+    'Паспорт опорядження фасаду': '8. Паспорт опорядження фасадів',
+    'Розрахунок ідеальної земельної частки': '9. Розрахунок ідеальної земельної частки',
+    // ЗЕМЛЕВПОРЯДНІ РОБОТИ
+    '📍 Встановлення меж земельної ділянки в натурі на місцевості': '1. Встановлення меж земельної ділянки в натурі на місцевості',
+    '📐 Кадастровий план земельної ділянки': '2. Кадастровий план земельної ділянки',
+    '🔸 Проєкт землеустрою щодо відведення земельної ділянки': '3. Проєкт землеустрою щодо відведення земельної ділянки',
+    '🔸 Проєкт землеустрою щодо зміни цільового призначення земельної ділянки': '4. Проєкт землеустрою щодо зміни цільового призначення земельної ділянки',
+    '🔸 Технічна документація із землеустрою щодо встановлення меж земельної ділянки в натурі (сервітутне користування)': '5. Технічна документація із землеустрою щодо встановлення меж земельної ділянки в натурі (сервітутне користування)',
+    '🔸 Технічна документація із землеустрою щодо поділу та об\'єднання земельної ділянки': '6. Технічна документація із землеустрою щодо поділу та об\'єднання земельної ділянки',
+    '🔸 Технічна документація із землеустрою щодо інвентаризації земельної ділянки': '7. Технічна документація із землеустрою щодо інвентаризації земельної ділянки',
+    '🔸 Формування обмінного файлу': '8. Формування обмінного файлу',
+    '🔸 Внесення змін до плану зонування міста': '9. Внесення змін до плану зонування міста',
+    '🔸 Виготовлення дублікату чи копії на землевпорядну документацію': '10. Виготовлення дублікату або копії на землевпорядну документацію',
+    '🔸 Коригування землевпорядної документації': '11. Коригування землевпорядної документації',
+    '🔸 Комплексний план просторового розвитку території територіальної громади': '12. Комплексний план просторового розвитку території територіальної громади',
+    '🔸 Розроблення бази геоданних містобудівної документації': '13. Розроблення бази геоданних містобудівної документації',
+    '🔸 Комплексний містобудівний аналіз': '14. Комплексний містобудівний аналіз',
+    '🔸 Проєкт землеустрою щодо зміни цільового призначення земельної ділянки (нова процедура)': '15. Проєкт землеустрою щодо зміни цільового призначення земельної ділянки (нова процедура)',
+  };
+
+  // Функція вставляє знайдені ціни з parsed prices.html у detail-price
+  function insertPricesFromDoc(doc, title, detailBody){
+    if(!doc || !detailBody) return;
+    
+    // Знайти detail-price контейнер
+    let priceContainer = detailBody.querySelector('.detail-price');
+    if(!priceContainer) {
+      priceContainer = document.createElement('div');
+      priceContainer.className = 'detail-price';
+      detailBody.appendChild(priceContainer);
+    }
+    
+    // Нормалізація: видалити emoji, lowercase, видалення зайвих пробілів
+    const norm = (s) => (s||'')
+      .replace(/[\p{Emoji}]/gu, '')
+      .toLowerCase()
+      .replace(/\s+/g, ' ')
+      .replace(/['`']/g, "'")
+      .replace(/^\d+\.\s*/, '')  // Видалити номер в inicio (1., 2., і т.д.)
+      .trim();
+    
+    const normTitle = norm(title);
+    
+    // Функція обчислення подібності між двома строками
+    const similarity = (str1, str2) => {
+      const words1 = normTitle.split(/\s+/);
+      const words2 = str2.split(/\s+/);
+      
+      // Точний збіг - максимум
+      if(str1 === str2) return 1000;
+      
+      // Один містить другий - дуже високо
+      if(str1.includes(str2) || str2.includes(str1)) return 800;
+      
+      // Збіг по усім словам з str1 (але не обов'язково в тому ж порядку)
+      let allWordsMatch = true;
+      let matchedWords = 0;
+      for(let w of words1){
+        if(w.length > 2){  // Ігнорувати маленькі слова тип "в", "на", "та"
+          if(str2.includes(w)){
+            matchedWords++;
+          } else {
+            allWordsMatch = false;
+          }
+        }
+      }
+      
+      if(allWordsMatch && matchedWords === words1.filter(w => w.length > 2).length){
+        return 600;
+      }
+      
+      // Частковий збіг за довгими словами (>4 символи)
+      let score = 0;
+      let longWords = 0;
+      for(let w of words1){
+        if(w.length > 4){
+          longWords++;
+          if(str2.includes(w)){
+            score += 100;
+          }
+        }
+      }
+      
+      return score > 0 ? score : 0;
+    };
+    
+    // Пошук у prices.html
+    const blocks = Array.from(doc.querySelectorAll('.price-category'));
+    let bestMatch = null;
+    let bestScore = 0;
+    
+    for(let b of blocks){
+      const h3 = b.querySelector('h3');
+      if(!h3) continue;
+      
+      const normH3 = norm(h3.textContent);
+      const score = similarity(normTitle, normH3);
+      
+      if(score > bestScore){
+        bestScore = score;
+        bestMatch = b;
+      }
+    }
+    
+    if(bestMatch && bestScore >= 100){
+      // Видалити h3 (назва послуги - дублюється в заголовку)
+      const priceHTML = bestMatch.innerHTML.replace(/<h3[^>]*>.*?<\/h3>/g, '');
+      priceContainer.innerHTML = priceHTML;
+    } else {
+      priceContainer.innerHTML = '<p style="margin:0; font-size:14px; color:var(--accent); font-weight:600;">Вартість: Індивідуальний розрахунок</p>';
+    }
+  }
+
+  // Прокручування до секцій
+  const buttons = document.querySelectorAll(".btn");
+
+  buttons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      const target = btn.dataset.section;
+      const section = document.getElementById(target);
+
+      // активна кнопка
+      buttons.forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+
+      // прокручування до секції
+      if (section) {
+        section.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+      
+      // Закриття мобільного меню після кліку
+      if (burgerMenu && mobileNav && mobileNav.classList.contains('active')) {
+        burgerMenu.classList.remove('active');
+        mobileNav.classList.remove('active');
+      }
+    });
+  });
+
+  // Визначення активної секції при скролі
+  const sections = document.querySelectorAll('section');
+  const observerOptions = {
+    root: null,
+    rootMargin: '-50% 0px -50% 0px',
+    threshold: 0
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.getAttribute('id');
+        buttons.forEach(btn => {
+          btn.classList.remove('active');
+          if (btn.dataset.section === id) {
+            btn.classList.add('active');
+          }
+        });
+      }
+    });
+  }, observerOptions);
+
+  sections.forEach(section => {
+    observer.observe(section);
+  });
+
+  // Рік у футері
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  // Універсальна функція для створення каруселі
+  function createCarousel(trackSelector, wrapperSelector, dotsCarouselName) {
+    const carouselTrack = document.querySelector(trackSelector);
+    const carouselDots = document.querySelectorAll(`.carousel-dot[data-carousel="${dotsCarouselName}"]`);
+    const carouselWrapper = document.querySelector(wrapperSelector);
+    
+    if (carouselTrack && carouselDots.length > 0) {
+      const originalCards = Array.from(carouselTrack.children);
+    const totalCards = originalCards.length;
+    let currentIndex = 0;
+    let autoplayInterval;
+    let isPaused = false;
+    let isTransitioning = false;
+
+    // Визначаємо скільки карток показувати одночасно
+    function getVisibleCards() {
+      const width = window.innerWidth;
+      if (width <= 767) return 1;
+      if (width <= 1024) return 2;
+      return 3;
+    }
+
+    let visibleCards = getVisibleCards();
+
+    // Створюємо клони для нескінченного ефекту
+    function setupCarousel() {
+      // Очищаємо попередні клони
+      carouselTrack.innerHTML = '';
+      originalCards.forEach(card => carouselTrack.appendChild(card));
+
+      // Додаємо клони з обох боків
+      const clonesNeeded = visibleCards;
+      
+      // Клони в кінець
+      for (let i = 0; i < clonesNeeded; i++) {
+        const clone = originalCards[i].cloneNode(true);
+        carouselTrack.appendChild(clone);
+      }
+      
+      // Клони на початок
+      for (let i = totalCards - clonesNeeded; i < totalCards; i++) {
+        const clone = originalCards[i].cloneNode(true);
+        carouselTrack.insertBefore(clone, carouselTrack.firstChild);
+      }
+
+      // Початкова позиція
+      currentIndex = clonesNeeded;
+      updateCarousel(false);
+    }
+
+    function getCardWidth() {
+      const firstCard = carouselTrack.children[0];
+      return firstCard ? firstCard.offsetWidth + 20 : 0; // +20 для gap
+    }
+
+    function updateCarousel(smooth = true) {
+      if (smooth) {
+        carouselTrack.style.transition = 'transform 0.5s ease-in-out';
+      } else {
+        carouselTrack.style.transition = 'none';
+      }
+      
+      const cardWidth = getCardWidth();
+      const offset = -(currentIndex * cardWidth);
+      carouselTrack.style.transform = `translateX(${offset}px)`;
+      
+      // Оновлення dots (показуємо реальний індекс)
+      const realIndex = ((currentIndex - visibleCards) % totalCards + totalCards) % totalCards;
+      carouselDots.forEach((dot, index) => {
+        dot.classList.toggle('active', index === realIndex);
+      });
+    }
+
+    function handleTransitionEnd() {
+      isTransitioning = false;
+      
+      const cardWidth = getCardWidth();
+      
+      // Якщо ми на клоні в кінці
+      if (currentIndex >= totalCards + visibleCards) {
+        currentIndex = visibleCards;
+        updateCarousel(false);
+      }
+      
+      // Якщо ми на клоні на початку
+      if (currentIndex < visibleCards) {
+        currentIndex = totalCards + visibleCards - 1;
+        updateCarousel(false);
+      }
+    }
+
+    carouselTrack.addEventListener('transitionend', handleTransitionEnd);
+
+    function nextSlide() {
+      if (isTransitioning) return;
+      isTransitioning = true;
+      currentIndex++;
+      updateCarousel(true);
+    }
+
+    function prevSlide() {
+      if (isTransitioning) return;
+      isTransitioning = true;
+      currentIndex--;
+      updateCarousel(true);
+    }
+
+    function goToSlide(index) {
+      if (isTransitioning) return;
+      isTransitioning = true;
+      currentIndex = index + visibleCards;
+      updateCarousel(true);
+    }
+
+    // Клік по dots
+    carouselDots.forEach((dot, index) => {
+      dot.addEventListener('click', () => {
+        goToSlide(index);
+        resetAutoplay();
+      });
+    });
+
+    // Автоматична зміна слайдів
+    function startAutoplay() {
+      autoplayInterval = setInterval(() => {
+        if (!isPaused) {
+          nextSlide();
+        }
+      }, 3000);
+    }
+
+    function resetAutoplay() {
+      clearInterval(autoplayInterval);
+      startAutoplay();
+    }
+
+    // Призупинити при наведенні + кнопки навігації
+    if (carouselWrapper) {
+      carouselWrapper.addEventListener('mouseenter', () => {
+        isPaused = true;
+      });
+
+      carouselWrapper.addEventListener('mouseleave', () => {
+        isPaused = false;
+      });
+
+      // Додаємо круглі кнопки перелистування в wrapper
+      const prevBtn = document.createElement('button');
+      prevBtn.className = 'carousel-nav-btn prev';
+      prevBtn.setAttribute('aria-label', 'Prev');
+      prevBtn.innerHTML = '&#10094;';
+      prevBtn.addEventListener('click', () => {
+        prevSlide();
+        resetAutoplay();
+      });
+
+      const nextBtn = document.createElement('button');
+      nextBtn.className = 'carousel-nav-btn next';
+      nextBtn.setAttribute('aria-label', 'Next');
+      nextBtn.innerHTML = '&#10095;';
+      nextBtn.addEventListener('click', () => {
+        nextSlide();
+        resetAutoplay();
+      });
+
+      // Додаємо кнопки у wrapper
+      carouselWrapper.style.position = carouselWrapper.style.position || 'relative';
+      carouselWrapper.appendChild(prevBtn);
+      carouselWrapper.appendChild(nextBtn);
+    }
+
+    // Переініціалізація при зміні розміру вікна
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        const newVisibleCards = getVisibleCards();
+        if (newVisibleCards !== visibleCards) {
+          visibleCards = newVisibleCards;
+          setupCarousel();
+        } else {
+          updateCarousel(false);
+        }
+      }, 250);
+    });
+
+    // Початкове налаштування
+    setupCarousel();
+    
+    // Запуск автопрокрутки
+    startAutoplay();
+    }
+  }
+
+  // Створення каруселей
+  createCarousel('.about-carousel-track', '.about-carousel-wrapper', 'about');
+  createCarousel('.carousel-track', '.directions-carousel-wrapper', 'directions');
+
+  // Завантажити prices.html при першому завантаженні сторінки
+  (function preloadPrices(){
+    if(window._pricesDoc) return;
+    fetch('./prices.html')
+      .then(r => r.text())
+      .then(html => {
+        try {
+          const parser = new DOMParser();
+          window._pricesDoc = parser.parseFromString(html, 'text/html');
+        } catch(e) {}
+      })
+      .catch(err => {
+        console.log('Не вдалось завантажити prices.html');
+      });
+  })();
+
+  // Статичний мап цін (fallback та швидкий доступ) — витягнуто з prices.html
+  const PRICE_HTML_MAP = {
+    geodetic: `
+      <div class="price-category">
+        <table class="price-table">
+          <tr>
+            <td>Топоплан до 0,10 га</td>
+            <td>3 494,92 / 4 193,90 грн</td>
+          </tr>
+          <tr>
+            <td>Виконавчий топоплан до 0,10 га</td>
+            <td>4 136,00 / 4 963,20 грн</td>
+          </tr>
+        </table>
+        <div class="price-note"><strong>Примітка:</strong> Інші площі — за шкалою в документі або індивідуально</div>
+      </div>
+    `,
+    land: `
+      <div class="price-category">
+        <table class="price-table">
+          <tr><td>Встановлення меж (до 5 точок)</td><td>2 820 / 3 384 грн</td></tr>
+          <tr><td>Кадастровий план до 0,10 га</td><td>2 820 / 3 384 грн</td></tr>
+          <tr><td>Проєкт землеустрою (присадибна/гараж)</td><td>3 710 / 4 452 грн</td></tr>
+          <tr><td>Зміна цільового призначення до 0,10 га</td><td>4 600 / 5 520 грн</td></tr>
+          <tr><td>Техдокументація (сервітут) до 0,10 га</td><td>3 710 / 4 452 грн</td></tr>
+          <tr><td>Поділ/об'єднання (до 0,10 га)</td><td>3 710 / 4 452 грн</td></tr>
+        </table>
+      </div>
+    `,
+    urban: `
+      <div class="price-category">
+        <h3>Містобудівний розрахунок</h3>
+        <table class="price-table">
+          <tr><td>до 100 кв.м (квартира)</td><td>8 900 / 10 680 грн</td></tr>
+          <tr><td>101–300 кв.м</td><td>14 240 / 17 088 грн</td></tr>
+          <tr><td>300–500 кв.м</td><td>24 920 / 29 904 грн</td></tr>
+        </table>
+      </div>
+    `,
+    arch: `
+      <div class="price-category">
+        <table class="price-table">
+          <tr><td>до 100 кв.м</td><td>3 560 / 4 272 грн</td></tr>
+          <tr><td>101–300 кв.м</td><td>7 120 / 8 544 грн</td></tr>
+          <tr><td>300–500 кв.м</td><td>12 460 / 14 952 грн</td></tr>
+        </table>
+      </div>
+    `,
+    facade: `
+      <div class="price-category">
+        <h3>Паспорт фасадів</h3>
+        <table class="price-table">
+          <tr><td>історичні будівлі</td><td>17 800–35 600 / 21 360–42 720 грн</td></tr>
+          <tr><td>житлові багатоквартирні</td><td>7 120–17 800 / 8 544–21 360 грн</td></tr>
+          <tr><td>комерція/виробництво/склади</td><td>7 120–14 240 / 8 544–17 088 грн</td></tr>
+        </table>
+      </div>
+    `
+  };
+
+  // Попапи для послуг
+  function openPopup(popupId) {
+    const popup = document.getElementById('popup-' + popupId);
+    if (popup) {
+      popup.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+  }
+
+  function closePopup(popupId) {
+    const popup = document.getElementById('popup-' + popupId);
+    if (popup) {
+      popup.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  }
+
+  // Відкрити детальний модал для конкретної послуги (елемент всередині popup-body)
+  // Карта послуг на зображення
+  const SERVICE_IMAGE_MAP = {
+    // Проектні роботи
+    'Обґрунтування визначення меж і площі земельної ділянки': './image/КартинкиПВ/Обгрунтування.jpg',
+    'Ескіз намірів забудови земельної ділянки': './image/КартинкиПВ/Ескіз.jpg',
+    'Проектна пропозиція': './image/КартинкиПВ/Проектна пропозиція.jpg',
+    'Робочий проект': './image/КартинкиПВ/Робочий проект.jpg',
+    'Проект індивідуального благоустрою': './image/КартинкиПВ/Проект благоустрою.jpg',
+    'Містобудівний розрахунок': './image/КартинкиПВ/Містобудівний розрахунок.jpg',
+    'Проект розподілу території': './image/КартинкиПВ/Проект розподілу.jpg',
+    'Комплексна схема розміщення вивісок на фасадах будівлі': './image/КартинкиПВ/Компл. схема розміщ. вивісок.jpg',
+    'Ескіз рекламної конструкції': './image/КартинкиПВ/Ескіз рекламної конструкції.jpg',
+    // Геодезичні послуги
+    '📋 Викопіювання з чергового плану міста 1:2000': './image/КартинкиЗВВ/Викопіювання.jpg',
+    '🗺️ Виготовлення топографо-геодезичних планів масштабів 1:500, 1:1000': './image/КартинкиЗВВ/Топоплан.jpg',
+    '📍 Винесення меж земельної ділянки в натуру на місцевість': './image/КартинкиЗВВ/Винесення меж.jpg',
+    '✅ Виготовлення виконавчого (контрольного) топографо-геодезичного плану': './image/КартинкиЗВВ/Виконавчий план.jpg',
+    '📐 Кадастрова зйомка та виготовлення кадастрового плану': './image/КартинкиЗВВ/Кадастровий план.jpg',
+    // Землевпорядні послуги - нові 15 послуг
+    '📍 Встановлення меж земельної ділянки в натурі на місцевості': './image/КартинкиЗВВ/7_Встановлення_Відновлення.jpg',
+    '📐 Кадастровий план земельної ділянки': './image/КартинкиЗВВ/2_Генеральний_план.jpg',
+    '🔸 Проєкт землеустрою щодо відведення земельної ділянки': './image/КартинкиЗВВ/5_Проект_землеустрою_приватизація.jpg',
+    '🔸 Проєкт землеустрою щодо зміни цільового призначення земельної ділянки': './image/КартинкиЗВВ/6_РП_зняття_родючого_шару.jpg',
+    '🔸 Технічна документація із землеустрою щодо встановлення меж земельної ділянки в натурі (сервітутне користування)': './image/КартинкиЗВВ/8_Сервітут.jpg',
+    '🔸 Технічна документація із землеустрою щодо поділу та об\'єднання земельної ділянки': './image/КартинкиЗВВ/9_Поділ.jpg',
+    '🔸 Технічна документація із землеустрою щодо інвентаризації земельної ділянки': './image/КартинкиЗВВ/10_Інвентаризація.jpg',
+    '🔸 Формування обмінного файлу': './image/КартинкиЗВВ/Обмінний_файл.jpg',
+    '🔸 Внесення змін до плану зонування міста': './image/КартинкиЗВВ/13_Межа громади.jpg',
+    '🔸 Виготовлення дублікату чи копії на землевпорядну документацію': './image/КартинкиЗВВ/11_Межа_НП.jpg',
+    '🔸 Коригування землевпорядної документації': './image/КартинкиЗВВ/2_Генеральний_план.jpg',
+    '🔸 Комплексний план просторового розвитку території територіальної громади': './image/КартинкиЗВВ/1_Комплексний_план.jpg',
+    '🔸 Розроблення бази геоданних містобудівної документації': './image/КартинкиЗВВ/12_Межі_ІОАП.jpg',
+    '🔸 Комплексний містобудівний аналіз': './image/КартинкиЗВВ/4_комплексний_містобудівний_аналіз.jpg',
+    '🔸 Проєкт землеустрою щодо зміни цільового призначення земельної ділянки (нова процедура)': './image/КартинкиЗВВ/3_Детальний_план_території.jpg'
+  };
+
+  function openDetailFromElement(el, category){
+    const titleEl = el.querySelector('h4') || el.querySelector('h3') || el.querySelector('h5');
+    const title = titleEl ? titleEl.textContent.trim() : (el.textContent||'Послуга').trim().slice(0,80);
+    // зібрати параграфи після заголовка всередині блоку
+    let descr = '';
+    const ps = el.querySelectorAll('p');
+    if(ps.length>0){ ps.forEach(p=> descr += `<p>${p.innerHTML}</p>`); }
+    else { descr = `<p>${(el.textContent||'').trim()}</p>`; }
+
+    // Підготувати detail modal
+    const detailOverlay = document.getElementById('popup-detail');
+    const detailTitle = document.getElementById('detailTitle');
+    const detailBody = document.getElementById('detailBody');
+    const priceLink = document.getElementById('detailPriceLink');
+    const orderBtn = document.getElementById('detailOrderBtn');
+    if(!detailOverlay || !detailTitle || !detailBody) return;
+    detailTitle.textContent = title;
+    
+    // Визначити зображення для послуги
+    let imageHtml = '<div class="detail-image"></div>';
+    
+    // Спочатку спробуємо витягти img з опису
+    const imgEl = el.querySelector('img');
+    if(imgEl && imgEl.src){
+      imageHtml = `<div class="detail-image"><img src="${imgEl.src}" alt="${title}" style="width:100%;height:100%;object-fit:contain;border-radius:8px;" /></div>`;
+    }
+    // Якщо немає - використаємо SERVICE_IMAGE_MAP
+    else if(SERVICE_IMAGE_MAP[title]){
+      imageHtml = `<div class="detail-image"><img src="${SERVICE_IMAGE_MAP[title]}" alt="${title}" style="width:100%;height:100%;object-fit:contain;border-radius:8px;" /></div>`;
+    }
+    
+    // Прикрасимо вміст: прев'ю зліва, контент справа + резервний detail-price div
+    detailBody.innerHTML = `
+      ${imageHtml}
+      <div class="detail-main">
+        ${descr}
+      </div>
+      <div class="detail-price"></div>
+    `;
+    
+    // Вставляємо ціни з prices.html
+    try{
+      if(window._pricesDoc){
+        insertPricesFromDoc(window._pricesDoc, title, detailBody);
+      } else {
+        // Якщо дані ще не завантажені, чекаємо як завантажаться
+        const checkPrices = setInterval(() => {
+          if(window._pricesDoc){
+            clearInterval(checkPrices);
+            insertPricesFromDoc(window._pricesDoc, title, detailBody);
+          }
+        }, 100);
+        // Максимум чекаємо 2 секунди
+        setTimeout(() => clearInterval(checkPrices), 2000);
+      }
+    }catch(e){console.log('Помилка при вставці цін:', e)}
+    
+    // Мережна змінна з назвою послуги
+    window.currentServiceTitle = title;
+    window.currentActionType = null;
+    
+    // Консультація - открыть попап выбора
+    const consultBtn = document.getElementById('detailConsultBtn');
+    if(consultBtn){
+      consultBtn.onclick = () => {
+        window.currentActionType = 'consultation';
+        openContactChoice();
+      };
+    }
+    
+    // Замовлення - открыть попап выбора
+    orderBtn.onclick = () => {
+      window.currentActionType = 'order';
+      openContactChoice();
+    };
+    
+    // Відкрити модал
+    detailOverlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  
+  // ===== ФУНКЦІЇ ДЛЯ КОНТАКТНИХ ПОПАПІВ =====
+  
+  // Открыть попап выбора способа связи
+  function openContactChoice(){
+    const choice = document.getElementById('popup-contact-choice');
+    const title = document.getElementById('choiceTitle');
+    const text = document.getElementById('choiceText');
+    
+    if(window.currentActionType === 'consultation'){
+      title.textContent = 'Консультація';
+      text.textContent = 'Виберіть, як до вас краще звернутися';
+    } else {
+      title.textContent = 'Замовлення послуги';
+      text.textContent = 'Виберіть спосіб отримати замовлення';
+    }
+    
+    choice.classList.add('active');
+  }
+  
+  // Открыть контактну форму
+  function openContactForm(){
+    closePopup('contact-choice');
+    const form = document.getElementById('popup-contact-form');
+    const formTitle = document.getElementById('formTitle');
+    const placeholder = document.getElementById('contactQuestion');
+    
+    if(window.currentActionType === 'consultation'){
+      formTitle.textContent = 'Запит консультації';
+      placeholder.placeholder = 'Що вас цікавить? Напишіть ваше запитання';
+    } else {
+      formTitle.textContent = 'Замовлення послуги';
+      placeholder.placeholder = 'Якщо у вас є додаткові запитання, вкажіть їх';
+    }
+    
+    // Очистити поля
+    document.getElementById('contactName').value = '';
+    document.getElementById('contactSurname').value = '';
+    document.getElementById('contactQuestion').value = '';
+    document.getElementById('contactName').focus();
+    
+    form.classList.add('active');
+  }
+  
+  // Позвонить
+  function callPhone(){
+    const phone = '+380672434589';
+    window.location.href = `tel:${phone}`;
+    closePopup('contact-choice');
+  }
+  
+  // Отправить через месенджер
+  function sendViaMessenger(messenger){
+    const name = document.getElementById('contactName').value.trim();
+    const surname = document.getElementById('contactSurname').value.trim();
+    const question = document.getElementById('contactQuestion').value.trim();
+    const serviceTitle = window.currentServiceTitle || 'послуга';
+    
+    if(!name || !surname){
+      alert('Будь ласка, заповніть ім\'я та прізвище');
+      return;
+    }
+    
+    const phone = '380672434589';
+    let messageText;
+    
+    if(window.currentActionType === 'consultation'){
+      messageText = `Доброго дня!\nМене цікавить консультація по послузі: ${serviceTitle}\n\nДані клієнта:\nІм'я: ${name}\nПрізвище: ${surname}`;
+      if(question) messageText += `\n\nЗапитання: ${question}`;
+    } else {
+      messageText = `Доброго дня!\nХочу замовити послугу: ${serviceTitle}\n\nДані клієнта:\nІм'я: ${name}\nПрізвище: ${surname}`;
+      if(question) messageText += `\n\nДодаткові запитання: ${question}`;
+    }
+    
+    if(messenger === 'whatsapp'){
+      const message = encodeURIComponent(messageText);
+      window.open(`https://wa.me/${phone}?text=${message}`,'_blank');
+      closePopup('contact-form');
+    } else if(messenger === 'viber'){
+      // Для Viber копіюємо текст в буфер обміну
+      navigator.clipboard.writeText(messageText).then(() => {
+        // Показуємо notification
+        showViberCopyNotification();
+        // Відкриваємо Viber
+        setTimeout(() => {
+          window.open(`viber://chat?number=%2B${phone}`,'_blank');
+          closePopup('contact-form');
+        }, 500);
+      }).catch(() => {
+        // Fallback якщо clipboard не працює
+        alert('Ваше повідомлення:\n\n' + messageText + '\n\nСкопіюйте і вставте його в Viber');
+        window.open(`viber://chat?number=%2B${phone}`,'_blank');
+        closePopup('contact-form');
+      });
+    }
+  }
+  
+  // Показати notification про копіювання для Viber
+  function showViberCopyNotification(){
+    const notification = document.createElement('div');
+    notification.style.cssText = `
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #665cce;
+      color: white;
+      padding: 20px 30px;
+      border-radius: 8px;
+      z-index: 9999;
+      font-weight: 600;
+      text-align: center;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+      animation: fadeInOut 2s ease-in-out;
+    `;
+    notification.textContent = '✓ Текст скопійований! Вставте його в Viber';
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+      notification.style.animation = 'fadeOut 0.5s ease-out forwards';
+      setTimeout(() => notification.remove(), 500);
+    }, 1500);
+  }
+
+  // Маппінг категорій на розділи в prices.html
+  const CATEGORY_TO_SECTION = {
+    'geodetic': 'ГЕОДЕЗИЧНІ ПОСЛУГИ',
+    'land': 'ЗЕМЛЕВПОРЯДНІ ПОСЛУГИ',
+    'urban': 'МІСТОБУДІВНІ ПОСЛУГИ',
+    'arch': 'АРХІТЕКТУРНЕ ПРОЄКТУВАННЯ',
+    'facade': 'ФАСАДИ ТА ЗОВНІШНІЙ ВИГЛЯД'
+  };
+
+  // Завантажити описи послуг з services-descriptions.html
+  let SERVICE_DESCRIPTIONS = {};
+  
+  fetch('./services-descriptions.html')
+    .then(r => r.text())
+    .then(html => {
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(html, 'text/html');
+      
+      // Для кожної категорії збирати описи
+      doc.querySelectorAll('section').forEach(section => {
+        const category = section.getAttribute('data-category');
+        if(!category) return;
+        
+        SERVICE_DESCRIPTIONS[category] = {};
+        section.querySelectorAll('article').forEach(article => {
+          const serviceName = article.getAttribute('data-service') || article.querySelector('h3')?.textContent || '';
+          
+          // Витягуємо img (якщо є) та description разом
+          let imageHtml = '';
+          const imgTag = article.querySelector('img');
+          if(imgTag && imgTag.src){
+            // Переконуємось що шлях починається з ./
+            let imgSrc = imgTag.src;
+            if(!imgSrc.startsWith('./') && !imgSrc.startsWith('http')){
+              imgSrc = './' + imgSrc;
+            }
+            imageHtml = `<img src="${imgSrc}" alt="${imgTag.alt}" style="${imgTag.getAttribute('style')}">`;
+          }
+          
+          const descriptionHtml = article.querySelector('.description')?.innerHTML || '';
+          
+          if(serviceName && (imageHtml || descriptionHtml)){
+            // Поєднуємо image і description
+            const fullDescription = imageHtml + descriptionHtml;
+            SERVICE_DESCRIPTIONS[category][serviceName] = fullDescription;
+          }
+        });
+      });
+    })
+    .catch(err => console.error('Помилка завантаження послуг:', err));
+
+  // Генерувати послуги з prices.html для категорії
+  function generateServicesFromPrices(category, sectionTitle){
+    const popup = document.getElementById('popup-' + category);
+    if(!popup) return;
+    
+    const body = popup.querySelector('.popup-body');
+    if(!body) return;
+    
+    body.innerHTML = '<p style="padding:20px; text-align:center;">Завантажуємо послуги...</p>';
+    
+    // Функція для обробки документа (переиспользуется як для fetch, так і для window._pricesDoc)
+    const processDoc = function(doc) {
+        if(!doc) return;
+        
+        // Знайти розділ з sectionTitle
+        let targetSection = null;
+        const sections = doc.querySelectorAll('h2');
+        for(let h2 of sections){
+          if(h2.textContent.trim().includes(sectionTitle)){
+            targetSection = h2;
+            break;
+          }
+        }
+        
+        if(!targetSection){
+          body.innerHTML = `<p style="padding:20px; text-align:center; color:red;">Розділ не знайдено: ${sectionTitle}</p>`;
+          return;
+        }
+        
+        // Витягти послуги з цього розділу
+        let current = targetSection.nextElementSibling;
+        const services = [];
+        
+        while(current && current.tagName !== 'H2'){
+          if(current.classList && current.classList.contains('price-category')){
+            const h3 = current.querySelector('h3');
+            const table = current.querySelector('table');
+            if(h3){
+              const serviceTitle = h3.textContent.trim();
+              services.push({
+                title: serviceTitle,
+                html: current.innerHTML
+              });
+            }
+          }
+          current = current.nextElementSibling;
+        }
+        
+        if(services.length === 0){
+          body.innerHTML = '<p style="padding:20px; text-align:center; color:red;">Послуги не знайдені</p>';
+          return;
+        }
+        
+        // Генерувати HTML для popup-body
+        let servicesHTML = '';
+        const categoryDescriptions = SERVICE_DESCRIPTIONS[category] || {};
+        
+        services.forEach((svc, idx) => {
+          const title = svc.title;
+          let description = '';
+          
+          // Спробуємо точний матч спершу
+          if(categoryDescriptions[title]){
+            description = categoryDescriptions[title];
+          } else {
+            // Якщо точного матчу немає - пробуємо нормалізовані версії
+            const titleNorm = title.replace(/^[\d\.\s]+/g, '').trim();
+            
+            for(let key in categoryDescriptions){
+              const keyNorm = key.replace(/^[\d\.\s]+/g, '').trim();
+              
+              if(keyNorm.toLowerCase() === titleNorm.toLowerCase()){
+                description = categoryDescriptions[key];
+                break;
+              }
+            }
+          }
+          
+          servicesHTML += `
+            <div style="margin-bottom:30px; padding:20px; background:#e3f2fd; border-radius:10px; border-left:4px solid #2196f3;">
+              <h4 style="margin:0 0 10px; font-size:18px; color:#1565c0; cursor:pointer;">${title}</h4>
+              ${description}
+              <div style="overflow-x: auto; margin-top: 15px;">
+                ${svc.html
+                  .replace(/<h3[^>]*>.*?<\/h3>/g, '')
+                  .replace(/<p[^>]*class="hero-text"[^>]*>.*?<\/p>/g, '')
+                  .replace(/<table[^>]*class="price-table"[^>]*>/g, '<table style="width:100%; border-collapse: collapse; margin-top: 10px; font-size: 14px;">')
+                  .replace(/<h4[^>]*>/g, '<h4 style="margin-top: 15px; margin-bottom: 8px; font-size: 14px; color: #5b6776; font-weight: 600;">')
+                  .replace(/<td>/g, '<td style="padding: 8px 10px; border-bottom: 1px solid #e5e9f1;">')
+                }
+              </div>
+            </div>
+          `;
+        });
+        
+        if(servicesHTML.length === 0){
+          body.innerHTML = '<p style="padding:20px; text-align:center; color:red;">Не вдалось згенерувати HTML послуг</p>';
+          return;
+        }
+        
+        body.innerHTML = servicesHTML;
+    };
+    
+    // Спочатку спробуємо використати вже завантажену версію
+    if(window._pricesDoc){
+      processDoc(window._pricesDoc);
+    } else {
+      // Інакше завантажимо prices.html
+      fetch('./prices.html')
+        .then(r => r.text())
+        .then(html => {
+          // Парсити HTML
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(html, 'text/html');
+          // Зберегти для подальшого використання
+          window._pricesDoc = doc;
+          processDoc(doc);
+        })
+        .catch(err => {
+          body.innerHTML = '<p style="padding:20px; text-align:center; color:red;">Помилка завантаження: ' + err.message + '</p>';
+        });
+    }
+  }
+
+  // Ініціалізувати всі категорії при завантаженні сторінки
+  function initializeAllCategories(){
+    if(!window._pricesDoc || !SERVICE_DESCRIPTIONS){
+      // Якщо дані ще не готові, спробуємо ще раз через 100мс
+      setTimeout(initializeAllCategories, 100);
+      return;
+    }
+    
+    // Ініціалізуємо кожну категорію
+    const categories = ['geodetic', 'land', 'urban', 'arch', 'facade'];
+    categories.forEach(category => {
+      const sectionTitle = CATEGORY_TO_SECTION[category];
+      if(sectionTitle){
+        generateServicesFromPrices(category, sectionTitle);
+      }
+    });
+  }
+  
+  // Запустити ініціалізацію після 500мс (щоб дізнатися, чи завантажені дані)
+  setTimeout(initializeAllCategories, 500);
+  function openCompactList(category){
+    const popup = document.getElementById('popup-' + category);
+    const compact = document.getElementById('popup-compact');
+    const list = document.getElementById('compactList');
+    const title = document.getElementById('compactTitle');
+    if(!popup || !compact || !list) return;
+    // наповнюємо список з заголовків h4 в popup-body
+    const body = popup.querySelector('.popup-body');
+    if(!body) return;
+    const services = Array.from(body.querySelectorAll('h4'));
+    list.innerHTML = '';
+    title.textContent = popup.querySelector('.popup-header h3') ? popup.querySelector('.popup-header h3').textContent : 'Послуги';
+    services.forEach((h4, idx) => {
+      // призначаємо id на батьківський блок для прокрутки
+      let svcBlock = h4.closest('div');
+      if(!svcBlock) svcBlock = h4.parentElement;
+      if(!svcBlock.id) svcBlock.id = `${category}-svc-${idx}`;
+      const item = document.createElement('div');
+      item.className = 'compact-item';
+      const label = document.createElement('div'); label.textContent = h4.textContent;
+      const hint = document.createElement('small'); hint.textContent = (svcBlock.querySelector('p') ? svcBlock.querySelector('p').textContent.slice(0,80) : '');
+      item.appendChild(label);
+      item.appendChild(hint);
+        // у компактному списку ціни не показуємо
+      item.addEventListener('click', () => {
+        // Закриваємо компактний список і відкриваємо детальний модал для конкретної послуги
+        closePopup('compact');
+        openDetailFromElement(svcBlock, category);
+      });
+      list.appendChild(item);
+    });
+    // Відкрити повноекранний попап для списку
+    openPopup('compact');
+  }
+
+  // Відкриття попапів при кліку на карточки послуг або кнопки
+  document.querySelectorAll('.service-card').forEach(card => {
+    const popupId = card.getAttribute('data-popup');
+    if (popupId) {
+      // Клік на всю карточку відкриває компактний список послуг для категорії
+      card.addEventListener('click', (e) => {
+        if (e.target.classList.contains('service-btn')) return; // кнопка обробляється окремо
+        const sectionTitle = CATEGORY_TO_SECTION[popupId];
+        if(sectionTitle) generateServicesFromPrices(popupId, sectionTitle);
+        setTimeout(() => openCompactList(popupId), 150);
+      });
+
+      // Клік на кнопку «Переглянути всі послуги» відкриває компактний список послуг
+      const button = card.querySelector('.service-btn');
+      if (button) {
+        button.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const sectionTitle = CATEGORY_TO_SECTION[popupId];
+          if(sectionTitle) generateServicesFromPrices(popupId, sectionTitle);
+          setTimeout(() => openCompactList(popupId), 150);
+        });
+      }
+    }
+  });
+
+  // Закриття попапу при кліку поза контентом
+  document.querySelectorAll('.popup-overlay').forEach(overlay => {
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) {
+        overlay.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    });
+  });
+
+  // Додати обробники на заголовки послуг всередині popup-body, щоб відкривати детальний модал
+  document.querySelectorAll('.popup-overlay').forEach(popup => {
+    const body = popup.querySelector('.popup-body');
+    if(!body) return;
+    Array.from(body.querySelectorAll('h4')).forEach(h4 => {
+      // зробимо батьківський контейнер клікабельним
+      const svcBlock = h4.closest('div') || h4.parentElement;
+      h4.style.cursor = 'pointer';
+      h4.addEventListener('click', (e) => {
+        // дізнаємось категорію з id попапу (popup-geodetic -> geodetic)
+        const pid = popup.id || '';
+        const cat = pid.replace('popup-','') || '';
+        openDetailFromElement(svcBlock, cat);
+      });
+    });
+  });
+
+  // Закриття попапу клавішею Escape
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      document.querySelectorAll('.popup-overlay.active').forEach(popup => {
+        popup.classList.remove('active');
+        document.body.style.overflow = '';
+      });
+      // Закрити модаль пошуку, якщо відкрито
+      const sm = document.getElementById('searchModal');
+      if(sm && sm.classList.contains('show')){
+        sm.classList.remove('show');
+      }
+    }
+  });
+
+  // Контакти (телефон, Viber, WhatsApp)
+  const CONTACT_PHONE = '380672434589';
+  function openContact(method){
+    let url = '';
+    const message = encodeURIComponent('Доброго дня! Мене цікавить послуга. Прошу надати інформацію.');
+    switch(method){
+      case 'phone': url = `tel:+${CONTACT_PHONE}`; break;
+      case 'whatsapp': url = `https://wa.me/${CONTACT_PHONE}?text=${message}`; break;
+      case 'viber': url = `viber://chat?number=%2B${CONTACT_PHONE}`; break;
+    }
+    if(url) window.open(url, '_blank');
+  }
+
+  document.getElementById('callBtn')?.addEventListener('click', ()=> openContact('phone'));
+  document.getElementById('viberBtn')?.addEventListener('click', ()=> openContact('viber'));
+  document.getElementById('waBtn')?.addEventListener('click', ()=> openContact('whatsapp'));
+
+  // Кнопка "наверх"
+  const backBtn = document.getElementById('backToTop');
+  window.addEventListener('scroll', () => {
+    if(!backBtn) return;
+    backBtn.style.display = window.scrollY > 200 ? 'flex' : 'none';
+  });
+  backBtn?.addEventListener('click', () => {
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+
+  // Пошук по сайту (модаль)
+  const searchModal = document.getElementById('searchModal');
+  const siteSearchInput = document.getElementById('siteSearchInput');
+  const siteSearchResults = document.getElementById('siteSearchResults');
+  const headerSearchInput = document.getElementById('siteSearchHeaderInput');
+
+  // Відкривати модаль при введенні в хедер та передавати запит
+  headerSearchInput?.addEventListener('input', (e) => {
+    const q = e.target.value;
+    if(searchModal){ searchModal.classList.add('show'); }
+    if(siteSearchInput) siteSearchInput.value = q;
+    performSearch(q);
+  });
+
+  // Натискання Enter у хедер-пошуку — перейти до першого результату
+  headerSearchInput?.addEventListener('keydown', (e) => {
+    if(e.key === 'Enter'){
+      const first = document.querySelector('.search-result');
+      if(first){ first.click(); }
+    }
+  });
+
+  // Закрити модаль при кліку поза ним
+  document.addEventListener('click', (e) => {
+    if(searchModal && searchModal.classList.contains('show') && !searchModal.contains(e.target) && e.target.id !== 'siteSearchHeaderInput'){
+      searchModal.classList.remove('show');
+    }
+  });
+
+  function performSearch(query){
+    siteSearchResults.innerHTML = '';
+    if(!query) return;
+    const candidates = Array.from(document.querySelectorAll('.service-item, .service-card, .carousel-card, .direction-card, .popup-content h3, .popup-content h4'));
+    const q = query.toLowerCase();
+    const seen = new Set();
+    candidates.forEach(el => {
+      const text = (el.textContent || '').toLowerCase();
+      if(text.includes(q)){
+        // find nearest heading for label
+        let label = el.querySelector ? (el.querySelector('h3,h4,h5') ? el.querySelector('h3,h4,h5').textContent : el.textContent.trim().slice(0,120)) : el.textContent.trim().slice(0,120);
+        if(!label) label = text.slice(0,80);
+        if(seen.has(label)) return;
+        seen.add(label);
+        const item = document.createElement('div');
+        item.className = 'search-result';
+        item.textContent = label;
+        item.addEventListener('click', () => {
+          // Якщо елемент знаходиться в попапі, відкриваємо детальний модал для цієї послуги
+          const popupAncestor = el.closest ? el.closest('.popup-overlay') : null;
+          if(popupAncestor && popupAncestor.id && popupAncestor.id.startsWith('popup-')){
+            const cat = popupAncestor.id.replace('popup-','');
+            // знайти блок-сервіс (найближчий div з h4 всередині)
+            let svcBlock = el;
+            if(el.tagName && el.tagName.toLowerCase() === 'h4') svcBlock = el.closest('div') || el.parentElement;
+            else if(el.querySelector && el.querySelector('h4')) svcBlock = el.querySelector('h4').closest('div') || el;
+            openDetailFromElement(svcBlock, cat);
+          } else {
+            // scroll to element на сторінці
+            try{ el.scrollIntoView({behavior:'smooth', block:'center'}); }catch(e){}
+          }
+          // Закрити модаль пошуку та очистити поля
+          if(searchModal) searchModal.classList.remove('show');
+          if(headerSearchInput) headerSearchInput.value = '';
+          if(siteSearchInput) siteSearchInput.value = '';
+        });
+        siteSearchResults.appendChild(item);
+      }
+    });
+    if(siteSearchResults.children.length === 0){
+      const empty = document.createElement('div'); empty.className='search-result'; empty.textContent = 'Нічого не знайдено'; siteSearchResults.appendChild(empty);
+    }
+  }
+
+  siteSearchInput?.addEventListener('input', (e) => {
+    performSearch(e.target.value);
+  });
+</script>
+
+</body>
+</html>
+
+
+
