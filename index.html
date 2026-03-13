@@ -715,32 +715,24 @@
     /* Послуги - великі категорії */
     .services-grid{
       display:grid;
-      grid-template-columns:repeat(6,1fr);
+      grid-template-columns:repeat(2,minmax(0,1fr));
       gap:20px;
     }
 
-    /* Центрування останніх двох карток */
     .service-card{
-      grid-column:span 2;
-    }
-
-    .services-grid .service-card:nth-child(4){
-      grid-column:2 / 4;
-    }
-
-    .services-grid .service-card:nth-child(5){
-      grid-column:4 / 6;
+      grid-column:auto;
     }
 
     .service-card{
       background:var(--card);
       border:1px solid var(--border);
-      border-radius:var(--radius);
+      border-radius:40px;
       overflow:hidden;
       box-shadow:var(--shadow);
       transition:.3s;
       display:flex;
       flex-direction:column;
+      aspect-ratio:1 / 1;
     }
 
     .service-card:hover{
@@ -750,7 +742,7 @@
 
     .service-img{
       width:100%;
-      height:150px;
+      height:44%;
       background:linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       display:flex;
       align-items:center;
@@ -780,11 +772,12 @@
     }
 
     .service-content{
-      padding:20px;
+      padding:14px;
       display:flex;
       flex-direction:column;
       justify-content:space-between;
-      height:100%;
+      height:56%;
+      text-align:center;
     }
 
     .service-content h3{
@@ -795,9 +788,9 @@
     }
 
     .service-content p{
-      margin:0 0 15px;
+      margin:0 0 10px;
       font-size:15px;
-      line-height:1.6;
+      line-height:1.5;
       color:var(--muted);
     }
 
@@ -960,12 +953,7 @@
     /* Адаптивність */
     @media (max-width:1024px){
       .services-grid{
-        grid-template-columns:1fr;
-      }
-      
-      .services-grid .service-card:nth-child(4),
-      .services-grid .service-card:nth-child(5){
-        grid-column:1;
+        grid-template-columns:repeat(2,minmax(0,1fr));
       }
       
       .direction-card{
@@ -988,6 +976,7 @@
 
     @media (max-width:767px){
       .wrap{padding:0 20px;}
+      .services-grid{grid-template-columns:1fr;}
       h1{font-size:28px;}
       .hero-text{font-size:16px;}
       .section-title{font-size:26px;}
@@ -1546,16 +1535,6 @@
           <div class="service-content">
             <h3>Архітектурне проектування</h3>
             <p>Повний цикл архітектурних послуг від ідеї до реалізації</p>
-            <button class="service-btn">Переглянути всі послуги</button>
-          </div>
-        </div>
-
-        <!-- Фасади та зовнішній вигляд -->
-        <div class="service-card" data-popup="facade">
-          <div class="service-img facade-service">🎨</div>
-          <div class="service-content">
-            <h3>Фасади та зовнішній вигляд</h3>
-            <p>Впорядкування та естетика міського простору</p>
             <button class="service-btn">Переглянути всі послуги</button>
           </div>
         </div>
