@@ -730,9 +730,14 @@
       overflow:hidden;
       box-shadow:var(--shadow);
       transition:.3s;
-      display:flex;
-      flex-direction:column;
-      aspect-ratio:1 / 1;
+      position:relative;
+      display:block;
+    }
+
+    .service-card::before{
+      content:"";
+      display:block;
+      padding-top:100%;
     }
 
     .service-card:hover{
@@ -741,7 +746,10 @@
     }
 
     .service-img{
-      width:100%;
+      position:absolute;
+      top:0;
+      left:0;
+      right:0;
       height:44%;
       background:linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       display:flex;
@@ -772,11 +780,15 @@
     }
 
     .service-content{
+      position:absolute;
+      top:44%;
+      left:0;
+      right:0;
+      bottom:0;
       padding:14px;
       display:flex;
       flex-direction:column;
       justify-content:space-between;
-      height:56%;
       text-align:center;
     }
 
