@@ -250,6 +250,19 @@
       padding-left:0;
     }
 
+    .price-subtitle{
+      margin-top:16px;
+      margin-bottom:10px;
+      font-size:15px;
+      color:var(--text);
+      font-weight:400;
+    }
+
+    .price-subitem-row td:first-child{
+      padding-left:18px;
+      color:#394450;
+    }
+
     .price-table td:last-child{
       text-align:right;
       color:var(--accent-text);
@@ -843,6 +856,65 @@
 
 <script>
   document.getElementById("year").textContent = new Date().getFullYear();
+
+  // Render all price sections from services.json.
+  // Existing static markup remains as fallback if JSON is unavailable.
+  fetch('./services.json?_=' + Date.now())
+    .then(r => r.ok ? r.json() : null)
+    .then(data => {
+      if (!data || !Array.isArray(data.categories)) return;
+
+      const wrap = document.querySelector('main .wrap');
+      if (!wrap) return;
+
+      wrap.innerHTML = '';
+
+      data.categories.forEach((cat) => {
+        const section = document.createElement('section');
+        section.className = 'price-section';
+
+        const h2 = document.createElement('h2');
+        h2.textContent = String(cat.title || '').toUpperCase();
+        section.appendChild(h2);
+
+        if (cat.priceNote) {
+          const note = document.createElement('p');
+          note.className = 'hero-text';
+          note.style.marginBottom = '28px';
+          note.textContent = '(' + cat.priceNote + ')';
+          section.appendChild(note);
+        }
+
+        const services = Array.isArray(cat.services) ? cat.services : [];
+        if (services.length === 0) {
+          const emptyCard = document.createElement('div');
+          emptyCard.className = 'price-category';
+          emptyCard.innerHTML = '<h3>Послуги будуть додані найближчим часом</h3>';
+          section.appendChild(emptyCard);
+        } else {
+          services.forEach((svc) => {
+            const card = document.createElement('div');
+            card.className = 'price-category';
+            card.innerHTML =
+              '<h3>' + escHtml(svc.title || '') + '</h3>' +
+              (svc.priceNote ? '<p class="price-subtitle">' + escHtml(svc.priceNote) + '</p>' : '') +
+              (svc.priceHtml || '<table class="price-table"><tr><td>Індивідуальний розрахунок</td><td>Індивідуальний розрахунок</td></tr></table>');
+            section.appendChild(card);
+          });
+        }
+
+        wrap.appendChild(section);
+      });
+    })
+    .catch(() => {});
+
+  function escHtml(str) {
+    return (str || '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
 </script>
 
 </body>

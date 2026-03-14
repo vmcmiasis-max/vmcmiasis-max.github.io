@@ -1,0 +1,1564 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Адмін — послуги</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #f0f2f5;
+      color: #333;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* ── LOGIN ───────────────────────────────── */
+    #login-screen {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #2667ff 0%, #1a40b8 100%);
+    }
+    .login-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 40px 48px;
+      width: 340px;
+      box-shadow: 0 8px 32px rgba(0,0,0,.18);
+      text-align: center;
+    }
+    .login-card h2 { font-size: 22px; margin-bottom: 8px; color: #273846; }
+    .login-card p  { font-size: 13px; color: #888; margin-bottom: 24px; }
+    .login-card input {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1.5px solid #ddd;
+      border-radius: 8px;
+      font-size: 15px;
+      margin-bottom: 14px;
+      outline: none;
+      transition: border-color .2s;
+    }
+    .login-card input:focus { border-color: #2667ff; }
+    .login-card button {
+      width: 100%;
+      padding: 11px;
+      background: #2667ff;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .2s;
+    }
+    .login-card button:hover { background: #1a40b8; }
+    .login-error {
+      color: #d32f2f;
+      font-size: 13px;
+      margin-top: 10px;
+      display: none;
+    }
+
+    /* ── APP SHELL ───────────────────────────── */
+    #app { display: none; flex-direction: column; height: 100vh; overflow: hidden; }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      height: 56px;
+      background: #273846;
+      color: #fff;
+      box-shadow: 0 2px 6px rgba(0,0,0,.25);
+      flex-shrink: 0;
+    }
+    header h1 { font-size: 17px; font-weight: 600; letter-spacing: .3px; }
+    header .header-actions { display: flex; gap: 10px; align-items: center; }
+    .btn-text {
+      background: none;
+      border: 1.5px solid rgba(255,255,255,.6);
+      color: #fff;
+      border-radius: 7px;
+      padding: 5px 14px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: border-color .2s, background .2s;
+    }
+    .btn-text:hover { border-color: #fff; background: rgba(255,255,255,.12); }
+
+    .body-wrap {
+      display: flex;
+      flex: 1;
+      height: calc(100vh - 56px);
+      overflow: hidden;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px;
+    }
+
+    /* ── SIDEBAR ─────────────────────────────── */
+    aside {
+      width: 220px;
+      background: #1e2d3a;
+      color: #c5d3dd;
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      overflow-y: auto;
+      padding-top: 12px;
+      border-radius: 12px;
+      position: relative;
+      top: 0;
+      height: 100%;
+      min-height: 100%;
+      max-height: 100%;
+      align-self: stretch;
+      box-shadow: 0 2px 10px rgba(0,0,0,.12);
+    }
+    aside h3 {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #6b8090;
+      padding: 8px 18px 4px;
+    }
+    .cat-item {
+      padding: 12px 18px;
+      cursor: pointer;
+      font-size: 14px;
+      border-left: 3px solid transparent;
+      transition: background .15s, color .15s;
+      line-height: 1.3;
+    }
+    .cat-item:hover { background: rgba(255,255,255,.07); color: #fff; }
+    .cat-item.active {
+      background: rgba(38,103,255,.18);
+      border-left-color: #2667ff;
+      color: #fff;
+    }
+    .cat-count {
+      font-size: 11px;
+      color: #6b8090;
+      margin-left: 6px;
+    }
+    .aside-footer {
+      margin-top: auto;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      position: sticky;
+      bottom: 0;
+      background: #1e2d3a;
+      border-top: 1px solid rgba(255,255,255,.08);
+    }
+    .btn-download {
+      background: #2667ff;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+      transition: background .2s;
+    }
+    .btn-download:hover { background: #1a40b8; }
+    .btn-copy {
+      background: rgba(255,255,255,.08);
+      color: #c5d3dd;
+      border: 1px solid rgba(255,255,255,.15);
+      border-radius: 8px;
+      padding: 9px;
+      font-size: 13px;
+      cursor: pointer;
+      text-align: center;
+      transition: background .2s;
+    }
+    .btn-copy:hover { background: rgba(255,255,255,.14); color: #fff; }
+
+    /* ── MAIN ────────────────────────────────── */
+    main {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px;
+      height: 100%;
+      max-height: 100%;
+    }
+    .main-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .main-top h2 { font-size: 20px; color: #273846; }
+    .btn-add {
+      background: #2667ff;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 9px 20px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .2s;
+    }
+    .btn-add:hover { background: #1a40b8; }
+
+    .priceNote-badge {
+      font-size: 12px;
+      color: #888;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .priceNote-badge input {
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      padding: 4px 10px;
+      font-size: 12px;
+      color: #555;
+      width: 380px;
+      outline: none;
+    }
+    .priceNote-badge input:focus { border-color: #2667ff; }
+
+    /* service list */
+    .service-list { display: flex; flex-direction: column; gap: 12px; }
+
+    .svc-row {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 1px 4px rgba(0,0,0,.08);
+      padding: 14px 18px;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      transition: box-shadow .15s;
+    }
+    .svc-row:hover { box-shadow: 0 3px 10px rgba(0,0,0,.12); }
+    .svc-row .svc-img {
+      width: 64px;
+      height: 64px;
+      object-fit: cover;
+      border-radius: 7px;
+      background: #e8edf2;
+      flex-shrink: 0;
+    }
+    .svc-row .svc-img-placeholder {
+      width: 64px;
+      height: 64px;
+      border-radius: 7px;
+      background: #e8edf2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #aaa;
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+    .svc-info { flex: 1; min-width: 0; }
+    .svc-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: #273846;
+      margin-bottom: 4px;
+      line-height: 1.3;
+    }
+    .svc-desc-preview {
+      font-size: 12px;
+      color: #888;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 480px;
+    }
+    .svc-actions {
+      display: flex;
+      gap: 6px;
+      flex-shrink: 0;
+      align-items: center;
+    }
+    .btn-icon {
+      background: none;
+      border: 1.5px solid #ddd;
+      border-radius: 7px;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 16px;
+      transition: border-color .15s, background .15s;
+    }
+    .btn-icon.edit  { color: #2667ff; }
+    .btn-icon.edit:hover  { background: #ebf0ff; border-color: #2667ff; }
+    .btn-icon.del   { color: #d32f2f; }
+    .btn-icon.del:hover   { background: #ffeaea; border-color: #d32f2f; }
+    .btn-icon.move-up, .btn-icon.move-down { color: #666; }
+    .btn-icon.move-up:hover, .btn-icon.move-down:hover { background: #f0f0f0; border-color: #aaa; }
+
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: #aaa;
+    }
+    .empty-state .icon { font-size: 48px; margin-bottom: 12px; }
+    .empty-state p { font-size: 15px; }
+
+    /* unsaved indicator */
+    .unsaved-dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #ff9800;
+      margin-left: 8px;
+      vertical-align: middle;
+      display: none;
+    }
+
+    /* ── MODAL ───────────────────────────────── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.55);
+      backdrop-filter: blur(4px);
+      z-index: 200;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 24px 16px;
+      overflow-y: auto;
+    }
+    .modal-overlay.hidden { display: none; }
+    .modal-card {
+      background: #fff;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 740px;
+      box-shadow: 0 12px 40px rgba(0,0,0,.2);
+      overflow: hidden;
+      margin: auto;
+    }
+    .modal-header {
+      padding: 18px 24px;
+      background: #273846;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .modal-header h3 { font-size: 16px; }
+    .modal-close {
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 22px;
+      cursor: pointer;
+      line-height: 1;
+      opacity: .7;
+      transition: opacity .15s;
+    }
+    .modal-close:hover { opacity: 1; }
+    .modal-body { padding: 24px; }
+    .form-row { margin-bottom: 18px; }
+    .form-row label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: #555;
+      margin-bottom: 6px;
+    }
+    .form-row input,
+    .form-row textarea,
+    .form-row select {
+      width: 100%;
+      border: 1.5px solid #ddd;
+      border-radius: 8px;
+      padding: 9px 12px;
+      font-size: 14px;
+      font-family: inherit;
+      outline: none;
+      transition: border-color .2s;
+      resize: vertical;
+    }
+    .form-row input:focus,
+    .form-row textarea:focus,
+    .form-row select:focus { border-color: #2667ff; }
+    .form-row textarea { min-height: 90px; }
+    .form-row textarea.code { font-family: 'Consolas', 'Courier New', monospace; font-size: 13px; min-height: 120px; }
+    .form-hint { font-size: 11px; color: #aaa; margin-top: 4px; }
+    .price-sections { display: flex; flex-direction: column; gap: 10px; }
+    .price-section {
+      border: 1.5px solid #e7ecff;
+      border-radius: 10px;
+      background: #f9fbff;
+      padding: 12px;
+    }
+    .price-section-head {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .price-section-head input {
+      flex: 1;
+      margin: 0;
+    }
+    .section-remove-btn {
+      border: 1.5px solid #f0caca;
+      background: #fff4f4;
+      color: #b71c1c;
+      border-radius: 8px;
+      height: 38px;
+      width: 38px;
+      cursor: pointer;
+      font-size: 17px;
+      line-height: 1;
+    }
+    .section-remove-btn:hover {
+      background: #ffe8e8;
+      border-color: #e0a0a0;
+    }
+    .price-rows { display: flex; flex-direction: column; gap: 8px; }
+    .price-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr auto;
+      gap: 8px;
+      align-items: center;
+    }
+    .price-row .remove-row {
+      border: 1.5px solid #f0caca;
+      background: #fff4f4;
+      color: #b71c1c;
+      border-radius: 8px;
+      height: 38px;
+      width: 38px;
+      cursor: pointer;
+      font-size: 17px;
+      line-height: 1;
+    }
+    .price-row .remove-row:hover {
+      background: #ffe8e8;
+      border-color: #e0a0a0;
+    }
+    .add-row-btn {
+      margin-top: 8px;
+      background: #f5f7ff;
+      color: #2667ff;
+      border: 1.5px dashed #b3c4ff;
+      border-radius: 8px;
+      padding: 9px 12px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .add-row-btn:hover {
+      background: #ecf1ff;
+      border-color: #8da6ff;
+    }
+    .add-section-btn {
+      margin-top: 10px;
+      background: #e9f2ff;
+      color: #1447b8;
+      border: 1.5px solid #bfd7ff;
+      border-radius: 8px;
+      padding: 9px 12px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .add-section-btn:hover {
+      background: #deebff;
+      border-color: #9fc3ff;
+    }
+    .image-tools {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .image-picker-row,
+    .image-upload-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      align-items: center;
+    }
+    .image-upload-grid {
+      display: grid;
+      grid-template-columns: 1fr 220px auto;
+      gap: 8px;
+      align-items: center;
+    }
+    .image-tools select,
+    .image-tools input[type="file"] {
+      width: 100%;
+      border: 1.5px solid #ddd;
+      border-radius: 8px;
+      padding: 9px 12px;
+      font-size: 14px;
+      background: #fff;
+    }
+    .btn-small {
+      background: #2667ff;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 9px 14px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .btn-small:hover { background: #1a40b8; }
+    .price-actions {
+      margin-top: 10px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .img-preview-wrap { display: flex; gap: 12px; align-items: flex-start; margin-top: 8px; }
+    .img-preview {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 8px;
+      border: 1.5px solid #eee;
+      display: none;
+    }
+    .modal-footer {
+      padding: 16px 24px;
+      border-top: 1px solid #f0f0f0;
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+    }
+    .btn-cancel {
+      background: #f5f5f5;
+      color: #555;
+      border: none;
+      border-radius: 8px;
+      padding: 9px 20px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background .15s;
+    }
+    .btn-cancel:hover { background: #eee; }
+    .btn-save {
+      background: #2667ff;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 9px 24px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .2s;
+    }
+    .btn-save:hover { background: #1a40b8; }
+
+    /* ── CONFIRM DIALOG ──────────────────────── */
+    .confirm-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.55);
+      z-index: 300;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .confirm-overlay.hidden { display: none; }
+    .confirm-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 28px 32px;
+      max-width: 360px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 8px 30px rgba(0,0,0,.2);
+    }
+    .confirm-card h4 { font-size: 17px; margin-bottom: 10px; color: #273846; }
+    .confirm-card p { font-size: 14px; color: #666; margin-bottom: 22px; }
+    .confirm-btns { display: flex; gap: 10px; justify-content: center; }
+    .btn-confirm-del {
+      background: #d32f2f;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 9px 22px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn-confirm-del:hover { background: #b71c1c; }
+
+    /* ── TOAST ───────────────────────────────── */
+    #toast {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: #273846;
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 14px;
+      transition: transform .3s;
+      z-index: 500;
+      white-space: nowrap;
+    }
+    #toast.show { transform: translateX(-50%) translateY(0); }
+    #toast.success { background: #1b5e20; }
+    #toast.error   { background: #b71c1c; }
+
+    /* ── RESPONSIVE ──────────────────────────── */
+    @media (max-width: 640px) {
+      .body-wrap {
+        padding: 8px;
+        gap: 8px;
+        height: calc(100vh - 56px);
+      }
+      aside {
+        width: 180px;
+        top: 0;
+        height: 100%;
+        min-height: 100%;
+        max-height: 100%;
+      }
+      main {
+        padding: 8px;
+        height: 100%;
+        max-height: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ────────────── LOGIN ────────────── -->
+<div id="login-screen">
+  <div class="login-card">
+    <h2>Адмін панель</h2>
+    <p>Введіть пароль для доступу до редактора послуг</p>
+    <input type="password" id="pwd-input" placeholder="Пароль" autocomplete="current-password">
+    <button id="login-btn">Увійти</button>
+    <div class="login-error" id="login-error">Невірний пароль</div>
+  </div>
+</div>
+
+<!-- ────────────── APP ────────────── -->
+<div id="app">
+  <header>
+    <h1>Редактор послуг <span class="unsaved-dot" id="unsaved-dot"></span></h1>
+    <div class="header-actions">
+      <a href="../index.html" target="_blank" class="btn-text">↗ Сайт</a>
+      <button class="btn-text" id="logout-btn">Вийти</button>
+    </div>
+  </header>
+
+  <div class="body-wrap">
+    <aside>
+      <h3>Категорії</h3>
+      <div id="cat-list"></div>
+      <div class="aside-footer">
+        <button class="btn-download" id="save-api-btn">💾 Зберегти й застосувати</button>
+        <button class="btn-download" id="download-btn">⬇ Експорт JSON</button>
+        <button class="btn-copy" id="copy-btn">📋 Скопіювати JSON</button>
+      </div>
+    </aside>
+
+    <main id="main-area">
+      <div class="empty-state">
+        <div class="icon">←</div>
+        <p>Виберіть категорію щоб редагувати послуги</p>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- ────────────── EDIT MODAL ────────────── -->
+<div class="modal-overlay hidden" id="edit-modal">
+  <div class="modal-card">
+    <div class="modal-header">
+      <h3 id="modal-title">Редагувати послугу</h3>
+      <button class="modal-close" id="modal-close-btn">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <label>Назва послуги</label>
+        <input type="text" id="f-title" placeholder="Наприклад: 1. Назва послуги">
+      </div>
+      <div class="form-row">
+        <label>Категорія</label>
+        <select id="f-category"></select>
+      </div>
+      <div class="form-row">
+        <label>Шлях до зображення</label>
+        <div class="img-preview-wrap">
+          <input type="text" id="f-image" placeholder="image/Геодезичні картинки/назва.jpg" style="flex:1">
+          <img id="img-preview" class="img-preview" src="" alt="preview">
+        </div>
+        <div class="image-tools">
+          <div class="image-picker-row">
+            <select id="f-image-existing">
+              <option value="">Вибрати наявне зображення</option>
+            </select>
+            <button type="button" class="btn-small" id="apply-existing-image-btn">Підставити</button>
+          </div>
+          <div class="image-upload-grid">
+            <input type="file" id="f-upload-image" accept="image/*">
+            <select id="f-upload-folder"></select>
+            <button type="button" class="btn-small" id="upload-image-btn">Завантажити</button>
+          </div>
+        </div>
+        <div class="form-hint">Відносний шлях від кореня сайту. Прев'ю оновлюється при зміні.</div>
+      </div>
+      <div class="form-row">
+        <label>Примітка до ціни <span style="font-weight:400;color:#aaa">(необов'язково)</span></label>
+        <input type="text" id="f-priceNote" placeholder="Наприклад: БЕЗ ПОГОДЖЕНЬ ПрАТ «УКРТЕЛЕКОМ»">
+      </div>
+      <div class="form-row">
+        <label>Опис: Що це?</label>
+        <textarea id="f-desc-what" placeholder="Коротко опишіть суть послуги"></textarea>
+      </div>
+      <div class="form-row">
+        <label>Опис: Для чого потрібна ця послуга?</label>
+        <textarea id="f-desc-why" placeholder="Опишіть, коли та навіщо замовляється послуга"></textarea>
+      </div>
+      <div class="form-row">
+        <label>Варіанти цін (підзаголовок додається за потреби)</label>
+        <div class="price-sections" id="f-priceSections"></div>
+        <div class="price-actions">
+          <button type="button" class="add-row-btn" id="add-base-price-row-btn">+ Додати послугу</button>
+          <button type="button" class="add-section-btn" id="add-price-section-btn">+ Додати підзаголовок</button>
+        </div>
+        <div class="form-hint">Структура як у 4-й послузі архітектурного проєктування: спочатку послуги без підзаголовка, далі блоки з підзаголовками.</div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" id="modal-cancel-btn">Скасувати</button>
+      <button class="btn-save" id="modal-save-btn">Зберегти</button>
+    </div>
+  </div>
+</div>
+
+<!-- ────────────── CONFIRM DELETE ────────────── -->
+<div class="confirm-overlay hidden" id="confirm-del">
+  <div class="confirm-card">
+    <h4>Видалити послугу?</h4>
+    <p id="confirm-del-name">Ви впевнені, що хочете видалити цю послугу?</p>
+    <div class="confirm-btns">
+      <button class="btn-cancel" id="del-cancel-btn">Скасувати</button>
+      <button class="btn-confirm-del" id="del-confirm-btn">Видалити</button>
+    </div>
+  </div>
+</div>
+
+<!-- ────────────── TOAST ────────────── -->
+<div id="toast"></div>
+
+<script>
+// ═══════════════════════════════════════════════════════
+//  CONFIGURATION
+// ═══════════════════════════════════════════════════════
+// Change this password before deploying!
+const ADMIN_PASSWORD = 'admin2024';
+
+// PHP API endpoint for saving
+const API_SAVE_URL = '../api/save-services.php';
+const API_LIST_IMAGES_URL = '../api/list-images.php';
+const API_UPLOAD_IMAGE_URL = '../api/upload-image.php';
+
+// ═══════════════════════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════════════════════
+let servicesData = null;          // loaded from services.json
+let activeCatIndex = -1;          // currently selected category
+let editingServiceIndex = null;   // null = adding new, number = editing existing
+let pendingDeleteIndex = null;    // index pending confirmation
+let hasUnsavedChanges = false;
+let availableImages = [];
+let availableImageFolders = [];
+
+// ═══════════════════════════════════════════════════════
+//  HELPERS
+// ═══════════════════════════════════════════════════════
+function showToast(msg, type = '') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'show' + (type ? ' ' + type : '');
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => { t.className = ''; }, 3000);
+}
+
+function markUnsaved() {
+  hasUnsavedChanges = true;
+  document.getElementById('unsaved-dot').style.display = 'inline-block';
+}
+
+function clearUnsaved() {
+  hasUnsavedChanges = false;
+  document.getElementById('unsaved-dot').style.display = 'none';
+}
+
+function stripHtmlTags(html) {
+  const div = document.createElement('div');
+  div.innerHTML = html;
+  return div.textContent || div.innerText || '';
+}
+
+function getRelativePath(path) {
+  // Images are relative to site root, but admin.html is in /admin/
+  // So prepend '../' for src attributes
+  if (!path) return '';
+  if (path.startsWith('http') || path.startsWith('/') || path.startsWith('../')) return path;
+  return '../' + path;
+}
+
+function getImageFolder(path) {
+  if (!path) return '';
+  const normalized = path.replace(/\\/g, '/');
+  const idx = normalized.lastIndexOf('/');
+  return idx >= 0 ? normalized.slice(0, idx) : '';
+}
+
+function fetchJson(url, options) {
+  return fetch(url, options).then(r => r.json());
+}
+
+function loadImageLibrary(force) {
+  if (!force && availableImages.length) {
+    populateImageOptions();
+    return Promise.resolve();
+  }
+
+  return fetchJson(API_LIST_IMAGES_URL, {
+    headers: { 'X-Admin-Password': ADMIN_PASSWORD }
+  })
+  .then(data => {
+    if (!data || !data.ok) throw new Error((data && data.error) || 'Не вдалося отримати список зображень');
+    availableImages = Array.isArray(data.images) ? data.images : [];
+    availableImageFolders = Array.isArray(data.folders) ? data.folders : [];
+    populateImageOptions();
+  })
+  .catch(err => {
+    showToast('Не вдалося завантажити зображення: ' + err.message, 'error');
+  });
+}
+
+function populateImageOptions() {
+  const imageSelect = document.getElementById('f-image-existing');
+  const folderSelect = document.getElementById('f-upload-folder');
+  const currentImage = document.getElementById('f-image').value.trim();
+
+  imageSelect.innerHTML = '<option value="">Вибрати наявне зображення</option>';
+  availableImages.forEach((path) => {
+    const opt = document.createElement('option');
+    opt.value = path;
+    opt.textContent = path;
+    if (path === currentImage) opt.selected = true;
+    imageSelect.appendChild(opt);
+  });
+
+  folderSelect.innerHTML = '';
+  const folders = availableImageFolders.length ? availableImageFolders : ['image'];
+  folders.forEach((folder) => {
+    const opt = document.createElement('option');
+    opt.value = folder;
+    opt.textContent = folder;
+    folderSelect.appendChild(opt);
+  });
+
+  const currentFolder = getImageFolder(currentImage);
+  if (currentFolder && folders.includes(currentFolder)) {
+    folderSelect.value = currentFolder;
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+//  AUTH
+// ═══════════════════════════════════════════════════════
+function checkLogin() {
+  return sessionStorage.getItem('admin_auth') === 'ok';
+}
+
+document.getElementById('login-btn').addEventListener('click', doLogin);
+document.getElementById('pwd-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') doLogin();
+});
+
+function doLogin() {
+  const val = document.getElementById('pwd-input').value;
+  const errEl = document.getElementById('login-error');
+  if (val === ADMIN_PASSWORD) {
+    sessionStorage.setItem('admin_auth', 'ok');
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('app').style.display = 'flex';
+    loadServicesData();
+  } else {
+    errEl.style.display = 'block';
+    document.getElementById('pwd-input').value = '';
+    document.getElementById('pwd-input').focus();
+    setTimeout(() => { errEl.style.display = 'none'; }, 3000);
+  }
+}
+
+document.getElementById('logout-btn').addEventListener('click', () => {
+  if (hasUnsavedChanges && !confirm('Є незбережені зміни. Все одно вийти?')) return;
+  sessionStorage.removeItem('admin_auth');
+  location.reload();
+});
+
+// Auto-login if session active
+if (checkLogin()) {
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('app').style.display = 'flex';
+  loadServicesData();
+}
+
+// ═══════════════════════════════════════════════════════
+//  DATA LOADING
+// ═══════════════════════════════════════════════════════
+function loadServicesData() {
+  fetch('../services.json?_=' + Date.now())
+    .then(r => {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    })
+    .then(data => {
+      servicesData = data;
+      ensureRequiredCategories();
+      renderCategoryList();
+      if (servicesData.categories.length > 0) {
+        selectCategory(0);
+      }
+    })
+    .catch(err => {
+      document.getElementById('main-area').innerHTML =
+        '<div class="empty-state"><div class="icon">⚠</div><p>Не вдалося завантажити services.json<br><small>' + err.message + '</small></p></div>';
+    });
+}
+
+function ensureRequiredCategories() {
+  if (!Array.isArray(servicesData.categories)) {
+    servicesData.categories = [];
+  }
+  if (!servicesData.categories.some(c => c.id === 'other')) {
+    servicesData.categories.push({
+      id: 'other',
+      title: 'Інші послуги',
+      cardImage: 'image/Картки послуг/інші.jpg',
+      priceNote: '',
+      services: []
+    });
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+//  CATEGORY LIST
+// ═══════════════════════════════════════════════════════
+function renderCategoryList() {
+  const list = document.getElementById('cat-list');
+  list.innerHTML = '';
+  servicesData.categories.forEach((cat, i) => {
+    const el = document.createElement('div');
+    el.className = 'cat-item' + (i === activeCatIndex ? ' active' : '');
+    el.innerHTML = cat.title + '<span class="cat-count">(' + cat.services.length + ')</span>';
+    el.addEventListener('click', () => selectCategory(i));
+    list.appendChild(el);
+  });
+}
+
+function selectCategory(index) {
+  activeCatIndex = index;
+  renderCategoryList();
+  renderServiceList();
+}
+
+// ═══════════════════════════════════════════════════════
+//  SERVICE LIST
+// ═══════════════════════════════════════════════════════
+function renderServiceList() {
+  if (activeCatIndex < 0 || !servicesData) return;
+  const cat = servicesData.categories[activeCatIndex];
+  const main = document.getElementById('main-area');
+
+  let html = '<div class="main-top">';
+  html += '<h2>' + escHtml(cat.title) + '</h2>';
+  html += '<button class="btn-add" id="add-btn">+ Додати послугу</button>';
+  html += '</div>';
+
+  html += '<div class="priceNote-badge">';
+  html += '<label>Примітка категорії:</label>';
+  html += '<input type="text" id="cat-price-note" value="' + escHtml(cat.priceNote || '') + '" placeholder="Наприклад: вартість наведена без ПДВ та з ПДВ">';
+  html += '</div>';
+
+  if (cat.services.length === 0) {
+    html += '<div class="empty-state"><div class="icon">📋</div><p>Послуг ще немає. Натисніть "+ Додати послугу"</p></div>';
+  } else {
+    html += '<div class="service-list" id="service-list">';
+    cat.services.forEach((svc, i) => {
+      const descText = stripHtmlTags(svc.description || '').substring(0, 100);
+      const imgSrc = svc.image ? getRelativePath(svc.image) : '';
+      html += '<div class="svc-row" data-idx="' + i + '">';
+      if (imgSrc) {
+        html += '<img class="svc-img" src="' + escHtml(imgSrc) + '" alt="" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">';
+        html += '<div class="svc-img-placeholder" style="display:none">🖼</div>';
+      } else {
+        html += '<div class="svc-img-placeholder">🖼</div>';
+      }
+      html += '<div class="svc-info">';
+      html += '<div class="svc-title">' + escHtml(svc.title) + '</div>';
+      html += '<div class="svc-desc-preview">' + escHtml(descText) + (descText.length >= 100 ? '…' : '') + '</div>';
+      html += '</div>';
+      html += '<div class="svc-actions">';
+      if (i > 0) {
+        html += '<button class="btn-icon move-up" title="Вгору" data-idx="' + i + '">↑</button>';
+      }
+      if (i < cat.services.length - 1) {
+        html += '<button class="btn-icon move-down" title="Вниз" data-idx="' + i + '">↓</button>';
+      }
+      html += '<button class="btn-icon edit" title="Редагувати" data-idx="' + i + '">✏</button>';
+      html += '<button class="btn-icon del" title="Видалити" data-idx="' + i + '">🗑</button>';
+      html += '</div>';
+      html += '</div>';
+    });
+    html += '</div>';
+  }
+
+  main.innerHTML = html;
+
+  document.getElementById('add-btn').addEventListener('click', () => openEditModal(null));
+
+  document.getElementById('cat-price-note').addEventListener('input', e => {
+    servicesData.categories[activeCatIndex].priceNote = e.target.value;
+    markUnsaved();
+  });
+
+  main.querySelectorAll('.btn-icon.edit').forEach(btn => {
+    btn.addEventListener('click', () => openEditModal(Number(btn.dataset.idx)));
+  });
+  main.querySelectorAll('.btn-icon.del').forEach(btn => {
+    btn.addEventListener('click', () => openConfirmDelete(Number(btn.dataset.idx)));
+  });
+  main.querySelectorAll('.btn-icon.move-up').forEach(btn => {
+    btn.addEventListener('click', () => moveService(Number(btn.dataset.idx), -1));
+  });
+  main.querySelectorAll('.btn-icon.move-down').forEach(btn => {
+    btn.addEventListener('click', () => moveService(Number(btn.dataset.idx), 1));
+  });
+}
+
+function escHtml(str) {
+  if (!str) return '';
+  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+function parseDescriptionFields(descriptionHtml) {
+  const holder = document.createElement('div');
+  holder.innerHTML = descriptionHtml || '';
+  const paragraphs = Array.from(holder.querySelectorAll('p')).map(p => (p.textContent || '').trim()).filter(Boolean);
+
+  let whatText = '';
+  let whyText = '';
+
+  const normalize = (text) => text.replace(/\s+/g, ' ').trim();
+  const stripWhatLabel = (text) => normalize(text).replace(/^\s*Що\s+це\?\s*/i, '');
+  const stripWhyLabel = (text) => normalize(text).replace(/^\s*Для\s+чого\s+потрібна\s+ця\s+послуга\?\s*/i, '').replace(/^\s*Для\s+чого\s+потрібна\s+послуга\?\s*/i, '');
+
+  paragraphs.forEach((line) => {
+    if (!whatText && /^\s*Що\s+це\?/i.test(line)) {
+      whatText = stripWhatLabel(line);
+      return;
+    }
+    if (!whyText && /^\s*Для\s+чого\s+потрібна/i.test(line)) {
+      whyText = stripWhyLabel(line);
+    }
+  });
+
+  if (!whatText && paragraphs[0]) whatText = stripWhatLabel(paragraphs[0]);
+  if (!whyText && paragraphs[1]) whyText = stripWhyLabel(paragraphs[1]);
+
+  return { whatText, whyText };
+}
+
+function parsePriceFields(priceHtml) {
+  const holder = document.createElement('div');
+  holder.innerHTML = priceHtml || '';
+
+  const sections = [];
+  let pendingSubtitle = '';
+
+  Array.from(holder.children).forEach((node) => {
+    if (node.tagName === 'P' || (node.classList && node.classList.contains('price-subtitle'))) {
+      pendingSubtitle = (node.textContent || '').trim();
+      return;
+    }
+
+    if (node.tagName === 'TABLE' && node.classList.contains('price-table')) {
+      const rows = [];
+      node.querySelectorAll('tr').forEach((tr) => {
+        const cells = tr.querySelectorAll('td');
+        const label = (cells[0]?.textContent || '').trim();
+        const value = (cells[1]?.textContent || '').trim();
+        if (label || value) rows.push({ label, value });
+      });
+
+      sections.push({ subtitle: pendingSubtitle, rows });
+      pendingSubtitle = '';
+    }
+  });
+
+  if (!sections.length) {
+    const fallbackRows = [];
+    holder.querySelectorAll('tr').forEach((tr) => {
+      const cells = tr.querySelectorAll('td');
+      const label = (cells[0]?.textContent || '').trim();
+      const value = (cells[1]?.textContent || '').trim();
+      if (label || value) fallbackRows.push({ label, value });
+    });
+    if (fallbackRows.length || pendingSubtitle) {
+      sections.push({ subtitle: pendingSubtitle, rows: fallbackRows });
+    }
+  }
+
+  return { sections };
+}
+
+function setPriceSections(sections) {
+  const wrap = document.getElementById('f-priceSections');
+  wrap.innerHTML = '';
+  const items = sections && sections.length ? sections : [{ subtitle: '', rows: [{ label: '', value: '' }] }];
+  items.forEach(item => addPriceSection(item.subtitle || '', item.rows || [{ label: '', value: '' }]));
+}
+
+function getBasePriceSection() {
+  const wrap = document.getElementById('f-priceSections');
+  const sections = Array.from(wrap.querySelectorAll('.price-section'));
+  const base = sections.find((sec) => {
+    const subtitleInput = sec.querySelector('.price-subtitle-input');
+    return subtitleInput && !subtitleInput.value.trim();
+  });
+  return base || null;
+}
+
+function addPriceRow(rowsWrap, label = '', value = '') {
+  const row = document.createElement('div');
+  row.className = 'price-row';
+  row.innerHTML =
+    '<input type="text" class="price-label" placeholder="Варіант (наприклад: До 0,10 га)">' +
+    '<input type="text" class="price-value" placeholder="Вартість (наприклад: 5 640 / 6 768 грн)">' +
+    '<button type="button" class="remove-row" title="Видалити рядок">×</button>';
+
+  row.querySelector('.price-label').value = label || '';
+  row.querySelector('.price-value').value = value || '';
+
+  row.querySelector('.remove-row').addEventListener('click', () => {
+    row.remove();
+    if (!rowsWrap.querySelector('.price-row')) addPriceRow(rowsWrap, '', '');
+  });
+
+  rowsWrap.appendChild(row);
+}
+
+function addPriceSection(subtitle = '', rows = [{ label: '', value: '' }]) {
+  const wrap = document.getElementById('f-priceSections');
+  const section = document.createElement('div');
+  section.className = 'price-section';
+  section.innerHTML =
+    '<div class="price-section-head">' +
+      '<input type="text" class="price-subtitle-input" placeholder="Підзаголовок (необов\'язково)">' +
+      '<button type="button" class="section-remove-btn" title="Видалити підзаголовок">×</button>' +
+    '</div>' +
+    '<div class="price-rows"></div>' +
+    '<button type="button" class="add-row-btn">+ Додати послугу</button>';
+
+  section.querySelector('.price-subtitle-input').value = subtitle || '';
+  const rowsWrap = section.querySelector('.price-rows');
+  const initialRows = rows && rows.length ? rows : [{ label: '', value: '' }];
+  initialRows.forEach((r) => addPriceRow(rowsWrap, r.label, r.value));
+
+  section.querySelector('.add-row-btn').addEventListener('click', () => {
+    addPriceRow(rowsWrap, '', '');
+  });
+
+  section.querySelector('.section-remove-btn').addEventListener('click', () => {
+    section.remove();
+    if (!wrap.querySelector('.price-section')) {
+      addPriceSection('', [{ label: '', value: '' }]);
+    }
+  });
+
+  wrap.appendChild(section);
+}
+
+function buildDescriptionHtml(whatText, whyText) {
+  const parts = [];
+  if (whatText) parts.push('<p><b>Що це?</b> ' + escHtml(whatText) + '</p>');
+  if (whyText) parts.push('<p><b>Для чого потрібна ця послуга?</b> ' + escHtml(whyText) + '</p>');
+  return parts.join('');
+}
+
+function buildPriceHtml(sections) {
+  let html = '';
+  sections.forEach((section) => {
+    const subtitle = (section.subtitle || '').trim();
+    const cleanRows = (section.rows || []).filter(r => r.label || r.value);
+    if (!subtitle && !cleanRows.length) return;
+
+    if (subtitle) html += '<p class="price-subtitle">' + escHtml(subtitle) + '</p>';
+    if (cleanRows.length) {
+      html += '<table class="price-table">';
+      cleanRows.forEach((r) => {
+        const rowClass = subtitle ? 'price-subitem-row' : 'subtitle-like-row';
+        html += '<tr class="' + rowClass + '"><td>' + escHtml(r.label) + '</td><td>' + escHtml(r.value) + '</td></tr>';
+      });
+      html += '</table>';
+    }
+  });
+
+  return html;
+}
+
+function moveService(idx, dir) {
+  const services = servicesData.categories[activeCatIndex].services;
+  const newIdx = idx + dir;
+  if (newIdx < 0 || newIdx >= services.length) return;
+  [services[idx], services[newIdx]] = [services[newIdx], services[idx]];
+  markUnsaved();
+  renderServiceList();
+}
+
+// ═══════════════════════════════════════════════════════
+//  EDIT MODAL
+// ═══════════════════════════════════════════════════════
+function openEditModal(svcIndex) {
+  editingServiceIndex = svcIndex;
+  const modal = document.getElementById('edit-modal');
+  const titleEl = document.getElementById('modal-title');
+  const preview = document.getElementById('img-preview');
+
+  if (svcIndex === null) {
+    // New service
+    titleEl.textContent = 'Додати послугу';
+    document.getElementById('f-title').value = '';
+    populateCategorySelect(servicesData.categories[activeCatIndex]?.id || '');
+    document.getElementById('f-image').value = '';
+    document.getElementById('f-image-existing').value = '';
+    document.getElementById('f-upload-image').value = '';
+    document.getElementById('f-priceNote').value = '';
+    document.getElementById('f-desc-what').value = '';
+    document.getElementById('f-desc-why').value = '';
+    setPriceSections([{ subtitle: '', rows: [{ label: '', value: '' }] }]);
+    preview.style.display = 'none';
+  } else {
+    const svc = servicesData.categories[activeCatIndex].services[svcIndex];
+    const desc = parseDescriptionFields(svc.description || '');
+    const price = parsePriceFields(svc.priceHtml || '');
+    titleEl.textContent = 'Редагувати послугу';
+    document.getElementById('f-title').value = svc.title || '';
+    populateCategorySelect(servicesData.categories[activeCatIndex]?.id || '');
+    document.getElementById('f-image').value = svc.image || '';
+    document.getElementById('f-image-existing').value = svc.image || '';
+    document.getElementById('f-upload-image').value = '';
+    document.getElementById('f-priceNote').value = svc.priceNote || '';
+    document.getElementById('f-desc-what').value = desc.whatText || '';
+    document.getElementById('f-desc-why').value = desc.whyText || '';
+    setPriceSections(price.sections);
+    updateImgPreview(svc.image);
+  }
+
+  loadImageLibrary(false).then(() => {
+    populateImageOptions();
+  });
+
+  modal.classList.remove('hidden');
+  document.getElementById('f-title').focus();
+}
+
+function updateImgPreview(path) {
+  const preview = document.getElementById('img-preview');
+  if (path) {
+    preview.src = getRelativePath(path);
+    preview.style.display = 'block';
+    preview.onerror = () => { preview.style.display = 'none'; };
+  } else {
+    preview.style.display = 'none';
+  }
+}
+
+function populateCategorySelect(selectedId) {
+  const select = document.getElementById('f-category');
+  select.innerHTML = '';
+  servicesData.categories.forEach((cat) => {
+    const opt = document.createElement('option');
+    opt.value = cat.id;
+    opt.textContent = cat.title;
+    if (cat.id === selectedId) opt.selected = true;
+    select.appendChild(opt);
+  });
+}
+
+document.getElementById('f-image').addEventListener('input', e => {
+  updateImgPreview(e.target.value);
+  populateImageOptions();
+});
+
+document.getElementById('apply-existing-image-btn').addEventListener('click', () => {
+  const selected = document.getElementById('f-image-existing').value;
+  if (!selected) return;
+  document.getElementById('f-image').value = selected;
+  updateImgPreview(selected);
+});
+
+document.getElementById('f-image-existing').addEventListener('change', (e) => {
+  if (!e.target.value) return;
+  document.getElementById('f-image').value = e.target.value;
+  updateImgPreview(e.target.value);
+});
+
+document.getElementById('upload-image-btn').addEventListener('click', () => {
+  const fileInput = document.getElementById('f-upload-image');
+  const folder = document.getElementById('f-upload-folder').value;
+  const file = fileInput.files && fileInput.files[0];
+  if (!file) {
+    showToast('Оберіть файл для завантаження', 'error');
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append('image', file);
+  formData.append('folder', folder);
+
+  fetchJson(API_UPLOAD_IMAGE_URL, {
+    method: 'POST',
+    headers: { 'X-Admin-Password': ADMIN_PASSWORD },
+    body: formData
+  })
+  .then(data => {
+    if (!data || !data.ok || !data.path) {
+      throw new Error((data && data.error) || 'Не вдалося завантажити зображення');
+    }
+    document.getElementById('f-image').value = data.path;
+    document.getElementById('f-upload-image').value = '';
+    updateImgPreview(data.path);
+    return loadImageLibrary(true).then(() => {
+      document.getElementById('f-image-existing').value = data.path;
+      showToast('Зображення завантажено', 'success');
+    });
+  })
+  .catch(err => {
+    showToast('Не вдалося завантажити: ' + err.message, 'error');
+  });
+});
+
+document.getElementById('add-price-section-btn').addEventListener('click', () => {
+  addPriceSection('', [{ label: '', value: '' }]);
+});
+
+document.getElementById('add-base-price-row-btn').addEventListener('click', () => {
+  let baseSection = getBasePriceSection();
+  if (!baseSection) {
+    addPriceSection('', [{ label: '', value: '' }]);
+    baseSection = getBasePriceSection();
+  }
+  const rowsWrap = baseSection ? baseSection.querySelector('.price-rows') : null;
+  if (rowsWrap) addPriceRow(rowsWrap, '', '');
+});
+
+function closeEditModal() {
+  document.getElementById('edit-modal').classList.add('hidden');
+  editingServiceIndex = null;
+}
+
+document.getElementById('modal-close-btn').addEventListener('click', closeEditModal);
+document.getElementById('modal-cancel-btn').addEventListener('click', closeEditModal);
+
+document.getElementById('edit-modal').addEventListener('click', e => {
+  if (e.target === document.getElementById('edit-modal')) closeEditModal();
+});
+
+document.getElementById('modal-save-btn').addEventListener('click', saveService);
+
+function saveService() {
+  const title = document.getElementById('f-title').value.trim();
+  if (!title) {
+    showToast('Введіть назву послуги', 'error');
+    document.getElementById('f-title').focus();
+    return;
+  }
+
+  const descriptionWhat = document.getElementById('f-desc-what').value.trim();
+  const descriptionWhy = document.getElementById('f-desc-why').value.trim();
+  const targetCategoryId = document.getElementById('f-category').value;
+  const targetCategoryIndex = servicesData.categories.findIndex(c => c.id === targetCategoryId);
+  if (targetCategoryIndex < 0) {
+    showToast('Не знайдено цільову категорію', 'error');
+    return;
+  }
+
+  const priceSections = Array.from(document.querySelectorAll('#f-priceSections .price-section')).map((section) => ({
+    subtitle: (section.querySelector('.price-subtitle-input')?.value || '').trim(),
+    rows: Array.from(section.querySelectorAll('.price-row')).map((row) => ({
+      label: (row.querySelector('.price-label')?.value || '').trim(),
+      value: (row.querySelector('.price-value')?.value || '').trim(),
+    }))
+  }));
+
+  const builtDescriptionHtml = buildDescriptionHtml(descriptionWhat, descriptionWhy);
+  const builtPriceHtml = buildPriceHtml(priceSections);
+
+  const svcData = {
+    title,
+    image: document.getElementById('f-image').value.trim(),
+    priceNote: document.getElementById('f-priceNote').value.trim() || undefined,
+    description: builtDescriptionHtml,
+    priceHtml: builtPriceHtml,
+  };
+  // Remove undefined keys so JSON stays clean
+  if (!svcData.priceNote) delete svcData.priceNote;
+  if (!svcData.image) delete svcData.image;
+
+  const sourceCategory = servicesData.categories[activeCatIndex];
+  const targetCategory = servicesData.categories[targetCategoryIndex];
+  const sourceServices = sourceCategory.services;
+  const targetServices = targetCategory.services;
+
+  if (editingServiceIndex === null) {
+    const maxId = targetServices.reduce((m, s) => Math.max(m, s.id || 0), 0);
+    svcData.id = maxId + 1;
+    targetServices.push(svcData);
+    activeCatIndex = targetCategoryIndex;
+    showToast('Послугу додано', 'success');
+  } else {
+    if (targetCategoryIndex === activeCatIndex) {
+      svcData.id = sourceServices[editingServiceIndex].id;
+      sourceServices[editingServiceIndex] = svcData;
+    } else {
+      sourceServices.splice(editingServiceIndex, 1);
+      const targetMaxId = targetServices.reduce((m, s) => Math.max(m, s.id || 0), 0);
+      svcData.id = targetMaxId + 1;
+      targetServices.push(svcData);
+      activeCatIndex = targetCategoryIndex;
+    }
+    showToast('Зміни збережено локально', 'success');
+  }
+
+  markUnsaved();
+  closeEditModal();
+  renderServiceList();
+  renderCategoryList();
+}
+
+// ═══════════════════════════════════════════════════════
+//  DELETE
+// ═══════════════════════════════════════════════════════
+function openConfirmDelete(idx) {
+  pendingDeleteIndex = idx;
+  const svc = servicesData.categories[activeCatIndex].services[idx];
+  document.getElementById('confirm-del-name').textContent =
+    'Видалити "' + svc.title + '"?';
+  document.getElementById('confirm-del').classList.remove('hidden');
+}
+
+document.getElementById('del-cancel-btn').addEventListener('click', () => {
+  document.getElementById('confirm-del').classList.add('hidden');
+  pendingDeleteIndex = null;
+});
+
+document.getElementById('del-confirm-btn').addEventListener('click', () => {
+  if (pendingDeleteIndex === null) return;
+  servicesData.categories[activeCatIndex].services.splice(pendingDeleteIndex, 1);
+  pendingDeleteIndex = null;
+  document.getElementById('confirm-del').classList.add('hidden');
+  markUnsaved();
+  renderServiceList();
+  renderCategoryList();
+  showToast('Послугу видалено', 'success');
+});
+
+// ═══════════════════════════════════════════════════════
+//  SAVE / EXPORT / COPY JSON
+// ═══════════════════════════════════════════════════════
+function getJsonString() {
+  return JSON.stringify(servicesData, null, 2);
+}
+
+document.getElementById('download-btn').addEventListener('click', () => {
+  const json = getJsonString();
+  const blob = new Blob([json], { type: 'application/json' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href     = url;
+  a.download = 'services.json';
+  a.click();
+  URL.revokeObjectURL(url);
+  clearUnsaved();
+  showToast('services.json завантажено', 'success');
+});
+
+document.getElementById('copy-btn').addEventListener('click', () => {
+  navigator.clipboard.writeText(getJsonString())
+    .then(() => showToast('JSON скопійовано в буфер обміну', 'success'))
+    .catch(() => showToast('Не вдалося скопіювати', 'error'));
+});
+
+// ── Save via PHP API (optional, works only on PHP server) ──
+function saveViaApi() {
+  return fetch(API_SAVE_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Admin-Password': ADMIN_PASSWORD
+    },
+    body: getJsonString()
+  })
+  .then(r => r.json())
+  .then(data => {
+    if (data.ok) {
+      clearUnsaved();
+      showToast('✓ Збережено на сервері', 'success');
+    } else {
+      throw new Error(data.error || 'Помилка сервера');
+    }
+  });
+}
+
+document.getElementById('save-api-btn').addEventListener('click', () => {
+  saveViaApi().catch((err) => {
+    showToast('Не вдалося зберегти: ' + (err && err.message ? err.message : 'помилка'), 'error');
+  });
+});
+
+// Save via API on Ctrl+S
+document.addEventListener('keydown', e => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+    e.preventDefault();
+    if (!checkLogin()) return;
+    saveViaApi().catch((err) => {
+      showToast('Не вдалося зберегти: ' + (err && err.message ? err.message : 'помилка'), 'error');
+    });
+  }
+});
+
+// Warn before leaving with unsaved changes
+window.addEventListener('beforeunload', e => {
+  if (hasUnsavedChanges) {
+    e.preventDefault();
+    e.returnValue = '';
+  }
+});
+</script>
+</body>
+</html>

@@ -1085,11 +1085,21 @@
     #popup-detail .detail-price .price-table{width:100%;border-collapse:collapse}
     #popup-detail .detail-price .price-table tr{border-bottom:1px solid var(--border)}
     #popup-detail .detail-price .price-table tr:last-child{border-bottom:none}
+    #popup-detail .detail-price .price-subtitle{margin:16px 0 10px;font-size:15px;color:var(--text);font-weight:400}
     #popup-detail .detail-price .price-table td{padding:12px 15px;font-size:16px}
     #popup-detail .detail-price .price-table td:first-child{color:var(--text);font-weight:500}
     #popup-detail .detail-price .subtitle-like-row td:first-child{font-size:15px;font-weight:600;color:var(--text);text-align:left;padding-left:0}
+    #popup-detail .detail-price .price-subitem-row td:first-child{padding-left:18px;color:#394450}
     #popup-detail .detail-price td:last-child{color:var(--accent-text);font-weight:600}
     #popup-detail .detail-price a{color:var(--accent-text)}
+    .svc-price-block .price-subtitle{margin:16px 0 10px;font-size:15px;color:var(--text);font-weight:400}
+    .svc-price-block .price-table{width:100%;border-collapse:collapse}
+    .svc-price-block .price-table tr{border-bottom:1px solid var(--border)}
+    .svc-price-block .price-table tr:last-child{border-bottom:none}
+    .svc-price-block .price-table td{padding:10px 12px;font-size:15px}
+    .svc-price-block .subtitle-like-row td:first-child{font-size:15px;font-weight:600;padding-left:0}
+    .svc-price-block .price-subitem-row td:first-child{padding-left:16px;color:#394450}
+    .svc-price-block .price-table td:last-child{text-align:right;color:var(--accent-text);font-weight:600}
 
     @keyframes popupSlideIn{
       from{
@@ -1774,9 +1784,9 @@
 <div class="floating-actions" id="floatingActions">
   <button id="backToTop" class="float-btn" title="Вгору" style="display:none"><span class="back-to-top-arrow">↑</span></button>
     <div style="display:flex;flex-direction:column;gap:8px;align-items:center;margin-top:6px;">
-    <button id="callBtn" class="float-btn secondary" title="Телефон"><img src="./image/phone.png" alt="Телефон"/></button>
-    <button id="viberBtn" class="float-btn secondary" title="Viber"><img src="./image/viber.png" alt="Viber"/></button>
-    <button id="waBtn" class="float-btn secondary" title="WhatsApp"><img src="./image/whatsapp.png" alt="WhatsApp"/></button>
+    <button id="callBtn" class="float-btn secondary" title="Телефон"><img src="./image/Іконки/phone.png" alt="Телефон"/></button>
+    <button id="viberBtn" class="float-btn secondary" title="Viber"><img src="./image/Іконки/viber.png" alt="Viber"/></button>
+    <button id="waBtn" class="float-btn secondary" title="WhatsApp"><img src="./image/Іконки/whatsapp.png" alt="WhatsApp"/></button>
   </div>
 </div>
 
@@ -1823,7 +1833,7 @@
       <p id="choiceText" style="margin:0 0 25px;font-size:15px;color:var(--muted);">Виберіть зручний для вас спосіб зв'язку</p>
       <div style="display:flex;flex-direction:column;gap:20px;">
         <button onclick="callPhone()" style="padding:15px;background:#4CAF50;color:white;border:none;border-radius:8px;cursor:pointer;font-weight:600;font-size:16px;">☎️ Зателефонувати</button>
-        <button onclick="openContactForm()" style="padding:15px;background:var(--accent);color:white;border:none;border-radius:8px;cursor:pointer;font-weight:600;font-size:16px;display:flex;align-items:center;justify-content:center;gap:8px;"><img src="./image/whatsapp.png" alt="" style="width:20px;height:20px;filter:brightness(0) invert(1);"/> Написати в месенджер</button>
+        <button onclick="openContactForm()" style="padding:15px;background:var(--accent);color:white;border:none;border-radius:8px;cursor:pointer;font-weight:600;font-size:16px;display:flex;align-items:center;justify-content:center;gap:8px;"><img src="./image/Іконки/whatsapp.png" alt="" style="width:20px;height:20px;filter:brightness(0) invert(1);"/> Написати в месенджер</button>
       </div>
     </div>
   </div>
@@ -1845,13 +1855,14 @@
       </p>
       
       <div style="display:flex;gap:10px;margin-top:12px;">
-        <button onclick="sendViaMessenger('viber')" style="flex:1;padding:12px;background:#665cce;color:white;border:none;border-radius:6px;cursor:pointer;font-weight:600;font-size:14px;display:flex;align-items:center;justify-content:center;gap:6px;"><img src="./image/viber.png" alt="Viber" style="width:20px;height:20px;"/> Viber</button>
-        <button onclick="sendViaMessenger('whatsapp')" style="flex:1;padding:12px;background:#25d366;color:white;border:none;border-radius:6px;cursor:pointer;font-weight:600;font-size:14px;display:flex;align-items:center;justify-content:center;gap:6px;"><img src="./image/whatsapp.png" alt="WhatsApp" style="width:20px;height:20px;"/> WhatsApp</button>
+        <button onclick="sendViaMessenger('viber')" style="flex:1;padding:12px;background:#665cce;color:white;border:none;border-radius:6px;cursor:pointer;font-weight:600;font-size:14px;display:flex;align-items:center;justify-content:center;gap:6px;"><img src="./image/Іконки/viber.png" alt="Viber" style="width:20px;height:20px;"/> Viber</button>
+        <button onclick="sendViaMessenger('whatsapp')" style="flex:1;padding:12px;background:#25d366;color:white;border:none;border-radius:6px;cursor:pointer;font-weight:600;font-size:14px;display:flex;align-items:center;justify-content:center;gap:6px;"><img src="./image/Іконки/whatsapp.png" alt="WhatsApp" style="width:20px;height:20px;"/> WhatsApp</button>
       </div>
     </div>
   </div>
 </div>
 
+<script src="js/services.js"></script>
 <script>
   // Бургер-меню
   const burgerMenu = document.getElementById('burgerMenu');
@@ -1875,129 +1886,6 @@
         mobileNavBackdrop.classList.remove('active');
       }
     });
-  }
-
-  // Карта відповідностей між назвами послуг у mkp.html та назвами категорій у prices.html
-  const SERVICE_NAME_TO_PRICE_CATEGORY = {
-    // ПРОЄКТНІ РОБОТИ
-    'Проектна пропозиція': '1. Проєктна пропозиція (на все інше, крім ТС)',
-    'Містобудівний розрахунок': '2. Містобудівний розрахунок',
-    'Ескіз намірів забудови земельної ділянки': '3. Ескіз намірів забудови земельної ділянки',
-    'Робочий проект': '4. Робочий проект',
-    'Проект індивідуального благоустрою': '5. Проєкт індивідуального благоустрою',
-    'Проект розподілу території': '6. Проєкт комплексного благоустрою території',
-    'Обґрунтування визначення меж і площі земельної ділянки': '7. Обґрунтування визначення меж і площі земельної ділянки',
-    'Паспорт опорядження фасаду': '8. Паспорт опорядження фасадів',
-    'Розрахунок ідеальної земельної частки': '9. Розрахунок ідеальної земельної частки',
-    // ЗЕМЛЕВПОРЯДНІ РОБОТИ
-    '📍 Встановлення меж земельної ділянки в натурі на місцевості': '1. Встановлення меж земельної ділянки в натурі на місцевості',
-    '📐 Кадастровий план земельної ділянки': '2. Кадастровий план земельної ділянки',
-    '🔸 Проєкт землеустрою щодо відведення земельної ділянки': '3. Проєкт землеустрою щодо відведення земельної ділянки',
-    '🔸 Проєкт землеустрою щодо зміни цільового призначення земельної ділянки': '4. Проєкт землеустрою щодо зміни цільового призначення земельної ділянки',
-    '🔸 Технічна документація із землеустрою щодо встановлення меж земельної ділянки в натурі (сервітутне користування)': '5. Технічна документація із землеустрою щодо встановлення меж земельної ділянки в натурі (сервітутне користування)',
-    '🔸 Технічна документація із землеустрою щодо поділу та об\'єднання земельної ділянки': '6. Технічна документація із землеустрою щодо поділу та об\'єднання земельної ділянки',
-    '🔸 Технічна документація із землеустрою щодо інвентаризації земельної ділянки': '7. Технічна документація із землеустрою щодо інвентаризації земельної ділянки',
-    '🔸 Формування обмінного файлу': '8. Формування обмінного файлу',
-    '🔸 Внесення змін до плану зонування міста': '9. Внесення змін до плану зонування міста',
-    '🔸 Виготовлення дублікату чи копії на землевпорядну документацію': '10. Виготовлення дублікату або копії на землевпорядну документацію',
-    '🔸 Коригування землевпорядної документації': '11. Коригування землевпорядної документації',
-    '🔸 Комплексний план просторового розвитку території територіальної громади': '12. Комплексний план просторового розвитку території територіальної громади',
-    '🔸 Розроблення бази геоданних містобудівної документації': '13. Розроблення бази геоданних містобудівної документації',
-    '🔸 Комплексний містобудівний аналіз': '14. Комплексний містобудівний аналіз',
-    '🔸 Проєкт землеустрою щодо зміни цільового призначення земельної ділянки (нова процедура)': '15. Проєкт землеустрою щодо зміни цільового призначення земельної ділянки (нова процедура)',
-  };
-
-  // Функція вставляє знайдені ціни з parsed prices.html у detail-price
-  function insertPricesFromDoc(doc, title, detailBody){
-    if(!doc || !detailBody) return;
-    
-    // Знайти detail-price контейнер
-    let priceContainer = detailBody.querySelector('.detail-price');
-    if(!priceContainer) {
-      priceContainer = document.createElement('div');
-      priceContainer.className = 'detail-price';
-      detailBody.appendChild(priceContainer);
-    }
-    
-    // Нормалізація: видалити emoji, lowercase, видалення зайвих пробілів
-    const norm = (s) => (s||'')
-      .replace(/[\p{Emoji}]/gu, '')
-      .toLowerCase()
-      .replace(/\s+/g, ' ')
-      .replace(/['`']/g, "'")
-      .replace(/^\d+\.\s*/, '')  // Видалити номер в inicio (1., 2., і т.д.)
-      .trim();
-    
-    const normTitle = norm(title);
-    
-    // Функція обчислення подібності між двома строками
-    const similarity = (str1, str2) => {
-      const words1 = normTitle.split(/\s+/);
-      const words2 = str2.split(/\s+/);
-      
-      // Точний збіг - максимум
-      if(str1 === str2) return 1000;
-      
-      // Один містить другий - дуже високо
-      if(str1.includes(str2) || str2.includes(str1)) return 800;
-      
-      // Збіг по усім словам з str1 (але не обов'язково в тому ж порядку)
-      let allWordsMatch = true;
-      let matchedWords = 0;
-      for(let w of words1){
-        if(w.length > 2){  // Ігнорувати маленькі слова тип "в", "на", "та"
-          if(str2.includes(w)){
-            matchedWords++;
-          } else {
-            allWordsMatch = false;
-          }
-        }
-      }
-      
-      if(allWordsMatch && matchedWords === words1.filter(w => w.length > 2).length){
-        return 600;
-      }
-      
-      // Частковий збіг за довгими словами (>4 символи)
-      let score = 0;
-      let longWords = 0;
-      for(let w of words1){
-        if(w.length > 4){
-          longWords++;
-          if(str2.includes(w)){
-            score += 100;
-          }
-        }
-      }
-      
-      return score > 0 ? score : 0;
-    };
-    
-    // Пошук у prices.html
-    const blocks = Array.from(doc.querySelectorAll('.price-category'));
-    let bestMatch = null;
-    let bestScore = 0;
-    
-    for(let b of blocks){
-      const h3 = b.querySelector('h3');
-      if(!h3) continue;
-      
-      const normH3 = norm(h3.textContent);
-      const score = similarity(normTitle, normH3);
-      
-      if(score > bestScore){
-        bestScore = score;
-        bestMatch = b;
-      }
-    }
-    
-    if(bestMatch && bestScore >= 100){
-      // Видалити h3 (назва послуги - дублюється в заголовку)
-      const priceHTML = bestMatch.innerHTML.replace(/<h3[^>]*>.*?<\/h3>/g, '');
-      priceContainer.innerHTML = priceHTML;
-    } else {
-      priceContainer.innerHTML = '<p style="margin:0; font-size:14px; color:var(--accent-text); font-weight:600;">Вартість: Індивідуальний розрахунок</p>';
-    }
   }
 
   // Прокручування до секцій
@@ -2363,49 +2251,47 @@
   // Карта послуг на зображення
   const SERVICE_IMAGE_MAP = {
     // Проектні роботи
-    'Обґрунтування визначення меж і площі земельної ділянки': './image/КартинкиПВ/Обгрунтування.jpg',
-    'Ескіз намірів забудови земельної ділянки': './image/КартинкиПВ/Ескіз.jpg',
-    'Проектна пропозиція': './image/КартинкиПВ/Проектна пропозиція.jpg',
-    'Робочий проект': './image/КартинкиПВ/Робочий проект.jpg',
-    'Проект індивідуального благоустрою': './image/КартинкиПВ/Проект благоустрою.jpg',
-    'Містобудівний розрахунок': './image/КартинкиПВ/Містобудівний розрахунок.jpg',
-    'Проект розподілу території': './image/КартинкиПВ/Проект розподілу.jpg',
-    'Комплексна схема розміщення вивісок на фасадах будівлі': './image/КартинкиПВ/Компл. схема розміщ. вивісок.jpg',
-    'Ескіз рекламної конструкції': './image/КартинкиПВ/Ескіз рекламної конструкції.jpg',
+    'Обґрунтування визначення меж і площі земельної ділянки': './image/Проектні картинки/Обгрунтування.jpg',
+    'Ескіз намірів забудови земельної ділянки': './image/Проектні картинки/Ескіз.jpg',
+    'Проектна пропозиція': './image/Проектні картинки/Проектна пропозиція.jpg',
+    'Робочий проект': './image/Проектні картинки/Робочий проект.jpg',
+    'Проект індивідуального благоустрою': './image/Проектні картинки/Проект благоустрою.jpg',
+    'Містобудівний розрахунок': './image/Проектні картинки/Містобудівний розрахунок.jpg',
+    'Проект розподілу території': './image/Проектні картинки/Проект розподілу.jpg',
+    'Комплексна схема розміщення вивісок на фасадах будівлі': './image/Проектні картинки/Компл. схема розміщ. вивісок.jpg',
+    'Ескіз рекламної конструкції': './image/Проектні картинки/Ескіз рекламної конструкції.jpg',
     // Геодезичні послуги
-    '📋 Викопіювання з чергового плану міста 1:2000': './image/КартинкиЗВВ/Викопіювання.jpg',
-    '🗺️ Виготовлення топографо-геодезичних планів масштабів 1:500, 1:1000': './image/КартинкиЗВВ/Топоплан.jpg',
-    '📍 Винесення меж земельної ділянки в натуру на місцевість': './image/КартинкиЗВВ/Винесення меж.jpg',
-    '✅ Виготовлення виконавчого (контрольного) топографо-геодезичного плану': './image/КартинкиЗВВ/Виконавчий план.jpg',
-    '📐 Кадастрова зйомка та виготовлення кадастрового плану': './image/КартинкиЗВВ/Кадастровий план.jpg',
+    '📋 Викопіювання з чергового плану міста 1:2000': './image/Геодезичні картинки/Виконання робіт-викопіювань із чергового плану міста в М12000.jpg',
+    '🗺️ Виготовлення топографо-геодезичних планів масштабів 1:500, 1:1000': './image/Геодезичні картинки/Топографо-геодезичний план в М1500.jpg',
+    '📍 Винесення меж земельної ділянки в натуру на місцевість': './image/Геодезичні картинки/Винесення меж земельної ділянки в натурі.jpg',
+    '✅ Виготовлення виконавчого (контрольного) топографо-геодезичного плану': './image/Геодезичні картинки/Виконавчий топографо-геодезичний план в М1500.jpg',
+    '📐 Кадастрова зйомка та виготовлення кадастрового плану': './image/Геодезичні картинки/кадастровий план земельної ділянки.jpg',
     // Землевпорядні послуги - нові 15 послуг
-    '📍 Встановлення меж земельної ділянки в натурі на місцевості': './image/КартинкиЗВВ/7_Встановлення_Відновлення.jpg',
-    '📐 Кадастровий план земельної ділянки': './image/КартинкиЗВВ/2_Генеральний_план.jpg',
-    '🔸 Проєкт землеустрою щодо відведення земельної ділянки': './image/КартинкиЗВВ/5_Проект_землеустрою_приватизація.jpg',
-    '🔸 Проєкт землеустрою щодо зміни цільового призначення земельної ділянки': './image/КартинкиЗВВ/6_РП_зняття_родючого_шару.jpg',
-    '🔸 Технічна документація із землеустрою щодо встановлення меж земельної ділянки в натурі (сервітутне користування)': './image/КартинкиЗВВ/8_Сервітут.jpg',
-    '🔸 Технічна документація із землеустрою щодо поділу та об\'єднання земельної ділянки': './image/КартинкиЗВВ/9_Поділ.jpg',
-    '🔸 Технічна документація із землеустрою щодо інвентаризації земельної ділянки': './image/КартинкиЗВВ/10_Інвентаризація.jpg',
-    '🔸 Формування обмінного файлу': './image/КартинкиЗВВ/Обмінний_файл.jpg',
-    '🔸 Внесення змін до плану зонування міста': './image/КартинкиЗВВ/13_Межа громади.jpg',
-    '🔸 Виготовлення дублікату чи копії на землевпорядну документацію': './image/КартинкиЗВВ/11_Межа_НП.jpg',
-    '🔸 Коригування землевпорядної документації': './image/КартинкиЗВВ/2_Генеральний_план.jpg',
-    '🔸 Комплексний план просторового розвитку території територіальної громади': './image/КартинкиЗВВ/1_Комплексний_план.jpg',
-    '🔸 Розроблення бази геоданних містобудівної документації': './image/КартинкиЗВВ/12_Межі_ІОАП.jpg',
-    '🔸 Комплексний містобудівний аналіз': './image/КартинкиЗВВ/4_комплексний_містобудівний_аналіз.jpg',
-    '🔸 Проєкт землеустрою щодо зміни цільового призначення земельної ділянки (нова процедура)': './image/КартинкиЗВВ/3_Детальний_план_території.jpg'
+    '📍 Встановлення меж земельної ділянки в натурі на місцевості': './image/Землевпорядні картинки/7_Встановлення_Відновлення.jpg',
+    '📐 Кадастровий план земельної ділянки': './image/Землевпорядні картинки/2_Генеральний_план.jpg',
+    '🔸 Проєкт землеустрою щодо відведення земельної ділянки': './image/Землевпорядні картинки/5_Проект_землеустрою_приватизація.jpg',
+    '🔸 Проєкт землеустрою щодо зміни цільового призначення земельної ділянки': './image/Землевпорядні картинки/6_РП_зняття_родючого_шару.jpg',
+    '🔸 Технічна документація із землеустрою щодо встановлення меж земельної ділянки в натурі (сервітутне користування)': './image/Землевпорядні картинки/8_Сервітут.jpg',
+    '🔸 Технічна документація із землеустрою щодо поділу та об\'єднання земельної ділянки': './image/Землевпорядні картинки/9_Поділ.jpg',
+    '🔸 Технічна документація із землеустрою щодо інвентаризації земельної ділянки': './image/Землевпорядні картинки/10_Інвентаризація.jpg',
+    '🔸 Формування обмінного файлу': './image/Землевпорядні картинки/Обмінний_файл.jpg',
+    '🔸 Внесення змін до плану зонування міста': './image/Землевпорядні картинки/13_Межа_громади.jpg',
+    '🔸 Виготовлення дублікату чи копії на землевпорядну документацію': './image/Землевпорядні картинки/11_Межа_НП.jpg',
+    '🔸 Коригування землевпорядної документації': './image/Землевпорядні картинки/2_Генеральний_план.jpg',
+    '🔸 Комплексний план просторового розвитку території територіальної громади': './image/Землевпорядні картинки/1_Комплексний_план.jpg',
+    '🔸 Розроблення бази геоданних містобудівної документації': './image/Землевпорядні картинки/12_Межі_ІОАП.jpg',
+    '🔸 Комплексний містобудівний аналіз': './image/Землевпорядні картинки/4_комплексний_містобудівний_аналіз.jpg',
+    '🔸 Проєкт землеустрою щодо зміни цільового призначення земельної ділянки (нова процедура)': './image/Землевпорядні картинки/3_Детальний_план_території.jpg'
   };
 
   function openDetailFromElement(el, category){
     const titleEl = el.querySelector('h4') || el.querySelector('h3') || el.querySelector('h5');
     const title = titleEl ? titleEl.textContent.trim() : (el.textContent||'Послуга').trim().slice(0,80);
-    // зібрати параграфи після заголовка всередині блоку
+    // зібрати тільки опис (без прайсу/підзаголовків цін)
     let descr = '';
-    const ps = el.querySelectorAll('p');
+    const ps = el.querySelectorAll('.description p');
     if(ps.length>0){
       ps.forEach(p => {
-        const text = (p.textContent || '').trim();
-        if(text === 'Тимчасові споруди' || text === 'На все інше, крім ТС') return;
         descr += `<p>${p.innerHTML}</p>`;
       });
     }
@@ -2445,19 +2331,7 @@
     
     // Вставляємо ціни з prices.html
     try{
-      if(window._pricesDoc){
-        insertPricesFromDoc(window._pricesDoc, title, detailBody);
-      } else {
-        // Якщо дані ще не завантажені, чекаємо як завантажаться
-        const checkPrices = setInterval(() => {
-          if(window._pricesDoc){
-            clearInterval(checkPrices);
-            insertPricesFromDoc(window._pricesDoc, title, detailBody);
-          }
-        }, 100);
-        // Максимум чекаємо 2 секунди
-        setTimeout(() => clearInterval(checkPrices), 2000);
-      }
+      window.ServicesModule.insertPricesFromJSON(title, detailBody);
     }catch(e){console.log('Помилка при вставці цін:', e)}
     
     // Мережна змінна з назвою послуги
@@ -2607,221 +2481,25 @@
     }, 1500);
   }
 
-  // Маппінг категорій на розділи в prices.html
-  const CATEGORY_TO_SECTION = {
-    'geodetic': 'ГЕОДЕЗИЧНІ ПОСЛУГИ',
-    'land': 'ЗЕМЛЕВПОРЯДНІ ПОСЛУГИ',
-    'urban': 'МІСТОБУДІВНІ ПОСЛУГИ',
-    'arch': 'АРХІТЕКТУРНЕ ПРОЄКТУВАННЯ',
-    'facade': 'ФАСАДИ ТА ЗОВНІШНІЙ ВИГЛЯД'
-  };
-
-  // Завантажити описи послуг з services-descriptions.html
-  let SERVICE_DESCRIPTIONS = {};
+  // Дані послуг завантажуються з services.json через js/services.js
+  // window.SERVICES_DATA та window.SERVICE_DESCRIPTIONS заповнюються автоматично
   
-  fetch('./services-descriptions.html')
-    .then(r => r.text())
-    .then(html => {
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(html, 'text/html');
-      
-      // Для кожної категорії збирати описи
-      doc.querySelectorAll('section').forEach(section => {
-        const category = section.getAttribute('data-category');
-        if(!category) return;
-        
-        SERVICE_DESCRIPTIONS[category] = {};
-        section.querySelectorAll('article').forEach(article => {
-          const serviceName = article.getAttribute('data-service') || article.querySelector('h3')?.textContent || '';
-          
-          // Витягуємо img (якщо є) та description разом
-          let imageHtml = '';
-          const imgTag = article.querySelector('img');
-          const rawImgSrc = imgTag?.getAttribute('src');
-          if(imgTag && rawImgSrc){
-            // Беремо оригінальний src з HTML, щоб уникнути перетворення у file:/// або абсолютний URL
-            let imgSrc = rawImgSrc.trim();
-            if(
-              !imgSrc.startsWith('./') &&
-              !imgSrc.startsWith('/') &&
-              !imgSrc.startsWith('http://') &&
-              !imgSrc.startsWith('https://') &&
-              !imgSrc.startsWith('data:')
-            ){
-              imgSrc = './' + imgSrc;
-            }
-            imageHtml = `<img src="${imgSrc}" alt="${imgTag.alt || ''}" style="${imgTag.getAttribute('style') || ''}">`;
-          }
-          
-          const descriptionHtml = article.querySelector('.description')?.innerHTML || '';
-          
-          if(serviceName && (imageHtml || descriptionHtml)){
-            // Поєднуємо image і description
-            const fullDescription = imageHtml + descriptionHtml;
-            SERVICE_DESCRIPTIONS[category][serviceName] = fullDescription;
-          }
-        });
-      });
-    })
-    .catch(err => console.error('Помилка завантаження послуг:', err));
+  // (Описи послуг завантажуються через services.js з services.json)
 
-  // Генерувати послуги з prices.html для категорії
-  function generateServicesFromPrices(category, sectionTitle){
-    const popup = document.getElementById('popup-' + category);
-    if(!popup) return;
-    
-    const body = popup.querySelector('.popup-body');
-    if(!body) return;
-    
-    body.innerHTML = '<p style="padding:20px; text-align:center;">Завантажуємо послуги...</p>';
-    
-    // Функція для обробки документа (переиспользуется як для fetch, так і для window._pricesDoc)
-    const processDoc = function(doc) {
-        if(!doc) return;
-        
-        // Знайти розділ з sectionTitle
-        let targetSection = null;
-        const sections = doc.querySelectorAll('h2');
-        for(let h2 of sections){
-          if(h2.textContent.trim().includes(sectionTitle)){
-            targetSection = h2;
-            break;
-          }
-        }
-        
-        if(!targetSection){
-          body.innerHTML = `<p style="padding:20px; text-align:center; color:red;">Розділ не знайдено: ${sectionTitle}</p>`;
-          return;
-        }
-        
-        // Витягти послуги з цього розділу
-        let current = targetSection.nextElementSibling;
-        const services = [];
-        
-        while(current && current.tagName !== 'H2'){
-          if(current.classList && current.classList.contains('price-category')){
-            const h3 = current.querySelector('h3');
-            const table = current.querySelector('table');
-            if(h3){
-              const serviceTitle = h3.textContent.trim();
-              services.push({
-                title: serviceTitle,
-                html: current.innerHTML
-              });
-            }
-          }
-          current = current.nextElementSibling;
-        }
-        
-        if(services.length === 0){
-          body.innerHTML = '<p style="padding:20px; text-align:center; color:red;">Послуги не знайдені</p>';
-          return;
-        }
-        
-        // Генерувати HTML для popup-body
-        let servicesHTML = '';
-        const categoryDescriptions = SERVICE_DESCRIPTIONS[category] || {};
-        
-        const normalizeServiceTitle = (text) => {
-          return (text || '')
-            .replace(/^[\d\.\s]+/g, '')
-            .replace(/[\u2019']/g, "'")
-            .replace(/\s+/g, ' ')
-            .trim()
-            .toLowerCase();
-        };
-
-        services.forEach((svc, idx) => {
-          const title = svc.title;
-          let description = '';
-          
-          // Спробуємо точний матч спершу
-          if(categoryDescriptions[title]){
-            description = categoryDescriptions[title];
-          } else {
-            // Якщо точного матчу немає - пробуємо нормалізовані версії
-            const titleNorm = normalizeServiceTitle(title);
-            
-            for(let key in categoryDescriptions){
-              const keyNorm = normalizeServiceTitle(key);
-              
-              if(
-                keyNorm === titleNorm ||
-                keyNorm.includes(titleNorm) ||
-                titleNorm.includes(keyNorm)
-              ){
-                description = categoryDescriptions[key];
-                break;
-              }
-            }
-          }
-          
-          servicesHTML += `
-            <div style="margin-bottom:30px; padding:20px; background:#e3f2fd; border-radius:10px; border-left:4px solid #2196f3;">
-              <h4 style="margin:0 0 10px; font-size:18px; color:#1565c0; cursor:pointer;">${title}</h4>
-              ${description}
-              <div style="overflow-x: auto; margin-top: 15px;">
-                ${svc.html
-                  .replace(/<h3[^>]*>.*?<\/h3>/g, '')
-                  .replace(/<p[^>]*class="hero-text"[^>]*>.*?<\/p>/g, '')
-                  .replace(/<table[^>]*class="price-table"[^>]*>/g, '<table style="width:100%; border-collapse: collapse; margin-top: 10px; font-size: 14px;">')
-                  .replace(/<h4[^>]*>/g, '<h4 style="margin-top: 15px; margin-bottom: 8px; font-size: 14px; color: #5b6776; font-weight: 600;">')
-                  .replace(/<td>/g, '<td style="padding: 8px 10px; border-bottom: 1px solid #e5e9f1;">')
-                }
-              </div>
-            </div>
-          `;
-        });
-        
-        if(servicesHTML.length === 0){
-          body.innerHTML = '<p style="padding:20px; text-align:center; color:red;">Не вдалось згенерувати HTML послуг</p>';
-          return;
-        }
-        
-        body.innerHTML = servicesHTML;
-    };
-    
-    // Спочатку спробуємо використати вже завантажену версію
-    if(window._pricesDoc){
-      processDoc(window._pricesDoc);
-    } else {
-      // Інакше завантажимо prices.html
-      fetch('./prices.html')
-        .then(r => r.text())
-        .then(html => {
-          // Парсити HTML
-          const parser = new DOMParser();
-          const doc = parser.parseFromString(html, 'text/html');
-          // Зберегти для подальшого використання
-          window._pricesDoc = doc;
-          processDoc(doc);
-        })
-        .catch(err => {
-          body.innerHTML = '<p style="padding:20px; text-align:center; color:red;">Помилка завантаження: ' + err.message + '</p>';
-        });
-    }
-  }
-
-  // Ініціалізувати всі категорії при завантаженні сторінки
+  // Ініціалізувати всі категорії з services.json
   function initializeAllCategories(){
-    if(!window._pricesDoc || !SERVICE_DESCRIPTIONS){
-      // Якщо дані ще не готові, спробуємо ще раз через 100мс
+    if(!window.SERVICES_DATA){
       setTimeout(initializeAllCategories, 100);
       return;
     }
-    
-    // Ініціалізуємо кожну категорію
-    const categories = ['geodetic', 'land', 'urban', 'arch', 'facade'];
-    categories.forEach(category => {
-      const sectionTitle = CATEGORY_TO_SECTION[category];
-      if(sectionTitle){
-        generateServicesFromPrices(category, sectionTitle);
-      }
+    ['geodetic','land','urban','arch'].forEach(catId => {
+      const popup = document.getElementById('popup-' + catId);
+      if(!popup) return;
+      const body = popup.querySelector('.popup-body');
+      if(body) window.ServicesModule.renderServicesIntoBody(catId, body);
     });
   }
-  
-  // Запустити ініціалізацію після 500мс (щоб дізнатися, чи завантажені дані)
-  setTimeout(initializeAllCategories, 500);
+  setTimeout(initializeAllCategories, 300);
   function openCompactList(category){
     const popup = document.getElementById('popup-' + category);
     const compact = document.getElementById('popup-compact');
@@ -2889,23 +2567,24 @@
   document.querySelectorAll('.service-card').forEach(card => {
     const popupId = card.getAttribute('data-popup');
     if (popupId) {
-      // Клік на всю карточку відкриває компактний список послуг для категорії
+      const openCategory = () => {
+        const popup = document.getElementById('popup-' + popupId);
+        const body = popup && popup.querySelector('.popup-body');
+        // Якщо вже проренедровано — одразу відкриваємо
+        if(body && body.querySelector('h4')){
+          openCompactList(popupId);
+        } else {
+          if(body) window.ServicesModule.renderServicesIntoBody(popupId, body);
+          setTimeout(() => openCompactList(popupId), 150);
+        }
+      };
       card.addEventListener('click', (e) => {
-        if (e.target.classList.contains('service-btn')) return; // кнопка обробляється окремо
-        const sectionTitle = CATEGORY_TO_SECTION[popupId];
-        if(sectionTitle) generateServicesFromPrices(popupId, sectionTitle);
-        setTimeout(() => openCompactList(popupId), 150);
+        if (e.target.classList.contains('service-btn')) return;
+        openCategory();
       });
-
-      // Клік на кнопку «Переглянути всі послуги» відкриває компактний список послуг
       const button = card.querySelector('.service-btn');
       if (button) {
-        button.addEventListener('click', (e) => {
-          e.stopPropagation();
-          const sectionTitle = CATEGORY_TO_SECTION[popupId];
-          if(sectionTitle) generateServicesFromPrices(popupId, sectionTitle);
-          setTimeout(() => openCompactList(popupId), 150);
-        });
+        button.addEventListener('click', (e) => { e.stopPropagation(); openCategory(); });
       }
     }
   });
