@@ -168,13 +168,30 @@
       top:70px;
       left:0;
       right:0;
-      background:var(--card);
+      background:#fff;
       border-bottom:1px solid var(--border);
       box-shadow:0 4px 20px rgba(0,0,0,.1);
       z-index:99;
       opacity:0;
       transform:translateY(-100%);
       transition:opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    .mobile-nav-backdrop{
+      display:none;
+      position:fixed;
+      top:0;
+      left:0;
+      width:100%;
+      height:100%;
+      background:rgba(0,0,0,0.7);
+      backdrop-filter:blur(6px);
+      -webkit-backdrop-filter:blur(6px);
+      z-index:98;
+    }
+
+    .mobile-nav-backdrop.active{
+      display:block;
     }
 
     .mobile-nav.active{
@@ -1320,6 +1337,7 @@
       <button class="btn" data-section="contacts">Контакти</button>
     </nav>
   </div>
+  <div class="mobile-nav-backdrop" id="mobileNavBackdrop"></div>
 </header>
 
 <!-- Головний екран -->
@@ -1822,6 +1840,9 @@
       <input type="text" id="contactName" placeholder="Ім'я" style="padding:12px;border:1px solid var(--border);border-radius:6px;font-size:14px;margin-bottom:4px;"/>
       <input type="text" id="contactSurname" placeholder="Прізвище" style="padding:12px;border:1px solid var(--border);border-radius:6px;font-size:14px;margin-bottom:4px;"/>
       <textarea id="contactQuestion" placeholder="Текст запитання" style="padding:12px;border:1px solid var(--border);border-radius:6px;font-size:14px;resize:vertical;min-height:100px;margin-bottom:8px;"></textarea>
+      <p style="margin:0;font-size:13px;color:#5f6f80;line-height:1.4;">
+        Примітка: для Viber готове повідомлення автоматично копіюється в буфер обміну.
+      </p>
       
       <div style="display:flex;gap:10px;margin-top:12px;">
         <button onclick="sendViaMessenger('viber')" style="flex:1;padding:12px;background:#665cce;color:white;border:none;border-radius:6px;cursor:pointer;font-weight:600;font-size:14px;display:flex;align-items:center;justify-content:center;gap:6px;"><img src="./image/viber.png" alt="Viber" style="width:20px;height:20px;"/> Viber</button>
@@ -1835,13 +1856,15 @@
   // Бургер-меню
   const burgerMenu = document.getElementById('burgerMenu');
   const mobileNav = document.getElementById('mobileNav');
+  const mobileNavBackdrop = document.getElementById('mobileNavBackdrop');
   
-  if (burgerMenu && mobileNav) {
+  if (burgerMenu && mobileNav && mobileNavBackdrop) {
     burgerMenu.addEventListener('click', (e) => {
       e.preventDefault();
       e.stopPropagation();
       burgerMenu.classList.toggle('active');
       mobileNav.classList.toggle('active');
+      mobileNavBackdrop.classList.toggle('active');
     });
     
     // Закриття меню при кліку поза ним
@@ -1849,6 +1872,7 @@
       if (!burgerMenu.contains(e.target) && !mobileNav.contains(e.target)) {
         burgerMenu.classList.remove('active');
         mobileNav.classList.remove('active');
+        mobileNavBackdrop.classList.remove('active');
       }
     });
   }
@@ -1997,6 +2021,7 @@
       if (burgerMenu && mobileNav && mobileNav.classList.contains('active')) {
         burgerMenu.classList.remove('active');
         mobileNav.classList.remove('active');
+        mobileNavBackdrop?.classList.remove('active');
       }
     });
   });
@@ -2573,7 +2598,7 @@
       box-shadow: 0 8px 24px rgba(0,0,0,0.15);
       animation: fadeInOut 2s ease-in-out;
     `;
-    notification.textContent = '✓ Текст скопійований! Вставте його в Viber';
+    notification.textContent = '✓ Готове повідомлення скопійоване в буфер обміну';
     document.body.appendChild(notification);
     
     setTimeout(() => {
