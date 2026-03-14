@@ -10,11 +10,12 @@
   <style>
     :root{
       --bg:#ffffff;
-      --card:#ffffff;
+      --card:rgba(255,255,255,0.7);
       --text:#000000;
       --muted:#5b6776;
-      --accent:#2667ff;
-      --accent-hover:#1a50d9;
+      --accent:rgb(78, 113, 139);
+      --accent-hover:rgb(39, 56, 70);
+      --accent-text:rgb(39, 56, 70);
       --border:#e5e9f1;
       --shadow:0 4px 20px rgba(0,0,0,.08);
       --radius:12px;
@@ -40,7 +41,7 @@
       position:sticky;
       top:0;
       z-index:50;
-      background:var(--card);
+      background:#fff;
       border-bottom:1px solid var(--border);
       padding:20px 0;
       box-shadow:0 2px 10px rgba(0,0,0,.05);
@@ -49,15 +50,16 @@
     .wrap{
       max-width:var(--max);
       margin:0 auto;
-      padding:0 50px;
+      padding:0 30px;
     }
 
     .topbar{
       display:flex;
-      align-items:center;
+      align-items:flex-start;
       justify-content:space-between;
       gap:20px;
-      flex-wrap:wrap;
+      flex-wrap:nowrap;
+      position:relative;
     }
 
     .brand{
@@ -111,13 +113,48 @@
       margin-right: 0;
     }
 
+    .back-home-btn{display:inline-block;}
+
+    .back-arrow-btn{
+      display:none;
+      position:absolute;
+      top:15px;
+      right:20px;
+      width:38px;
+      height:38px;
+      border:none;
+      border-radius:0;
+      text-decoration:none;
+      align-items:center;
+      justify-content:center;
+      background:transparent;
+      -webkit-tap-highlight-color:transparent;
+    }
+
+    .back-arrow-btn::before{
+      content:'';
+      width:12px;
+      height:12px;
+      border-left:3px solid var(--text);
+      border-bottom:3px solid var(--text);
+      transform:rotate(45deg);
+      display:block;
+      margin-left:4px;
+      transition:transform .18s ease, opacity .18s ease;
+    }
+
+    .back-arrow-btn:hover::before{
+      transform:rotate(45deg) translate(-2px, 2px);
+      opacity:.8;
+    }
+
     .btn:hover{
       background:var(--text);
       color:#fff;
     }
 
     .hero{
-      min-height:40vh;
+      min-height:30vh;
       display:flex;
       align-items:center;
       justify-content:center;
@@ -163,7 +200,7 @@
     }
 
     .price-category{
-      background:var(--card);
+      background:linear-gradient(rgba(255,255,255,0.8), rgba(255,255,255,0.8)), rgba(121, 131, 142, 0.95);
       border:1px solid var(--border);
       border-radius:var(--radius);
       padding:25px;
@@ -171,11 +208,15 @@
       box-shadow:var(--shadow);
     }
 
+    .price-category:nth-of-type(even){
+      background:linear-gradient(rgba(255,255,255,0.8), rgba(255,255,255,0.8)), rgba(78, 113, 139, 0.95);
+    }
+
     .price-category h3{
       font-size:24px;
       font-weight:600;
       margin:0 0 20px;
-      color:var(--accent);
+      color:var(--accent-text);
     }
 
     .price-table{
@@ -201,9 +242,17 @@
       font-weight:500;
     }
 
+    .subtitle-like-row td:first-child{
+      font-size:15px;
+      font-weight:600;
+      color:var(--text);
+      text-align:left;
+      padding-left:0;
+    }
+
     .price-table td:last-child{
       text-align:right;
-      color:var(--accent);
+      color:var(--accent-text);
       font-weight:600;
       white-space:nowrap;
     }
@@ -255,7 +304,7 @@
     }
 
     .footer-col a{
-      color:var(--accent);
+      color:var(--accent-text);
       text-decoration:none;
       transition:.3s;
     }
@@ -273,8 +322,14 @@
       font-size:14px;
     }
 
+    @media (max-width:900px){
+      .topbar{display:flex;flex-wrap:wrap;position:relative;}
+    }
+
     @media (max-width:767px){
       .wrap{padding:0 20px;}
+      .back-home-btn{display:none;}
+      .back-arrow-btn{display:flex;}
       h1{font-size:28px;}
       .hero-text{font-size:16px;}
       .price-section h2{font-size:24px;}
@@ -294,10 +349,10 @@
         <img src="image/Логотип/2.jpg" alt="Логотип" />
         <div class="brand-text">
           <strong>МКП «Вінницький муніципальний центр містобудування і архітектури»</strong>
-          <span>Прайс-лист на послуги</span>
         </div>
       </div>
-      <a href="index.html" class="btn">← Повернутися на головну</a>
+      <a href="index.html" class="btn back-home-btn">← Повернутися на головну</a>
+      <a href="index.html" class="back-arrow-btn" aria-label="Повернутися на головну"></a>
     </div>
   </div>
 </header>
@@ -359,58 +414,96 @@
       <div class="price-category">
         <h3>3. Ескіз намірів забудови земельної ділянки</h3>
         <table class="price-table">
-          <tr><td>Схема намірів забудови</td><td>3560 / 4272 грн</td></tr>
-          <tr><td>Житлові будинки: одноповерхові</td><td>7120 / 8544 грн</td></tr>
-          <tr><td>Житлові будинки: двоповерхові</td><td>8900 / 10680 грн</td></tr>
-          <tr><td>Господарські будівлі: до 50 кв.м.</td><td>5340 / 6408 грн</td></tr>
-          <tr><td>Господарські будівлі: 51–100 кв.м.</td><td>7120 / 8544 грн</td></tr>
-          <tr><td>Господарські будівлі: понад 100 кв.м.</td><td>індивідуальний розрахунок</td></tr>
+          <tr class="subtitle-like-row"><td>Схема намірів забудови</td><td>3560 / 4272 грн</td></tr>
+        </table>
+
+        <p style="margin-top:16px;margin-bottom:10px;font-size:15px;color:var(--text);font-weight:600;">Житлові будинки</p>
+        <table class="price-table">
+          <tr><td>Одноповерхові</td><td>7120 / 8544 грн</td></tr>
+          <tr><td>Двоповерхові</td><td>8900 / 10680 грн</td></tr>
+        </table>
+
+        <p style="margin-top:16px;margin-bottom:10px;font-size:15px;color:var(--text);font-weight:600;">Господарські будівлі</p>
+        <table class="price-table">
+          <tr><td>До 50 кв.м.</td><td>5340 / 6408 грн</td></tr>
+          <tr><td>51–100 кв.м.</td><td>7120 / 8544 грн</td></tr>
+          <tr><td>Понад 100 кв.м.</td><td>індивідуальний розрахунок</td></tr>
         </table>
       </div>
 
       <div class="price-category">
         <h3>4. Робочий проєкт</h3>
         <table class="price-table">
-          <tr><td>Реконструкція квартири під комерційні приміщення</td><td>індивідуальний розрахунок</td></tr>
-          <tr><td>Інше</td><td>індивідуальний розрахунок</td></tr>
-          <tr><td>Авторський нагляд: квартира</td><td>1780–3560 / 2136–4272 грн</td></tr>
-          <tr><td>Авторський нагляд: інше</td><td>3560–7120 / 4272–8544 грн</td></tr>
+          <tr class="subtitle-like-row"><td>Реконструкція квартири під комерційні приміщення</td><td>індивідуальний розрахунок</td></tr>
+          <tr class="subtitle-like-row"><td>Інше</td><td>індивідуальний розрахунок</td></tr>
+        </table>
+
+        <p style="margin-top:16px;margin-bottom:10px;font-size:15px;color:var(--text);font-weight:600;">Авторський нагляд</p>
+        <table class="price-table">
+          <tr><td>Квартира</td><td>1780 / 3560 грн</td></tr>
+          <tr><td>Інше</td><td>3560 / 7120 грн</td></tr>
+        </table>
+
+        <p style="margin-top:16px;margin-bottom:10px;font-size:15px;color:var(--text);font-weight:600;">Технічний нагляд</p>
+        <table class="price-table">
+          <tr><td>Квартира</td><td>2136 / 4272 грн</td></tr>
+          <tr><td>Інше</td><td>4272 / 8544 грн</td></tr>
         </table>
       </div>
 
       <div class="price-category">
         <h3>5. Обґрунтування визначення меж і площі земельної ділянки</h3>
         <table class="price-table">
-          <tr><td>Комерційні потреби: до 0,15 га</td><td>5340 / 6408 грн</td></tr>
-          <tr><td>Комерційні потреби: до 0,30 га</td><td>7120 / 8544 грн</td></tr>
-          <tr><td>Комерційні потреби: до 0,50 га</td><td>8900 / 10680 грн</td></tr>
-          <tr><td>Комерційні потреби: понад</td><td>індивідуальний розрахунок</td></tr>
-          <tr><td>Виробничі: до 0,15 га</td><td>8900 / 10680 грн</td></tr>
-          <tr><td>Виробничі: до 0,50 га</td><td>10680 / 12816 грн</td></tr>
-          <tr><td>Виробничі: до 1,00 га</td><td>12460 / 14952 грн</td></tr>
-          <tr><td>Виробничі: понад</td><td>індивідуальний розрахунок</td></tr>
+        </table>
+
+        <p style="margin-top:16px;margin-bottom:10px;font-size:15px;color:var(--text);font-weight:600;">Комерційні потреби</p>
+        <table class="price-table">
+          <tr><td>До 0,15 га</td><td>5340 / 6408 грн</td></tr>
+          <tr><td>До 0,30 га</td><td>7120 / 8544 грн</td></tr>
+          <tr><td>До 0,50 га</td><td>8900 / 10680 грн</td></tr>
+          <tr><td>Понад</td><td>індивідуальний розрахунок</td></tr>
+        </table>
+
+        <p style="margin-top:16px;margin-bottom:10px;font-size:15px;color:var(--text);font-weight:600;">Виробничі</p>
+        <table class="price-table">
+          <tr><td>До 0,15 га</td><td>8900 / 10680 грн</td></tr>
+          <tr><td>До 0,50 га</td><td>10680 / 12816 грн</td></tr>
+          <tr><td>До 1,00 га</td><td>12460 / 14952 грн</td></tr>
+          <tr><td>Понад</td><td>індивідуальний розрахунок</td></tr>
         </table>
       </div>
 
       <div class="price-category">
         <h3>6. Паспорт опорядження фасадів</h3>
         <table class="price-table">
-          <tr><td>Історичні будівлі: до 500 кв.м.</td><td>17800 / 21360 грн</td></tr>
-          <tr><td>Історичні будівлі: 501–1000 кв.м.</td><td>26700 / 32040 грн</td></tr>
-          <tr><td>Історичні будівлі: 1001–3000 кв.м.</td><td>35600 / 42720 грн</td></tr>
-          <tr><td>Житлові багатоквартирні: до 500 кв.м.</td><td>7120 / 8544 грн</td></tr>
-          <tr><td>Житлові багатоквартирні: 501–1000 кв.м.</td><td>10680 / 12816 грн</td></tr>
-          <tr><td>Житлові багатоквартирні: 1001–3000 кв.м.</td><td>17800 / 21360 грн</td></tr>
-          <tr><td>Комерція/виробництво/склади: до 500 кв.м.</td><td>7120 / 8544 грн</td></tr>
-          <tr><td>Комерція/виробництво/склади: 501–1000 кв.м.</td><td>8900 / 10680 грн</td></tr>
-          <tr><td>Комерція/виробництво/склади: 1001–3000 кв.м.</td><td>14240 / 17088 грн</td></tr>
+        </table>
+
+        <p style="margin-top:16px;margin-bottom:10px;font-size:15px;color:var(--text);font-weight:600;">Історичні будівлі</p>
+        <table class="price-table">
+          <tr><td>До 500 кв.м.</td><td>17800 / 21360 грн</td></tr>
+          <tr><td>501–1000 кв.м.</td><td>26700 / 32040 грн</td></tr>
+          <tr><td>1001–3000 кв.м.</td><td>35600 / 42720 грн</td></tr>
+        </table>
+
+        <p style="margin-top:16px;margin-bottom:10px;font-size:15px;color:var(--text);font-weight:600;">Житлові багатоквартирні</p>
+        <table class="price-table">
+          <tr><td>До 500 кв.м.</td><td>7120 / 8544 грн</td></tr>
+          <tr><td>501–1000 кв.м.</td><td>10680 / 12816 грн</td></tr>
+          <tr><td>1001–3000 кв.м.</td><td>17800 / 21360 грн</td></tr>
+        </table>
+
+        <p style="margin-top:16px;margin-bottom:10px;font-size:15px;color:var(--text);font-weight:600;">Комерція/виробництво/склади</p>
+        <table class="price-table">
+          <tr><td>До 500 кв.м.</td><td>7120 / 8544 грн</td></tr>
+          <tr><td>501–1000 кв.м.</td><td>8900 / 10680 грн</td></tr>
+          <tr><td>1001–3000 кв.м.</td><td>14240 / 17088 грн</td></tr>
         </table>
       </div>
 
       <div class="price-category">
         <h3>7. Розрахунок ідеальної земельної частки</h3>
         <table class="price-table">
-          <tr><td>Розрахунок ідеальної земельної частки</td><td>3560 / 4272 грн</td></tr>
+          <tr class="subtitle-like-row"><td>Розрахунок ідеальної земельної частки</td><td>3560 / 4272 грн</td></tr>
         </table>
       </div>
 
@@ -425,7 +518,7 @@
       <div class="price-category">
         <h3>9. Комплексна схема розміщення вивісок на фасадах будівель</h3>
         <table class="price-table">
-          <tr><td>Комплексна схема розміщення вивісок на фасадах будівель</td><td>індивідуальний розрахунок</td></tr>
+          <tr class="subtitle-like-row"><td>Комплексна схема розміщення вивісок на фасадах будівель</td><td>індивідуальний розрахунок</td></tr>
         </table>
       </div>
 
@@ -452,28 +545,28 @@
       <div class="price-category">
         <h3>11. Проєкт комплексного благоустрою території</h3>
         <table class="price-table">
-          <tr><td>Проєкт комплексного благоустрою території</td><td>індивідуальний розрахунок</td></tr>
+          <tr class="subtitle-like-row"><td>Проєкт комплексного благоустрою території</td><td>індивідуальний розрахунок</td></tr>
         </table>
       </div>
 
       <div class="price-category">
-        <h3>13. Макет інформаційного стенду з паспортом будівництва під час отримання дозволу про початок будівництва</h3>
+        <h3>12. Макет інформаційного стенду з паспортом будівництва під час отримання дозволу про початок будівництва</h3>
         <table class="price-table">
-          <tr><td>Макет інформаційного стенду з паспортом будівництва під час отримання дозволу про початок будівництва</td><td>2670,00 / 3204,00 грн</td></tr>
+          <tr class="subtitle-like-row"><td>Макет інформаційного стенду з паспортом будівництва під час отримання дозволу про початок будівництва</td><td>2670,00 / 3204,00 грн</td></tr>
         </table>
       </div>
 
       <div class="price-category">
-        <h3>14. Підготовка договору тимчасового користання місцем, що знаходиться в комунальній власності, для розташування рекламного засобу</h3>
+        <h3>13. Підготовка договору тимчасового користання місцем, що знаходиться в комунальній власності, для розташування рекламного засобу</h3>
         <table class="price-table">
-          <tr><td>Підготовка договору тимчасового користання місцем, що знаходиться в комунальній власності, для розташування рекламного засобу</td><td>890,00 / 1068,00 грн</td></tr>
+          <tr class="subtitle-like-row"><td>Підготовка договору тимчасового користання місцем, що знаходиться в комунальній власності, для розташування рекламного засобу</td><td>890,00 / 1068,00 грн</td></tr>
         </table>
       </div>
 
       <div class="price-category">
-        <h3>15. Підготовка висновку про відповідність конструкції вимогам нормативних документів щодо їх зовнішнього вигляду</h3>
+        <h3>14. Підготовка висновку про відповідність конструкції вимогам нормативних документів щодо їх зовнішнього вигляду</h3>
         <table class="price-table">
-          <tr><td>Підготовка висновку про відповідність конструкції вимогам нормативних документів щодо їх зовнішнього вигляду</td><td>1068,00 / 1281,60 грн</td></tr>
+          <tr class="subtitle-like-row"><td>Підготовка висновку про відповідність конструкції вимогам нормативних документів щодо їх зовнішнього вигляду</td><td>1068,00 / 1281,60 грн</td></tr>
         </table>
       </div>
 
@@ -502,26 +595,28 @@
 
       <div class="price-category">
         <h3>3. Виготовлення топографо-геодезичних планів масштабів 1:500</h3>
+        <p style="margin-top:8px;margin-bottom:10px;font-size:15px;color:var(--text);font-weight:600;">(БЕЗ ПОГОДЖЕНЬ ПрАТ «УКРТЕЛЕКОМ», 1780,00 грн. без ПДВ)</p>
         <table class="price-table">
-          <tr><td>До 0,10 га</td><td>6329,90 грн (з ПДВ)</td></tr>
-          <tr><td>Від 0,11 до 0,30 га</td><td>7868,50 грн (з ПДВ)</td></tr>
-          <tr><td>Від 0,31 до 0,50 га</td><td>10052,30 грн (з ПДВ)</td></tr>
-          <tr><td>Від 0,51 до 0,70 га</td><td>12211,30 грн (з ПДВ)</td></tr>
-          <tr><td>Від 0,71 до 0,90 га</td><td>14395,10 грн (з ПДВ)</td></tr>
-          <tr><td>1,00 га</td><td>16876,70 грн (з ПДВ)</td></tr>
+          <tr><td>До 0,10 га</td><td>5274,92 / 6329,90 грн</td></tr>
+          <tr><td>Від 0,11 до 0,30 га</td><td>6557,08 / 7868,50 грн</td></tr>
+          <tr><td>Від 0,31 до 0,50 га</td><td>8376,92 / 10052,30 грн</td></tr>
+          <tr><td>Від 0,51 до 0,70 га</td><td>10176,08 / 12211,30 грн</td></tr>
+          <tr><td>Від 0,71 до 0,90 га</td><td>11995,92 / 14395,10 грн</td></tr>
+          <tr><td>1,00 га</td><td>14063,92 / 16876,70 грн</td></tr>
           <tr><td>Більше 1,00 га</td><td>індивідуальний розрахунок</td></tr>
         </table>
       </div>
 
       <div class="price-category">
         <h3>4. Виготовлення виконавчого (контрольного) топографо-геодезичного плану</h3>
+        <p style="margin-top:8px;margin-bottom:10px;font-size:15px;color:var(--text);font-weight:600;">(БЕЗ ПОГОДЖЕНЬ ПрАТ «УКРТЕЛЕКОМ», 1780,00 грн. без ПДВ)</p>
         <table class="price-table">
-          <tr><td>До 0,10 га</td><td>7 099,20 грн</td></tr>
-          <tr><td>Від 0,11 га до 0,30 га</td><td>8 811,50 грн</td></tr>
-          <tr><td>Від 0,31 га до 0,50 га</td><td>10 970,50 грн</td></tr>
-          <tr><td>Від 0,51 га до 0,70 га</td><td>13 452,10 грн</td></tr>
-          <tr><td>Від 0,71 га до 0,90 га</td><td>15 933,70 грн</td></tr>
-          <tr><td>1,00 га</td><td>19 978,70 грн</td></tr>
+          <tr><td>До 0,10 га</td><td>5319,20 / 7099,20 грн</td></tr>
+          <tr><td>Від 0,11 га до 0,30 га</td><td>7342,92 / 8811,50 грн</td></tr>
+          <tr><td>Від 0,31 га до 0,50 га</td><td>9142,08 / 10970,50 грн</td></tr>
+          <tr><td>Від 0,51 га до 0,70 га</td><td>11210,08 / 13452,10 грн</td></tr>
+          <tr><td>Від 0,71 га до 0,90 га</td><td>13278,08 / 15933,70 грн</td></tr>
+          <tr><td>1,00 га</td><td>16648,92 / 19978,70 грн</td></tr>
           <tr><td>Більше 1,00 га</td><td>індивідуальний розрахунок</td></tr>
         </table>
       </div>
@@ -720,7 +815,7 @@
       
       <div class="footer-col">
         <h4>Контакти</h4>
-        <p><strong>Телефон:</strong> <a href="tel:+380672434589" style="color:var(--accent); text-decoration:none;">+380 (67) 243-45-89</a></p>
+        <p><strong>Телефон:</strong> <a href="tel:+380672434589" style="color:var(--accent-text); text-decoration:none;">+380 (67) 243-45-89</a></p>
         <p><strong>Email:</strong> <a href="mailto:vmcmia@vmr.gov.ua">vmcmia@vmr.gov.ua</a></p>
       </div>
 

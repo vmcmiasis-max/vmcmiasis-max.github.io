@@ -10,11 +10,12 @@
   <style>
     :root{
       --bg:#ffffff;
-      --card:#ffffff;
+      --card:rgba(255,255,255,0.7);
       --text:#000000;
       --muted:#5b6776;
       --accent:#2667ff;
       --accent-hover:#1a50d9;
+      --accent-text:rgb(39, 56, 70);
       --border:#e5e9f1;
       --shadow:0 4px 20px rgba(0,0,0,.08);
       --radius:12px;
@@ -40,7 +41,7 @@
       position:sticky;
       top:0;
       z-index:50;
-      background:var(--card);
+      background:#fff;
       border-bottom:1px solid var(--border);
       padding:20px 0;
       box-shadow:0 2px 10px rgba(0,0,0,.05);
@@ -128,7 +129,7 @@
     .burger-menu{
       display:none;
       flex-direction:column;
-      gap: 8px;
+      gap: 5px;
       background:transparent;
       border:none;
       cursor:pointer;
@@ -146,7 +147,7 @@
       background:var(--text);
       border-radius:2px;
       transition:.3s;
-      margin:4px 0;
+      margin:2px 0;
     }
 
     .burger-menu.active span:nth-child(1){
@@ -292,6 +293,22 @@
     section{
       padding:50px 0;
       scroll-margin-top:80px;
+    }
+
+    #about{
+      background:linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)), rgba(121, 131, 142, 0.95);
+    }
+
+    #directions{
+      background:linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)), rgba(78, 113, 139, 0.95);
+    }
+
+    #services{
+      background:linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)), rgba(121, 131, 142, 0.95);
+    }
+
+    #contacts{
+      background:linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)), rgba(78, 113, 139, 0.95);
     }
 
     section.fullscreen{
@@ -457,6 +474,18 @@
       font-size:20px;
     }
 
+    #backToTop{
+      background:rgba(121, 131, 142, 0.5);
+      font-size:39px;
+      line-height:1;
+    }
+
+    .back-to-top-arrow{
+      display:block;
+      transform:translateY(-4px);
+      line-height:1;
+    }
+
     .float-btn.secondary{
       width:44px;
       height:44px;
@@ -469,7 +498,7 @@
       align-items:center;
       justify-content:center;
       overflow:visible;
-      box-shadow:0 4px 12px rgba(0,0,0,0.12);
+      box-shadow:0 9px 24px rgba(121, 131, 142, 0.38);
     }
     
     .float-btn.secondary img{
@@ -490,11 +519,22 @@
       height:42px !important;
       margin:auto;
       display:block;
+      transform:scale(0.9) translateY(1px);
+      transform-origin:center;
+    }
+
+    #waBtn{
+      overflow:hidden;
+      display:flex;
+      align-items:center;
+      justify-content:center;
     }
     
     #waBtn img{
       width:38px !important;
       height:38px !important;
+      transform:scale(0.9);
+      transform-origin:center;
     }
 
     #callBtn{
@@ -547,11 +587,11 @@
     .search-result{padding:10px;border-bottom:1px solid var(--border);cursor:pointer}
 
     /* Компактний список послуг */
-    .compact-modal{position:fixed;left:50%;top:12%;transform:translateX(-50%);width:min(920px,96%);background:#fff;border:1px solid var(--border);border-radius:10px;box-shadow:0 18px 50px rgba(0,0,0,0.12);z-index:1250;display:none;padding:12px}
+    .compact-modal{position:fixed;left:50%;top:12%;transform:translateX(-50%);width:min(920px,96%);background:rgba(255,255,255,0.7);border:1px solid var(--border);border-radius:10px;box-shadow:0 18px 50px rgba(0,0,0,0.12);z-index:1250;display:none;padding:12px}
     .compact-modal.show{display:block}
     /* Список послуг у вигляді компактного списку */
     .compact-list{display:flex;flex-direction:column;gap:0;max-height:70vh;overflow:auto;padding:6px}
-    .compact-item{padding:12px;border-radius:8px;border:1px solid var(--border);cursor:pointer;font-size:14px;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:6px;text-align:left;margin-bottom:3px;background:rgba(255,255,255,0.83)}
+    .compact-item{padding:12px;border-radius:8px;border:1px solid var(--border);cursor:pointer;font-size:14px;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:6px;text-align:left;margin-bottom:3px;background:rgba(255,255,255,0.88)}
     .compact-item:last-child{margin-bottom:0}
     .compact-item-title{font-weight:600;font-size:16px;line-height:1.35}
     .compact-item-hint{color:#374151;font-size:12px;line-height:1.35;display:block;max-width:100%}
@@ -687,7 +727,7 @@
     }
 
     .carousel-dot.active{
-      background:var(--accent);
+      background:rgb(78, 113, 139);
       width:30px;
       border-radius:6px;
     }
@@ -700,7 +740,7 @@
     .direction-img{
       width:100%;
       height:180px;
-      background:linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background:rgb(78, 113, 139);
       display:flex;
       align-items:center;
       justify-content:center;
@@ -709,19 +749,23 @@
     }
 
     .direction-img.geo{
-      background:linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      background:rgb(78, 113, 139);
     }
 
     .direction-img.land{
-      background:linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+      background:rgb(78, 113, 139);
     }
 
     .direction-img.urban{
-      background:linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+      background:rgb(78, 113, 139);
     }
 
     .direction-img.arch{
-      background:linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+      background:rgb(78, 113, 139);
+    }
+
+    .direction-card:nth-child(even) .direction-img{
+      background:rgb(121, 131, 142);
     }
 
     .direction-content{
@@ -982,6 +1026,8 @@
       width:100%;
       height:100%;
       background:rgba(0,0,0,0.7);
+      backdrop-filter:blur(6px);
+      -webkit-backdrop-filter:blur(6px);
       z-index:1000;
       overflow-y:auto;
       padding:20px;
@@ -1006,15 +1052,27 @@
     }
 
     /* Детальний модал стиль */
-    #popup-detail .popup-content{max-width:980px;width:min(980px,96%);height:calc(100vh - 40px);padding:0;max-height:none;overflow:hidden;display:flex;flex-direction:column}
-    #popup-detail .popup-header{align-items:flex-start;gap:12px}
+    #popup-detail .popup-content{max-width:980px;width:min(980px,96%);height:calc(100vh - 40px);padding:0;max-height:none;overflow:hidden;display:flex;flex-direction:column;background:#fff}
+    #popup-detail .popup-header{align-items:flex-start;gap:12px;background:#fff}
     #popup-detail .popup-header h3{flex:1;padding-right:8px}
     #popup-detail .popup-close{align-self:flex-start;margin-top:2px}
+    #popup-contact-choice .popup-content,
+    #popup-contact-form .popup-content{background:#fff}
+    #popup-contact-choice .popup-header,
+    #popup-contact-form .popup-header{background:#fff}
     
     #popup-detail .popup-body{display:flex;flex-direction:column;gap:18px;padding:18px;flex:1;overflow:auto;min-height:0}
     .detail-image{width:100%;height:auto;border-radius:8px;background:#f3f4f6;display:flex;align-items:center;justify-content:center;font-size:40px;flex-shrink:0}
     .detail-main{flex:1}
-    .detail-price{margin-top:12px;padding:12px;background:#f8f9fc;border-left:4px solid var(--accent);border-radius:6px}
+    .detail-price{margin-top:12px;padding:12px;background:#f8f9fc;border-left:4px solid rgb(78, 113, 139);border-radius:6px}
+    #popup-detail .detail-price .price-table{width:100%;border-collapse:collapse}
+    #popup-detail .detail-price .price-table tr{border-bottom:1px solid var(--border)}
+    #popup-detail .detail-price .price-table tr:last-child{border-bottom:none}
+    #popup-detail .detail-price .price-table td{padding:12px 15px;font-size:16px}
+    #popup-detail .detail-price .price-table td:first-child{color:var(--text);font-weight:500}
+    #popup-detail .detail-price .subtitle-like-row td:first-child{font-size:15px;font-weight:600;color:var(--text);text-align:left;padding-left:0}
+    #popup-detail .detail-price td:last-child{color:var(--accent-text);font-weight:600}
+    #popup-detail .detail-price a{color:var(--accent-text)}
 
     @keyframes popupSlideIn{
       from{
@@ -1696,7 +1754,7 @@
 
 <!-- Плаваючі кнопки та модаль пошуку -->
 <div class="floating-actions" id="floatingActions">
-  <button id="backToTop" class="float-btn" title="Вгору" style="display:none">↑</button>
+  <button id="backToTop" class="float-btn" title="Вгору" style="display:none"><span class="back-to-top-arrow">↑</span></button>
     <div style="display:flex;flex-direction:column;gap:8px;align-items:center;margin-top:6px;">
     <button id="callBtn" class="float-btn secondary" title="Телефон"><img src="./image/phone.png" alt="Телефон"/></button>
     <button id="viberBtn" class="float-btn secondary" title="Viber"><img src="./image/viber.png" alt="Viber"/></button>
@@ -1914,7 +1972,7 @@
       const priceHTML = bestMatch.innerHTML.replace(/<h3[^>]*>.*?<\/h3>/g, '');
       priceContainer.innerHTML = priceHTML;
     } else {
-      priceContainer.innerHTML = '<p style="margin:0; font-size:14px; color:var(--accent); font-weight:600;">Вартість: Індивідуальний розрахунок</p>';
+      priceContainer.innerHTML = '<p style="margin:0; font-size:14px; color:var(--accent-text); font-weight:600;">Вартість: Індивідуальний розрахунок</p>';
     }
   }
 
@@ -2011,8 +2069,8 @@
         carouselTrack.appendChild(clone);
       }
       
-      // Клони на початок
-      for (let i = totalCards - clonesNeeded; i < totalCards; i++) {
+      // Клони на початок (у правильному порядку для плавного руху вліво)
+      for (let i = totalCards - 1; i >= totalCards - clonesNeeded; i--) {
         const clone = originalCards[i].cloneNode(true);
         carouselTrack.insertBefore(clone, carouselTrack.firstChild);
       }
@@ -2022,9 +2080,17 @@
       updateCarousel(false);
     }
 
-    function getCardWidth() {
+    function getCardStep() {
       const firstCard = carouselTrack.children[0];
-      return firstCard ? firstCard.offsetWidth + 20 : 0; // +20 для gap
+      if (!firstCard) return 0;
+
+      const secondCard = carouselTrack.children[1];
+      if (secondCard) {
+        // Реальний крок між слайдами з урахуванням gap, margin та responsive-ширини.
+        return secondCard.offsetLeft - firstCard.offsetLeft;
+      }
+
+      return firstCard.offsetWidth;
     }
 
     function updateCarousel(smooth = true) {
@@ -2034,8 +2100,8 @@
         carouselTrack.style.transition = 'none';
       }
       
-      const cardWidth = getCardWidth();
-      const offset = -(currentIndex * cardWidth);
+      const cardStep = getCardStep();
+      const offset = -(currentIndex * cardStep);
       carouselTrack.style.transform = `translateX(${offset}px)`;
       
       // Оновлення dots (показуємо реальний індекс)
@@ -2047,8 +2113,6 @@
 
     function handleTransitionEnd() {
       isTransitioning = false;
-      
-      const cardWidth = getCardWidth();
       
       // Якщо ми на клоні в кінці
       if (currentIndex >= totalCards + visibleCards) {
@@ -2313,7 +2377,13 @@
     // зібрати параграфи після заголовка всередині блоку
     let descr = '';
     const ps = el.querySelectorAll('p');
-    if(ps.length>0){ ps.forEach(p=> descr += `<p>${p.innerHTML}</p>`); }
+    if(ps.length>0){
+      ps.forEach(p => {
+        const text = (p.textContent || '').trim();
+        if(text === 'Тимчасові споруди' || text === 'На все інше, крім ТС') return;
+        descr += `<p>${p.innerHTML}</p>`;
+      });
+    }
     else { descr = `<p>${(el.textContent||'').trim()}</p>`; }
 
     // Підготувати detail modal
