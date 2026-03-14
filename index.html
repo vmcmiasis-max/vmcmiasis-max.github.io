@@ -1092,6 +1092,8 @@
     #popup-detail .detail-price .price-subitem-row td:first-child{padding-left:18px;color:#394450}
     #popup-detail .detail-price td:last-child{color:var(--accent-text);font-weight:600}
     #popup-detail .detail-price a{color:var(--accent-text)}
+    #popup-detail .detail-actions{padding:16px;display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}
+    #popup-detail .detail-actions .btn{margin-right:0}
     .svc-price-block .price-subtitle{margin:16px 0 10px;font-size:15px;color:var(--text);font-weight:400}
     .svc-price-block .price-table{width:100%;border-collapse:collapse}
     .svc-price-block .price-table tr{border-bottom:1px solid var(--border)}
@@ -1254,6 +1256,8 @@
 
       #popup-compact .popup-close{right:10px;top:10px}
       #popup-compact .popup-body{max-height:calc(95vh - 56px)}
+      #popup-detail .detail-actions{padding:14px;gap:8px;justify-content:stretch}
+      #popup-detail .detail-actions .btn{width:100%}
     }
 
     /* Стилі для таблиці з цінами в popup */
@@ -1815,7 +1819,7 @@
     <div class="popup-body" id="detailBody">
       <!-- Динамічний контент -->
     </div>
-    <div style="padding:16px;display:flex;gap:10px;justify-content:flex-end;">
+    <div class="detail-actions">
       <button id="detailConsultBtn" class="btn" style="background:var(--border);color:var(--text)">Консультація</button>
       <button id="detailOrderBtn" class="btn">Замовити послугу</button>
     </div>
