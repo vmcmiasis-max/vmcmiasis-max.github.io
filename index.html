@@ -551,11 +551,34 @@
     .compact-modal.show{display:block}
     /* Список послуг у вигляді компактного списку */
     .compact-list{display:flex;flex-direction:column;gap:0;max-height:70vh;overflow:auto;padding:6px}
-    .compact-item{padding:10px;border-radius:8px;border:1px solid var(--border);cursor:pointer;font-size:14px;display:flex;justify-content:space-between;align-items:center;margin-bottom:3px}
+    .compact-item{padding:12px;border-radius:8px;border:1px solid var(--border);cursor:pointer;font-size:14px;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:6px;text-align:left;margin-bottom:3px;background:rgba(255,255,255,0.83)}
     .compact-item:last-child{margin-bottom:0}
-    .compact-item small{color:var(--muted);font-size:12px}
+    .compact-item-title{font-weight:600;font-size:16px;line-height:1.35}
+    .compact-item-hint{color:#374151;font-size:12px;line-height:1.35;display:block;max-width:100%}
     .compact-price{margin-left:12px;display:flex;align-items:center}
     .compact-price-snippet{font-size:13px;color:var(--accent);background:#f8fbff;padding:6px 8px;border-radius:6px;border:1px solid rgba(38,103,255,0.08)}
+
+    /* Кнопка закриття збоку + фон для компактного попапу */
+    #popup-compact .popup-content{
+      overflow:visible !important;
+      position:relative;
+      isolation:isolate;
+      border-radius:var(--radius);
+    }
+    #popup-compact .popup-content::before{
+      content:'';
+      position:absolute;
+      inset:0;
+      border-radius:inherit;
+      background-image:var(--compact-bg-image, none);
+      background-size:cover;
+      background-position:center;
+      z-index:0;
+      pointer-events:none;
+    }
+    #popup-compact .popup-header{display:none}
+    #popup-compact .popup-close{position:absolute;top:12px;right:-52px;z-index:2}
+    #popup-compact .popup-body{position:relative;z-index:1;max-height:calc(100vh - 100px);overflow:auto;padding-top:18px}
 
     /* Стилі для кнопок навігації каруселі (праворуч/ліворуч) */
     .carousel-nav-btn{position:absolute;top:50%;transform:translateY(-50%);width:48px;height:48px;border-radius:50%;background:rgba(0,0,0,0.06);border:1px solid rgba(0,0,0,0.08);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:20px;color:var(--text);box-shadow:0 4px 12px rgba(0,0,0,0.06);transition:transform .12s ease,opacity .12s ease;opacity:0.95;z-index:40}
@@ -1143,6 +1166,9 @@
       .popup-body{
         padding:20px;
       }
+
+      #popup-compact .popup-close{right:10px;top:10px}
+      #popup-compact .popup-body{max-height:calc(95vh - 56px)}
     }
 
     /* Стилі для таблиці з цінами в popup */
@@ -1685,11 +1711,8 @@
 
 <!-- Компактний список послуг (тепер повноекранний попап) -->
 <div class="popup-overlay" id="popup-compact" role="dialog" aria-modal="true">
-  <div class="popup-content" style="max-width:980px;height:calc(100vh - 40px);overflow:auto;">
-    <div class="popup-header">
-      <h3 id="compactTitle">Послуги</h3>
-      <button class="popup-close" onclick="closePopup('compact')">×</button>
-    </div>
+  <div class="popup-content" style="max-width:784px;height:calc(100vh - 40px);overflow:auto;">
+    <button class="popup-close" onclick="closePopup('compact')">×</button>
     <div class="popup-body">
       <div class="compact-list" id="compactList"></div>
     </div>
@@ -2708,14 +2731,38 @@
     const popup = document.getElementById('popup-' + category);
     const compact = document.getElementById('popup-compact');
     const list = document.getElementById('compactList');
-    const title = document.getElementById('compactTitle');
+    const compactContent = compact ? compact.querySelector('.popup-content') : null;
     if(!popup || !compact || !list) return;
+
+    // Підставляємо фонове зображення з відповідної картки категорії
+    if(compactContent){
+      const cardImage = document.querySelector(`.service-card[data-popup="${category}"] .service-cover`);
+      let bgSrc = cardImage ? (cardImage.getAttribute('src') || '').trim() : '';
+      if(
+        bgSrc &&
+        !bgSrc.startsWith('./') &&
+        !bgSrc.startsWith('/') &&
+        !bgSrc.startsWith('http://') &&
+        !bgSrc.startsWith('https://') &&
+        !bgSrc.startsWith('data:')
+      ){
+        bgSrc = './' + bgSrc;
+      }
+      if(!bgSrc && cardImage && cardImage.src){
+        bgSrc = cardImage.src;
+      }
+      if(bgSrc){
+        compactContent.style.setProperty('--compact-bg-image', `url("${bgSrc}")`);
+      } else {
+        compactContent.style.removeProperty('--compact-bg-image');
+      }
+    }
+
     // наповнюємо список з заголовків h4 в popup-body
     const body = popup.querySelector('.popup-body');
     if(!body) return;
     const services = Array.from(body.querySelectorAll('h4'));
     list.innerHTML = '';
-    title.textContent = popup.querySelector('.popup-header h3') ? popup.querySelector('.popup-header h3').textContent : 'Послуги';
     services.forEach((h4, idx) => {
       // призначаємо id на батьківський блок для прокрутки
       let svcBlock = h4.closest('div');
@@ -2723,8 +2770,12 @@
       if(!svcBlock.id) svcBlock.id = `${category}-svc-${idx}`;
       const item = document.createElement('div');
       item.className = 'compact-item';
-      const label = document.createElement('div'); label.textContent = h4.textContent;
-      const hint = document.createElement('small'); hint.textContent = (svcBlock.querySelector('p') ? svcBlock.querySelector('p').textContent.slice(0,80) : '');
+      const label = document.createElement('div');
+      label.className = 'compact-item-title';
+      label.textContent = h4.textContent;
+      const hint = document.createElement('small');
+      hint.className = 'compact-item-hint';
+      hint.textContent = (svcBlock.querySelector('p') ? svcBlock.querySelector('p').textContent.slice(0,80) : '');
       item.appendChild(label);
       item.appendChild(hint);
         // у компактному списку ціни не показуємо
