@@ -356,6 +356,21 @@
       }
       .footer-grid{grid-template-columns:1fr;}
     }
+
+    @media (max-width:390px){
+      .price-table{table-layout:fixed;}
+      .price-table td:first-child,
+      .price-table td:last-child{
+        width:50% !important;
+        min-width:50% !important;
+        max-width:50% !important;
+      }
+      .price-table td:last-child{
+        white-space:normal;
+        overflow-wrap:break-word;
+        word-break:normal;
+      }
+    }
   </style>
 </head>
 
@@ -863,6 +878,8 @@
 <script>
   document.getElementById("year").textContent = new Date().getFullYear();
 
+  applyPriceWrapHints();
+
   // Render all price sections from services.json.
   // Existing static markup remains as fallback if JSON is unavailable.
   fetch('./services.json?_=' + Date.now())
@@ -911,8 +928,18 @@
 
         wrap.appendChild(section);
       });
+
+      applyPriceWrapHints();
     })
     .catch(() => {});
+
+  function applyPriceWrapHints() {
+    document.querySelectorAll('.price-table td:last-child').forEach((td) => {
+      const html = td.innerHTML;
+      if (!html || html.includes('<wbr>')) return;
+      td.innerHTML = html.replace(/\s\/\s/g, ' /<wbr> ');
+    });
+  }
 
   function escHtml(str) {
     return (str || '')
