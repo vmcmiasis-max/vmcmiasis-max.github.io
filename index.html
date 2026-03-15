@@ -566,6 +566,24 @@
       height:38px !important;
     }
 
+    #fbBtn{
+      overflow:hidden;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:#1877f2;
+      color:#fff;
+      font-family:Arial, sans-serif;
+      font-weight:700;
+      font-size:28px;
+      line-height:1;
+    }
+
+    #fbBtn .fb-mark{
+      transform:translateY(1px);
+      display:block;
+    }
+
     .float-label{
       font-size:12px;
       color:var(--text);
@@ -875,6 +893,21 @@
       font-size:20px;
       color:var(--text);
       font-weight:700;
+    }
+
+    .contact-note{
+      margin:0 0 16px;
+      padding:12px 14px;
+      background:#f5f9ff;
+      border:1px solid rgba(38,103,255,0.16);
+      border-radius:10px;
+      font-size:14px;
+      line-height:1.5;
+      color:var(--text);
+    }
+
+    .contact-note strong{
+      color:var(--accent-text);
     }
 
     .contact-item{
@@ -1358,8 +1391,8 @@
 <div class="hero">
   <div class="wrap">
     <div class="hero-content">
-      <h1>Ми формуємо майбутнє — відповідально, професійно, в інтересах громад</h1>
-      <p class="hero-text hero-text-dark">
+      <h1 id="heroTitle">Ми формуємо майбутнє — відповідально, професійно, в інтересах громад</h1>
+      <p id="heroText" class="hero-text hero-text-dark">
         Вінницький муніципальний центр містобудування і архітектури — фахове підприємство, створене для забезпечення системного, професійного та відповідального розвитку територій та інфраструктури.
       </p>
     </div>
@@ -1477,12 +1510,12 @@
 
       <!-- Блок діяльності (перенесений з окремої вкладки) -->
       <div class="activity-block">
-        <h3>Наші напрямки роботи</h3>
-        <p style="margin-bottom:15px; color:var(--text); font-size:17px;">
+        <h3 id="activityTitle">Наші напрямки роботи</h3>
+        <p id="activityLead" style="margin-bottom:15px; color:var(--text); font-size:17px;">
           На відміну від приватних проєктних організацій, діяльність Центру не орієнтована на окремий комерційний результат, а спрямована на довгострокову якість середовища.
         </p>
-        <p style="margin-bottom:15px; color:var(--text); font-size:17px; font-weight:600;">Ми працюємо за напрямками:</p>
-        <ul>
+        <p id="activityIntro" style="margin-bottom:15px; color:var(--text); font-size:17px; font-weight:600;">Ми працюємо за напрямками:</p>
+        <ul id="activityItems">
           <li>Містобудівної політики</li>
           <li>Архітектурного планування</li>
           <li>Землекористування</li>
@@ -1603,12 +1636,13 @@
         <div class="contacts-grid">
           <div class="contact-card">
             <h3>Зв'яжіться з нами</h3>
+            <p class="contact-note"><strong>Первинна консультація безкоштовна.</strong> Напишіть або зателефонуйте нам, щоб отримати базову інформацію та зрозуміти, з чого почати.</p>
             
             <div class="contact-item">
               <div class="contact-icon">📞</div>
               <div class="contact-info">
                 <strong>Телефон</strong>
-                <span><a href="tel:+380672434589" style="color:var(--text); text-decoration:none;">+380 (67) 243-45-89</a></span>
+                <span><a id="contactPhoneLink" href="tel:+380672434589" style="color:var(--text); text-decoration:none;">+380 (67) 243-45-89</a></span>
               </div>
             </div>
 
@@ -1616,7 +1650,7 @@
               <div class="contact-icon">✉️</div>
               <div class="contact-info">
                 <strong>Електронна пошта</strong>
-                <span>vmcmia@vmr.gov.ua</span>
+                <span><a id="contactEmail" href="mailto:vmcmia@vmr.gov.ua" style="color:var(--text); text-decoration:none;">vmcmia@vmr.gov.ua</a></span>
               </div>
             </div>
 
@@ -1624,7 +1658,7 @@
               <div class="contact-icon">⏰</div>
               <div class="contact-info">
                 <strong>Графік роботи</strong>
-                <span>Пн-Пт: 08:30–13:00, 13:30–17:00</span>
+                <span id="contactHours">Пн-Пт: 08:30–13:00, 13:30–17:00</span>
               </div>
             </div>
           </div>
@@ -1636,7 +1670,7 @@
               <div class="contact-icon">📍</div>
               <div class="contact-info">
                 <strong>Місцезнаходження</strong>
-                <span>21050, м. Вінниця,<br>вул. Григорія Сковороди, 38</span>
+                <span id="contactAddress">21050, м. Вінниця,<br>вул. Григорія Сковороди, 38</span>
               </div>
             </div>
 
@@ -1644,7 +1678,7 @@
               <div class="contact-icon">🏢</div>
               <div class="contact-info">
                 <strong>Розташування</strong>
-                <span>Центральна частина міста,<br>зручний транспортний доступ</span>
+                <span id="contactLocationInfo">Центральна частина міста,<br>зручний транспортний доступ</span>
               </div>
             </div>
           </div>
@@ -1758,21 +1792,21 @@
       
       <div class="footer-col">
         <h4>Контакти</h4>
-        <p><strong>Телефон:</strong> <a href="tel:+380672434589" style="color:var(--accent); text-decoration:none;">+380 (67) 243-45-89</a></p>
-        <p><strong>Email:</strong> <a href="mailto:vmcmia@vmr.gov.ua">vmcmia@vmr.gov.ua</a></p>
+        <p><strong>Телефон:</strong> <a id="footerPhoneLink" href="tel:+380672434589" style="color:var(--accent); text-decoration:none;">+380 (67) 243-45-89</a></p>
+        <p><strong>Email:</strong> <a id="footerEmailLink" href="mailto:vmcmia@vmr.gov.ua">vmcmia@vmr.gov.ua</a></p>
       </div>
 
       <div class="footer-col">
         <h4>Адреса</h4>
-        <p>21050, м. Вінниця</p>
-        <p>вул. Григорія Сковороди, 38</p>
-        <p>Центральна частина міста</p>
+        <p id="footerAddressLine1">21050, м. Вінниця</p>
+        <p id="footerAddressLine2">вул. Григорія Сковороди, 38</p>
+        <p id="footerLocationInfo">Центральна частина міста</p>
       </div>
 
       <div class="footer-col">
-        <h4>Про підприємство</h4>
-        <p>МКП «Вінницький муніципальний центр містобудування і архітектури»</p>
-        <p>Професійні послуги у сфері містобудування, архітектури, геодезії та землевпорядкування</p>
+        <h4 id="footerAboutTitle">Про підприємство</h4>
+        <p id="footerAboutText">МКП «Вінницький муніципальний центр містобудування і архітектури»</p>
+        <p id="footerAboutSubtext">Професійні послуги у сфері містобудування, архітектури, геодезії та землевпорядкування</p>
       </div>
 
     </div>
@@ -1791,6 +1825,7 @@
     <button id="callBtn" class="float-btn secondary" title="Телефон"><img src="./image/Іконки/phone.png" alt="Телефон"/></button>
     <button id="viberBtn" class="float-btn secondary" title="Viber"><img src="./image/Іконки/viber.png" alt="Viber"/></button>
     <button id="waBtn" class="float-btn secondary" title="WhatsApp"><img src="./image/Іконки/whatsapp.png" alt="WhatsApp"/></button>
+    <button id="fbBtn" class="float-btn secondary" title="Facebook" aria-label="Facebook"><span class="fb-mark">f</span></button>
   </div>
 </div>
 
@@ -1946,6 +1981,158 @@
 
   // Рік у футері
   document.getElementById("year").textContent = new Date().getFullYear();
+
+  let SITE_CONTENT = null;
+  let CONTACT_PHONE = '380672434589';
+  let CONTACT_PHONE_DISPLAY = '+380 (67) 243-45-89';
+  let CONTACT_EMAIL = 'vmcmia@vmr.gov.ua';
+  let CONTACT_FACEBOOK = 'https://www.facebook.com/MKPVMCMiA/';
+
+  function normalizePhone(raw) {
+    return String(raw || '').replace(/\D+/g, '');
+  }
+
+  function escHtml(str) {
+    return String(str || '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  function renderAboutCards(cards) {
+    const track = document.querySelector('.about-carousel-track');
+    const dotsWrap = document.querySelector('#about .carousel-dots');
+    if (!track || !dotsWrap || !Array.isArray(cards) || !cards.length) return;
+
+    track.innerHTML = cards.map((card) => {
+      const icon = escHtml(card.icon || '•');
+      const title = escHtml(card.title || 'Картка');
+      const type = card.type === 'list' ? 'list' : 'text';
+      const text = escHtml(card.text || '');
+      const items = Array.isArray(card.items) ? card.items : [];
+
+      const body = type === 'list'
+        ? `<ul>${items.map((it) => `<li>${escHtml(it)}</li>`).join('')}</ul>`
+        : `<p>${text}</p>`;
+
+      return `<div class="carousel-card"><div class="icon">${icon}</div><h3>${title}</h3>${body}</div>`;
+    }).join('');
+
+    dotsWrap.innerHTML = cards.map((_, i) => `<button class="carousel-dot${i === 0 ? ' active' : ''}" data-slide="${i}" data-carousel="about"></button>`).join('');
+  }
+
+  function renderDirectionsCards(cards) {
+    const track = document.querySelector('#directions .carousel-track');
+    const dotsWrap = document.querySelector('#directions .carousel-dots');
+    if (!track || !dotsWrap || !Array.isArray(cards) || !cards.length) return;
+
+    track.innerHTML = cards.map((card) => {
+      const icon = escHtml(card.icon || '•');
+      const title = escHtml(card.title || 'Напрям');
+      const text = escHtml(card.text || '');
+      return `<div class="direction-card"><div class="direction-img">${icon}</div><div class="direction-content"><h3>${title}</h3><p>${text}</p></div></div>`;
+    }).join('');
+
+    dotsWrap.innerHTML = cards.map((_, i) => `<button class="carousel-dot${i === 0 ? ' active' : ''}" data-slide="${i}" data-carousel="directions"></button>`).join('');
+  }
+
+  function applySiteContent(content) {
+    if (!content || typeof content !== 'object') return;
+    SITE_CONTENT = content;
+
+    const hero = content.hero || {};
+    const heroTitle = document.getElementById('heroTitle');
+    const heroText = document.getElementById('heroText');
+    if (heroTitle && hero.title) heroTitle.textContent = hero.title;
+    if (heroText && hero.text) heroText.textContent = hero.text;
+
+    renderAboutCards(content.aboutCards || []);
+
+    const activity = content.activity || {};
+    const activityTitle = document.getElementById('activityTitle');
+    const activityLead = document.getElementById('activityLead');
+    const activityIntro = document.getElementById('activityIntro');
+    const activityItems = document.getElementById('activityItems');
+    if (activityTitle && activity.title) activityTitle.textContent = activity.title;
+    if (activityLead && activity.lead) activityLead.textContent = activity.lead;
+    if (activityIntro && activity.intro) activityIntro.textContent = activity.intro;
+    if (activityItems && Array.isArray(activity.items)) {
+      activityItems.innerHTML = activity.items.map((item) => `<li>${escHtml(item)}</li>`).join('');
+    }
+
+    renderDirectionsCards(content.directions || []);
+
+    const contacts = content.contacts || {};
+    CONTACT_PHONE = normalizePhone(contacts.phoneRaw || CONTACT_PHONE);
+    CONTACT_PHONE_DISPLAY = contacts.phoneDisplay || CONTACT_PHONE_DISPLAY;
+    CONTACT_EMAIL = contacts.email || CONTACT_EMAIL;
+    CONTACT_FACEBOOK = contacts.facebook || CONTACT_FACEBOOK;
+
+    const contactPhoneLink = document.getElementById('contactPhoneLink');
+    const contactEmail = document.getElementById('contactEmail');
+    const contactHours = document.getElementById('contactHours');
+    const contactAddress = document.getElementById('contactAddress');
+    const contactLocationInfo = document.getElementById('contactLocationInfo');
+
+    const footerPhoneLink = document.getElementById('footerPhoneLink');
+    const footerEmailLink = document.getElementById('footerEmailLink');
+    const footerAddressLine1 = document.getElementById('footerAddressLine1');
+    const footerAddressLine2 = document.getElementById('footerAddressLine2');
+    const footerLocationInfo = document.getElementById('footerLocationInfo');
+
+    if (contactPhoneLink) {
+      contactPhoneLink.href = `tel:+${CONTACT_PHONE}`;
+      contactPhoneLink.textContent = CONTACT_PHONE_DISPLAY;
+    }
+    if (contactEmail) {
+      contactEmail.href = `mailto:${CONTACT_EMAIL}`;
+      contactEmail.textContent = CONTACT_EMAIL;
+    }
+    if (contactHours && contacts.hours) contactHours.textContent = contacts.hours;
+    if (contactAddress) {
+      const line1 = escHtml(contacts.addressLine1 || '');
+      const line2 = escHtml(contacts.addressLine2 || '');
+      contactAddress.innerHTML = `${line1}${line1 && line2 ? ',<br>' : ''}${line2}`;
+    }
+    if (contactLocationInfo && contacts.locationInfo) {
+      contactLocationInfo.textContent = contacts.locationInfo;
+    }
+
+    if (footerPhoneLink) {
+      footerPhoneLink.href = `tel:+${CONTACT_PHONE}`;
+      footerPhoneLink.textContent = CONTACT_PHONE_DISPLAY;
+    }
+    if (footerEmailLink) {
+      footerEmailLink.href = `mailto:${CONTACT_EMAIL}`;
+      footerEmailLink.textContent = CONTACT_EMAIL;
+    }
+    if (footerAddressLine1 && contacts.addressLine1) footerAddressLine1.textContent = contacts.addressLine1;
+    if (footerAddressLine2 && contacts.addressLine2) footerAddressLine2.textContent = contacts.addressLine2;
+    if (footerLocationInfo && contacts.locationInfo) footerLocationInfo.textContent = contacts.locationInfo;
+
+    const footer = content.footer || {};
+    const footerAboutTitle = document.getElementById('footerAboutTitle');
+    const footerAboutText = document.getElementById('footerAboutText');
+    const footerAboutSubtext = document.getElementById('footerAboutSubtext');
+    if (footerAboutTitle && footer.aboutTitle) footerAboutTitle.textContent = footer.aboutTitle;
+    if (footerAboutText && footer.aboutText) footerAboutText.textContent = footer.aboutText;
+    if (footerAboutSubtext && footer.aboutSubtext) footerAboutSubtext.textContent = footer.aboutSubtext;
+  }
+
+  function loadSiteContent() {
+    return fetch('./site-content.json?_=' + Date.now())
+      .then((r) => {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.json();
+      })
+      .then((data) => {
+        applySiteContent(data);
+      })
+      .catch(() => {
+        // fallback to static html values
+      });
+  }
 
   // Універсальна функція для створення каруселі
   function createCarousel(trackSelector, wrapperSelector, dotsCarouselName) {
@@ -2147,9 +2334,11 @@
     }
   }
 
-  // Створення каруселей
-  createCarousel('.about-carousel-track', '.about-carousel-wrapper', 'about');
-  createCarousel('.carousel-track', '.directions-carousel-wrapper', 'directions');
+  // Створення каруселей після завантаження контенту головної
+  loadSiteContent().finally(() => {
+    createCarousel('.about-carousel-track', '.about-carousel-wrapper', 'about');
+    createCarousel('.carousel-track', '.directions-carousel-wrapper', 'directions');
+  });
 
   // Завантажити prices.html при першому завантаженні сторінки
   (function preloadPrices(){
@@ -2407,8 +2596,7 @@
   
   // Позвонить
   function callPhone(){
-    const phone = '+380672434589';
-    window.location.href = `tel:${phone}`;
+    window.location.href = `tel:+${CONTACT_PHONE}`;
     closePopup('contact-choice');
   }
   
@@ -2424,7 +2612,7 @@
       return;
     }
     
-    const phone = '380672434589';
+    const phone = CONTACT_PHONE;
     let messageText;
     
     if(window.currentActionType === 'consultation'){
@@ -2491,11 +2679,38 @@
   // (Описи послуг завантажуються через services.js з services.json)
 
   // Ініціалізувати всі категорії з services.json
+  function applyServiceCardImages(){
+    if(!window.SERVICES_DATA || !Array.isArray(window.SERVICES_DATA.categories)) return;
+    window.SERVICES_DATA.categories.forEach((cat) => {
+      if(!cat || !cat.id) return;
+      const cardImg = document.querySelector(`.service-card[data-popup="${cat.id}"] .service-cover`);
+      const popupTitle = document.querySelector(`#popup-${cat.id} .popup-header h3`);
+      if (cardImg && cat.cardImage) {
+        let src = String(cat.cardImage).trim();
+        if (
+          src &&
+          !src.startsWith('./') &&
+          !src.startsWith('/') &&
+          !src.startsWith('http://') &&
+          !src.startsWith('https://') &&
+          !src.startsWith('data:')
+        ) {
+          src = './' + src;
+        }
+        cardImg.setAttribute('src', src);
+      }
+      if (popupTitle && cat.title) {
+        popupTitle.textContent = cat.title;
+      }
+    });
+  }
+
   function initializeAllCategories(){
     if(!window.SERVICES_DATA){
       setTimeout(initializeAllCategories, 100);
       return;
     }
+    applyServiceCardImages();
     ['geodetic','land','urban','arch'].forEach(catId => {
       const popup = document.getElementById('popup-' + catId);
       if(!popup) return;
@@ -2645,7 +2860,6 @@
   });
 
   // Контакти (телефон, Viber, WhatsApp)
-  const CONTACT_PHONE = '380672434589';
   function openContact(method){
     let url = '';
     const message = encodeURIComponent('Доброго дня! Мене цікавить послуга. Прошу надати інформацію.');
@@ -2660,6 +2874,9 @@
   document.getElementById('callBtn')?.addEventListener('click', ()=> openContact('phone'));
   document.getElementById('viberBtn')?.addEventListener('click', ()=> openContact('viber'));
   document.getElementById('waBtn')?.addEventListener('click', ()=> openContact('whatsapp'));
+  document.getElementById('fbBtn')?.addEventListener('click', ()=> {
+    window.open(CONTACT_FACEBOOK, '_blank');
+  });
 
   // Кнопка "наверх"
   const backBtn = document.getElementById('backToTop');
