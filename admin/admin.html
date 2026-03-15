@@ -1357,6 +1357,23 @@ function switchMode(mode) {
     if (servicesData) renderServiceList();
   } else {
     renderHomeEditor();
+    // Ensure toggle logic is set for static/demo
+    mainArea.onclick = function(e) {
+      const openCardsBtn = e.target.closest('[data-home-open-cards]');
+      if (openCardsBtn) {
+        openHomeCardsModal(openCardsBtn.getAttribute('data-home-open-cards'));
+        return;
+      }
+      const toggleBtn = e.target.closest('[data-toggle-target]');
+      if (toggleBtn) {
+        const targetId = toggleBtn.getAttribute('data-toggle-target');
+        const target = document.getElementById(targetId);
+        if (target) {
+          const isOpen = target.style.display !== 'none';
+          target.style.display = isOpen ? 'none' : 'block';
+        }
+      }
+    };
   }
 }
 
