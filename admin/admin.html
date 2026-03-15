@@ -142,10 +142,46 @@
       border-left-color: #2667ff;
       color: #fff;
     }
+    .home-nav-item {
+      padding: 10px 18px;
+      cursor: pointer;
+      font-size: 13px;
+      border-left: 3px solid transparent;
+      transition: background .15s, color .15s;
+      color: #c5d3dd;
+      line-height: 1.3;
+    }
+    .home-nav-item:hover { background: rgba(255,255,255,.07); color: #fff; }
+    .home-nav-item.active-nav {
+      background: rgba(38,103,255,.18);
+      border-left-color: #2667ff;
+      color: #fff;
+    }
     .cat-count {
       font-size: 11px;
       color: #6b8090;
       margin-left: 6px;
+    }
+    .mode-switch {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      padding: 0 12px 12px;
+    }
+    .mode-btn {
+      border: 1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.06);
+      color: #d7e4ef;
+      border-radius: 8px;
+      padding: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .mode-btn.active {
+      background: rgba(38,103,255,.25);
+      border-color: #2667ff;
+      color: #fff;
     }
     .aside-footer {
       margin-top: auto;
@@ -487,11 +523,12 @@
       flex-direction: column;
       gap: 10px;
       margin-top: 10px;
+        margin-bottom: 10px;
     }
     .image-picker-row,
     .image-upload-row {
       display: grid;
-      grid-template-columns: 1fr auto;
+      grid-template-columns: 180px 1fr auto;
       gap: 8px;
       align-items: center;
     }
@@ -536,6 +573,144 @@
       border-radius: 8px;
       border: 1.5px solid #eee;
       display: none;
+    }
+    .mini-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .mini-list-item {
+      border: 1px solid #e4e9ef;
+      border-radius: 8px;
+      padding: 8px 10px;
+      background: #fafcff;
+      display: grid;
+      grid-template-columns: 26px 1fr;
+      gap: 8px;
+      align-items: start;
+    }
+    .mini-list-icon {
+      font-size: 18px;
+      line-height: 1;
+    }
+    .mini-list-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #273846;
+      margin-bottom: 2px;
+    }
+    .mini-list-text {
+      font-size: 12px;
+      color: #607080;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .card-collection-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .card-collection-item {
+      border: 1px solid #e4e9ef;
+      border-radius: 10px;
+      background: #fff;
+      padding: 12px;
+      display: grid;
+      grid-template-columns: 36px minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: start;
+    }
+    .card-collection-item .icon-box {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: #eef4ff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+    .card-collection-actions {
+      display: flex;
+      gap: 8px;
+      flex-shrink: 0;
+      align-self: center;
+    }
+    .card-collection-item > div:nth-child(2) {
+      min-width: 0;
+    }
+    .home-image-card {
+      border: 1.5px solid #e7ecff;
+      border-radius: 10px;
+      background: #f9fbff;
+      padding: 12px;
+      margin-bottom: 12px;
+    }
+    .home-image-card-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #273846;
+      margin-bottom: 8px;
+    }
+    .home-image-card .img-preview-wrap {
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+    .home-image-card .img-preview {
+      display: block;
+      background: #eef3f8;
+    }
+    .img-cur-path {
+      display: block;
+      font-size: 12px;
+      font-family: 'Consolas', 'Courier New', monospace;
+      color: #666;
+      padding: 2px 0 6px;
+      word-break: break-all;
+    }
+    .home-quicknav {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+      background: #f0f4ff;
+      border: 1px solid #d4e0ff;
+      border-radius: 10px;
+      padding: 10px 14px;
+      margin-bottom: 14px;
+    }
+    .home-qn-label {
+      font-size: 12px;
+      color: #888;
+      margin-right: 4px;
+    }
+    .home-qn-btn {
+      background: #fff;
+      border: 1px solid #c5d5f5;
+      border-radius: 7px;
+      padding: 5px 11px;
+      font-size: 12px;
+      cursor: pointer;
+      color: #1447b8;
+      font-weight: 600;
+      transition: background 0.15s;
+    }
+    .home-qn-btn:hover {
+      background: #e6edff;
+    }
+    .btn-secondary {
+      background: #eef4ff;
+      color: #1447b8;
+      border: 1px solid #bfd7ff;
+      border-radius: 8px;
+      padding: 9px 12px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn-secondary:hover {
+      background: #deebff;
     }
     .modal-footer {
       padding: 16px 24px;
@@ -669,8 +844,21 @@
 
   <div class="body-wrap">
     <aside>
-      <h3>Категорії</h3>
+      <div class="mode-switch">
+        <button id="mode-services-btn" class="mode-btn active" type="button">Послуги</button>
+        <button id="mode-home-btn" class="mode-btn" type="button">Головна</button>
+      </div>
+      <h3 id="aside-title">Категорії</h3>
       <div id="cat-list"></div>
+      <div id="home-nav-list" style="display:none;">
+        <div class="home-nav-item" data-qn-section="home-sec-1">1. Перший блок</div>
+        <div class="home-nav-item" data-qn-popup="about">2. Про нас: картки</div>
+        <div class="home-nav-item" data-qn-section="home-sec-3">3. Напрямки роботи</div>
+        <div class="home-nav-item" data-qn-popup="directions">4. Напрямки діяльності</div>
+        <div class="home-nav-item" data-qn-section="home-sec-5">5. Послуги</div>
+        <div class="home-nav-item" data-qn-section="home-sec-6">6. Контакти</div>
+        <div class="home-nav-item" data-qn-section="home-sec-7">7. Підвал</div>
+      </div>
       <div class="aside-footer">
         <button class="btn-download" id="save-api-btn">💾 Зберегти й застосувати</button>
         <button class="btn-download" id="download-btn">⬇ Експорт JSON</button>
@@ -711,8 +899,11 @@
         </div>
         <div class="image-tools">
           <div class="image-picker-row">
+            <select id="f-picker-folder">
+              <option value="">Папка...</option>
+            </select>
             <select id="f-image-existing">
-              <option value="">Вибрати наявне зображення</option>
+              <option value="">Зображення...</option>
             </select>
             <button type="button" class="btn-small" id="apply-existing-image-btn">Підставити</button>
           </div>
@@ -753,6 +944,59 @@
   </div>
 </div>
 
+<div class="modal-overlay hidden" id="home-cards-modal">
+  <div class="modal-card" style="max-width:800px;">
+    <div class="modal-header">
+      <h3 id="home-cards-modal-title">Редагувати картки</h3>
+      <button class="modal-close" id="home-cards-modal-close">✕</button>
+    </div>
+    <div class="modal-body">
+      <div id="home-cards-modal-list" class="card-collection-list"></div>
+      <div class="price-actions">
+        <button type="button" class="add-section-btn" id="home-cards-modal-add-btn">+ Додати картку</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay hidden" id="home-card-edit-modal">
+  <div class="modal-card" style="max-width:720px;">
+    <div class="modal-header">
+      <h3 id="home-card-edit-title">Редагувати картку</h3>
+      <button class="modal-close" id="home-card-edit-close">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <label>Іконка</label>
+        <input type="text" id="home-card-edit-icon" placeholder="Наприклад: 🎯">
+      </div>
+      <div class="form-row">
+        <label>Заголовок</label>
+        <input type="text" id="home-card-edit-heading" placeholder="Назва картки">
+      </div>
+      <div class="form-row" id="home-card-type-row">
+        <label>Тип контенту</label>
+        <select id="home-card-edit-type">
+          <option value="text">Текст</option>
+          <option value="list">Список</option>
+        </select>
+      </div>
+      <div class="form-row" id="home-card-edit-text-row">
+        <label>Текст</label>
+        <textarea id="home-card-edit-text" placeholder="Текст картки"></textarea>
+      </div>
+      <div class="form-row" id="home-card-edit-items-row">
+        <label>Пункти списку</label>
+        <textarea id="home-card-edit-items" placeholder="Кожен пункт з нового рядка"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" id="home-card-edit-cancel">Скасувати</button>
+      <button class="btn-save" id="home-card-edit-save">Зберегти</button>
+    </div>
+  </div>
+</div>
+
 <!-- ────────────── CONFIRM DELETE ────────────── -->
 <div class="confirm-overlay hidden" id="confirm-del">
   <div class="confirm-card">
@@ -777,19 +1021,26 @@ const ADMIN_PASSWORD = 'admin2024';
 
 // PHP API endpoint for saving
 const API_SAVE_URL = '../api/save-services.php';
+const API_SAVE_SITE_CONTENT_URL = '../api/save-site-content.php';
 const API_LIST_IMAGES_URL = '../api/list-images.php';
 const API_UPLOAD_IMAGE_URL = '../api/upload-image.php';
+const SITE_CONTENT_URL = '../site-content.json';
 
 // ═══════════════════════════════════════════════════════
 //  STATE
 // ═══════════════════════════════════════════════════════
 let servicesData = null;          // loaded from services.json
+let siteContentData = null;       // loaded from site-content.json
 let activeCatIndex = -1;          // currently selected category
 let editingServiceIndex = null;   // null = adding new, number = editing existing
 let pendingDeleteIndex = null;    // index pending confirmation
 let hasUnsavedChanges = false;
 let availableImages = [];
 let availableImageFolders = [];
+let activeMode = 'services';
+let imageLibraryPromise = null;
+let homeCardModalSection = 'about';
+let homeCardEditIndex = null;
 
 // ═══════════════════════════════════════════════════════
 //  HELPERS
@@ -831,6 +1082,58 @@ function getImageFolder(path) {
   const normalized = path.replace(/\\/g, '/');
   const idx = normalized.lastIndexOf('/');
   return idx >= 0 ? normalized.slice(0, idx) : '';
+}
+
+function ensureImageLibraryLoaded() {
+  if (availableImages.length && availableImageFolders.length) {
+    return Promise.resolve();
+  }
+  if (imageLibraryPromise) return imageLibraryPromise;
+  imageLibraryPromise = fetchJson(API_LIST_IMAGES_URL, {
+    headers: { 'X-Admin-Password': ADMIN_PASSWORD }
+  })
+  .then((data) => {
+    if (!data || !data.ok) throw new Error((data && data.error) || 'Не вдалося отримати список зображень');
+    availableImages = Array.isArray(data.images) ? data.images : [];
+    availableImageFolders = Array.isArray(data.folders) ? data.folders : [];
+  })
+  .catch((err) => {
+    console.error(err);
+  })
+  .finally(() => {
+    imageLibraryPromise = null;
+  });
+  return imageLibraryPromise;
+}
+
+function buildImageSelectOptions(currentPath) {
+  const current = (currentPath || '').trim();
+  const opts = ['<option value="">Вибрати зображення</option>'];
+  availableImages.forEach((p) => {
+    opts.push('<option value="' + escHtml(p) + '"' + (p === current ? ' selected' : '') + '>' + escHtml(p) + '</option>');
+  });
+  return opts.join('');
+}
+
+function buildImageSelectOptionsForFolder(folder, currentPath) {
+  const current = (currentPath || '').trim();
+  const prefix = folder ? folder + '/' : '';
+  const imgs = folder ? availableImages.filter(p => p.startsWith(prefix)) : availableImages;
+  const opts = ['<option value="">Зображення...</option>'];
+  imgs.forEach((p) => {
+    const name = p.replace(prefix, '');
+    opts.push('<option value="' + escHtml(p) + '"' + (p === current ? ' selected' : '') + '>' + escHtml(name) + '</option>');
+  });
+  return opts.join('');
+}
+
+function buildFolderSelectOptions(currentFolder) {
+  const folders = availableImageFolders.length ? availableImageFolders : ['image'];
+  const selected = currentFolder && folders.includes(currentFolder) ? currentFolder : (folders[0] || '');
+  return '<option value="">Папка...</option>' + folders.map((folder) => {
+    const label = folder.replace(/^image\//, '');
+    return '<option value="' + escHtml(folder) + '"' + (folder === selected ? ' selected' : '') + '>' + escHtml(label) + '</option>';
+  }).join('');
 }
 
 function fetchJson(url, options) {
@@ -889,13 +1192,32 @@ function loadImageLibrary(force) {
 function populateImageOptions() {
   const imageSelect = document.getElementById('f-image-existing');
   const folderSelect = document.getElementById('f-upload-folder');
+  const pickerFolderSelect = document.getElementById('f-picker-folder');
   const currentImage = document.getElementById('f-image').value.trim();
+  const currentImageFolder = getImageFolder(currentImage);
 
-  imageSelect.innerHTML = '<option value="">Вибрати наявне зображення</option>';
-  availableImages.forEach((path) => {
+  // populate picker folder select
+  if (pickerFolderSelect) {
+    pickerFolderSelect.innerHTML = '<option value="">Папка...</option>';
+    const folders = availableImageFolders.length ? availableImageFolders : [];
+    folders.forEach((folder) => {
+      const opt = document.createElement('option');
+      opt.value = folder;
+      opt.textContent = folder.replace(/^image\//, '');
+      if (folder === currentImageFolder) opt.selected = true;
+      pickerFolderSelect.appendChild(opt);
+    });
+  }
+
+  // populate image select filtered by current folder
+  const pickerFolder = pickerFolderSelect ? pickerFolderSelect.value : '';
+  const prefix = pickerFolder ? pickerFolder + '/' : '';
+  const imgs = pickerFolder ? availableImages.filter(p => p.startsWith(prefix)) : availableImages;
+  imageSelect.innerHTML = '<option value="">Зображення...</option>';
+  imgs.forEach((path) => {
     const opt = document.createElement('option');
     opt.value = path;
-    opt.textContent = path;
+    opt.textContent = path.replace(prefix, '');
     if (path === currentImage) opt.selected = true;
     imageSelect.appendChild(opt);
   });
@@ -905,13 +1227,13 @@ function populateImageOptions() {
   folders.forEach((folder) => {
     const opt = document.createElement('option');
     opt.value = folder;
-    opt.textContent = folder;
+    opt.textContent = folder.replace(/^image\//, '');
     folderSelect.appendChild(opt);
   });
 
-  const currentFolder = getImageFolder(currentImage);
-  if (currentFolder && folders.includes(currentFolder)) {
-    folderSelect.value = currentFolder;
+  const uploadFolder = getImageFolder(currentImage);
+  if (uploadFolder && folders.includes(uploadFolder)) {
+    folderSelect.value = uploadFolder;
   }
 }
 
@@ -935,6 +1257,7 @@ function doLogin() {
     document.getElementById('login-screen').style.display = 'none';
     document.getElementById('app').style.display = 'flex';
     loadServicesData();
+    loadSiteContentData();
   } else {
     errEl.style.display = 'block';
     document.getElementById('pwd-input').value = '';
@@ -954,7 +1277,11 @@ if (checkLogin()) {
   document.getElementById('login-screen').style.display = 'none';
   document.getElementById('app').style.display = 'flex';
   loadServicesData();
+  loadSiteContentData();
 }
+
+document.getElementById('mode-services-btn').addEventListener('click', () => switchMode('services'));
+document.getElementById('mode-home-btn').addEventListener('click', () => switchMode('home'));
 
 // ═══════════════════════════════════════════════════════
 //  DATA LOADING
@@ -968,8 +1295,10 @@ function loadServicesData() {
     .then(data => {
       servicesData = data;
       ensureRequiredCategories();
-      renderCategoryList();
-      if (servicesData.categories.length > 0) {
+      if (activeMode === 'services') {
+        renderCategoryList();
+      }
+      if (activeMode === 'services' && servicesData.categories.length > 0) {
         selectCategory(0);
       }
     })
@@ -977,6 +1306,534 @@ function loadServicesData() {
       document.getElementById('main-area').innerHTML =
         '<div class="empty-state"><div class="icon">⚠</div><p>Не вдалося завантажити services.json<br><small>' + err.message + '</small></p></div>';
     });
+}
+
+function loadSiteContentData() {
+  fetch(SITE_CONTENT_URL + '?_=' + Date.now())
+    .then(r => {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    })
+    .then(data => {
+      siteContentData = data;
+      if (activeMode === 'home') renderHomeEditor();
+    })
+    .catch(err => {
+      console.error('site-content.json error', err);
+      if (!siteContentData) {
+        siteContentData = {
+          hero: { title: '', text: '' },
+          aboutCards: [],
+          activity: { title: '', lead: '', intro: '', items: [] },
+          directions: [],
+          contacts: { phoneDisplay: '', phoneRaw: '', email: '', hours: '', addressLine1: '', addressLine2: '', locationInfo: '', facebook: '' },
+          footer: { aboutTitle: '', aboutText: '', aboutSubtext: '' }
+        };
+      }
+      if (activeMode === 'home') {
+        document.getElementById('main-area').innerHTML =
+          '<div class="empty-state"><div class="icon">⚠</div><p>Не вдалося завантажити site-content.json<br><small>' + err.message + '</small></p></div>';
+      }
+    });
+}
+
+function switchMode(mode) {
+  activeMode = mode === 'home' ? 'home' : 'services';
+  const mainArea = document.getElementById('main-area');
+  document.getElementById('mode-services-btn').classList.toggle('active', activeMode === 'services');
+  document.getElementById('mode-home-btn').classList.toggle('active', activeMode === 'home');
+  document.getElementById('aside-title').textContent = activeMode === 'services' ? 'Категорії' : 'Розділи';
+  document.getElementById('cat-list').style.display = activeMode === 'services' ? '' : 'none';
+  document.getElementById('home-nav-list').style.display = activeMode === 'home' ? '' : 'none';
+
+  if (activeMode === 'services') {
+    mainArea.onclick = null;
+    mainArea.onchange = null;
+    mainArea.oninput = null;
+    renderCategoryList();
+    if (activeCatIndex < 0 && servicesData && servicesData.categories && servicesData.categories.length) {
+      activeCatIndex = 0;
+    }
+    if (servicesData) renderServiceList();
+  } else {
+    renderHomeEditor();
+  }
+}
+
+function getHomeCardCollection(section) {
+  if (!siteContentData) return [];
+  return section === 'directions'
+    ? (Array.isArray(siteContentData.directions) ? siteContentData.directions : [])
+    : (Array.isArray(siteContentData.aboutCards) ? siteContentData.aboutCards : []);
+}
+
+function cardPreviewText(card, section) {
+  if (section === 'directions') {
+    return (card && card.text) || '';
+  }
+  const type = card && card.type === 'list' ? 'list' : 'text';
+  if (type === 'list') {
+    const first = Array.isArray(card.items) ? (card.items[0] || '') : '';
+    return first;
+  }
+  return (card && card.text) || '';
+}
+
+function trimPreview(s) {
+  const t = String(s || '').replace(/\s+/g, ' ').trim();
+  if (t.length <= 90) return t;
+  return t.slice(0, 90).trim() + '...';
+}
+
+function renderHomeCardPreviewList(section, targetId) {
+  const target = document.getElementById(targetId);
+  if (!target) return;
+  const cards = getHomeCardCollection(section);
+  target.innerHTML = cards.map((card) => {
+    const icon = escHtml(card.icon || '•');
+    const title = escHtml(card.title || 'Без назви');
+    const text = escHtml(trimPreview(cardPreviewText(card, section)) || 'Немає опису');
+    return '<div class="mini-list-item">' +
+      '<div class="mini-list-icon">' + icon + '</div>' +
+      '<div>' +
+        '<div class="mini-list-title">' + title + '</div>' +
+        '<div class="mini-list-text">' + text + '</div>' +
+      '</div>' +
+    '</div>';
+  }).join('') || '<div class="empty-state" style="padding:20px 10px;"><p>Карток поки немає</p></div>';
+}
+
+function openHomeCardsModal(section) {
+  homeCardModalSection = section;
+  const modal = document.getElementById('home-cards-modal');
+  const title = document.getElementById('home-cards-modal-title');
+  title.textContent = section === 'directions' ? 'Картки: Напрямки діяльності' : 'Картки: Про нас';
+  renderHomeCardsModalList();
+  modal.classList.remove('hidden');
+}
+
+function renderHomeCardsModalList() {
+  const list = document.getElementById('home-cards-modal-list');
+  const cards = getHomeCardCollection(homeCardModalSection);
+  list.innerHTML = cards.map((card, index) => {
+    const icon = escHtml(card.icon || '•');
+    const title = escHtml(card.title || 'Без назви');
+    const text = escHtml(trimPreview(cardPreviewText(card, homeCardModalSection)) || 'Немає опису');
+    return '<div class="card-collection-item">' +
+      '<div class="icon-box">' + icon + '</div>' +
+      '<div>' +
+        '<div class="mini-list-title">' + title + '</div>' +
+        '<div class="mini-list-text">' + text + '</div>' +
+      '</div>' +
+      '<div class="card-collection-actions">' +
+        '<button type="button" class="btn-secondary" data-home-card-edit="' + index + '">Редагувати</button>' +
+        '<button type="button" class="btn-confirm-del" data-home-card-del="' + index + '">Видалити</button>' +
+      '</div>' +
+    '</div>';
+  }).join('') || '<div class="empty-state" style="padding:20px 10px;"><p>Карток поки немає</p></div>';
+}
+
+function closeHomeCardsModal() {
+  document.getElementById('home-cards-modal').classList.add('hidden');
+}
+
+function openHomeCardEditModal(section, index) {
+  homeCardModalSection = section;
+  homeCardEditIndex = index;
+  const cards = getHomeCardCollection(section);
+  const item = index === null
+    ? (section === 'directions'
+      ? { icon: '', title: '', text: '' }
+      : { icon: '', title: '', type: 'text', text: '', items: [] })
+    : (cards[index] || {});
+
+  document.getElementById('home-card-edit-title').textContent = section === 'directions' ? 'Редагувати картку напряму' : 'Редагувати картку "Про нас"';
+  document.getElementById('home-card-edit-icon').value = item.icon || '';
+  document.getElementById('home-card-edit-heading').value = item.title || '';
+  document.getElementById('home-card-edit-type').value = item.type === 'list' ? 'list' : 'text';
+  document.getElementById('home-card-edit-text').value = item.text || '';
+  document.getElementById('home-card-edit-items').value = Array.isArray(item.items) ? item.items.join('\n') : '';
+
+  const isDirections = section === 'directions';
+  document.getElementById('home-card-type-row').style.display = isDirections ? 'none' : 'block';
+  document.getElementById('home-card-edit-items-row').style.display = isDirections ? 'none' : (document.getElementById('home-card-edit-type').value === 'list' ? 'block' : 'none');
+  document.getElementById('home-card-edit-text-row').style.display = isDirections ? 'block' : (document.getElementById('home-card-edit-type').value === 'text' ? 'block' : 'none');
+  document.getElementById('home-card-edit-modal').classList.remove('hidden');
+}
+
+function closeHomeCardEditModal() {
+  document.getElementById('home-card-edit-modal').classList.add('hidden');
+  homeCardEditIndex = null;
+}
+
+function saveHomeCardEditModal() {
+  const section = homeCardModalSection;
+  const cards = getHomeCardCollection(section);
+  const title = document.getElementById('home-card-edit-heading').value.trim();
+  if (!title) {
+    showToast('Введіть заголовок картки', 'error');
+    return;
+  }
+
+  const item = {
+    icon: document.getElementById('home-card-edit-icon').value.trim(),
+    title,
+  };
+
+  if (section === 'directions') {
+    item.text = document.getElementById('home-card-edit-text').value.trim();
+  } else {
+    item.type = document.getElementById('home-card-edit-type').value === 'list' ? 'list' : 'text';
+    item.text = document.getElementById('home-card-edit-text').value.trim();
+    item.items = document.getElementById('home-card-edit-items').value.split('\n').map((v) => v.trim()).filter(Boolean);
+  }
+
+  if (homeCardEditIndex === null) {
+    cards.push(item);
+  } else {
+    cards[homeCardEditIndex] = item;
+  }
+
+  if (section === 'directions') siteContentData.directions = cards;
+  else siteContentData.aboutCards = cards;
+
+  renderHomeCardsModalList();
+  markUnsaved();
+  closeHomeCardEditModal();
+}
+
+function updateHomeServiceCardPreview(index, path) {
+  const preview = document.querySelector('[data-home-card-preview="' + index + '"]');
+  if (!preview) return;
+  const value = (path || '').trim();
+  if (value) {
+    preview.src = getRelativePath(value);
+    preview.style.display = 'block';
+    preview.onerror = () => {
+      preview.style.display = 'none';
+    };
+  } else {
+    preview.removeAttribute('src');
+    preview.style.display = 'none';
+  }
+}
+
+function updateHomeCardPathSpan(index, path) {
+  const span = document.querySelector('.img-cur-path[data-cat-card-image="' + index + '"]');
+  if (span) span.textContent = (path || '').trim() || '(не вказано)';
+}
+
+function renderHomeEditor() {
+  if (!siteContentData) {
+    document.getElementById('main-area').innerHTML = '<div class="empty-state"><div class="icon">⏳</div><p>Завантаження контенту головної...</p></div>';
+    return;
+  }
+
+  if (!availableImages.length) {
+    ensureImageLibraryLoaded().then(() => {
+      if (activeMode === 'home') renderHomeEditor();
+    });
+  }
+
+  const hero = siteContentData.hero || {};
+  const activity = siteContentData.activity || {};
+  const contacts = siteContentData.contacts || {};
+  const footer = siteContentData.footer || {};
+
+  const categoriesRows = (servicesData && Array.isArray(servicesData.categories) ? servicesData.categories : [])
+    .map((cat, i) => {
+      const img = (cat.cardImage || '');
+      const folder = getImageFolder(img || 'image/Картки послуг');
+      return '<div class="home-image-card">' +
+        '<div class="home-image-card-title">' + escHtml(cat.title) + '</div>' +
+        '<div class="img-preview-wrap">' +
+          '<span class="img-cur-path" data-cat-card-image="' + i + '">' + escHtml(img || '(не вказано)') + '</span>' +
+          '<input type="hidden" data-cat-card-image="' + i + '" value="' + escHtml(img) + '">' +
+          '<img data-home-card-preview="' + i + '" class="img-preview" src="' + escHtml(getRelativePath(img || '')) + '" alt="preview"' + (img ? '' : ' style="display:none"') + '>' +
+        '</div>' +
+        '<div class="image-tools">' +
+          '<div class="image-picker-row">' +
+            '<select data-home-card-picker-folder="' + i + '">' + buildFolderSelectOptions(folder) + '</select>' +
+            '<select data-home-card-existing="' + i + '">' + buildImageSelectOptionsForFolder(folder, img) + '</select>' +
+            '<button type="button" class="btn-small" data-home-card-apply="' + i + '">Підставити</button>' +
+          '</div>' +
+          '<div class="image-upload-grid">' +
+            '<input type="file" data-home-card-upload="' + i + '" accept="image/*">' +
+            '<select data-home-card-folder="' + i + '">' + buildFolderSelectOptions(folder) + '</select>' +
+            '<button type="button" class="btn-small" data-home-card-upload-btn="' + i + '">Завантажити</button>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+    }).join('');
+
+  document.getElementById('main-area').innerHTML =
+    '<div class="main-top"><h2>Головна сторінка</h2><button class="btn-add" id="home-save-local-btn">Застосувати локально</button></div>' +
+    '<div class="price-section" id="home-sec-1" style="background:#fff;margin-bottom:12px;">' +
+      '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">' +
+        '<strong>1. Перший блок</strong>' +
+      '</div>' +
+      '<div class="form-row"><label>Заголовок</label><textarea id="home-hero-title">' + escHtml(hero.title || '') + '</textarea></div>' +
+      '<div class="form-row" style="margin-bottom:0;"><label>Текст</label><textarea id="home-hero-text">' + escHtml(hero.text || '') + '</textarea></div>' +
+    '</div>' +
+    '<div class="price-section" id="home-sec-2" style="background:#fff;margin-bottom:12px;">' +
+      '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">' +
+        '<strong>2. Про нас: картки</strong>' +
+        '<button type="button" class="btn-small" data-home-open-cards="about">Редагувати картки</button>' +
+      '</div>' +
+    '</div>' +
+    '<div class="price-section" id="home-sec-3" style="background:#fff;margin-bottom:12px;">' +
+      '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">' +
+        '<strong>3. Про нас: Наші напрямки роботи</strong>' +
+        '<button type="button" class="btn-small" data-toggle-target="home-activity-editor">Редагувати блок</button>' +
+      '</div>' +
+      '<div id="home-activity-editor" style="display:none;">' +
+        '<div class="form-row"><label>Заголовок</label><input id="home-activity-title" type="text" value="' + escHtml(activity.title || '') + '"></div>' +
+        '<div class="form-row"><label>Опис</label><textarea id="home-activity-lead">' + escHtml(activity.lead || '') + '</textarea></div>' +
+        '<div class="form-row"><label>Вступ</label><input id="home-activity-intro" type="text" value="' + escHtml(activity.intro || '') + '"></div>' +
+        '<div class="form-row" style="margin-bottom:0;"><label>Пункти</label><div id="home-activity-items-list"></div><button type="button" class="btn-small" id="home-add-activity-item">+ Додати пункт</button></div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="price-section" id="home-sec-4" style="background:#fff;margin-bottom:12px;">' +
+      '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">' +
+        '<strong>4. Напрямки діяльності: картки</strong>' +
+        '<button type="button" class="btn-small" data-home-open-cards="directions">Редагувати картки</button>' +
+      '</div>' +
+    '</div>' +
+    '<div class="price-section" id="home-sec-5" style="background:#fff;margin-bottom:12px;">' +
+      '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">' +
+        '<strong>5. Послуги: картки та фони попапів</strong>' +
+        '<button type="button" class="btn-small" data-toggle-target="home-service-cards-editor">Редагувати зображення</button>' +
+      '</div>' +
+      '<div id="home-service-cards-editor" style="display:none;">' + categoriesRows + '</div>' +
+    '</div>' +
+    '<div class="price-section" id="home-sec-6" style="background:#fff;margin-bottom:12px;">' +
+      '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">' +
+        '<strong>6. Контакти</strong>' +
+        '<button type="button" class="btn-small" data-toggle-target="home-contacts-editor">Редагувати контакти</button>' +
+      '</div>' +
+      '<div id="home-contacts-editor" style="display:none;">' +
+        '<div class="form-row"><label>Телефон (видимий)</label><input id="home-phone-display" type="text" value="' + escHtml(contacts.phoneDisplay || '') + '"></div>' +
+        '<div class="form-row"><label>Телефон (цифри, без + і пробілів)</label><input id="home-phone-raw" type="text" value="' + escHtml(contacts.phoneRaw || '') + '"></div>' +
+        '<div class="form-row"><label>Email</label><input id="home-email" type="text" value="' + escHtml(contacts.email || '') + '"></div>' +
+        '<div class="form-row"><label>Графік</label><input id="home-hours" type="text" value="' + escHtml(contacts.hours || '') + '"></div>' +
+        '<div class="form-row"><label>Адреса рядок 1</label><input id="home-address-1" type="text" value="' + escHtml(contacts.addressLine1 || '') + '"></div>' +
+        '<div class="form-row"><label>Адреса рядок 2</label><input id="home-address-2" type="text" value="' + escHtml(contacts.addressLine2 || '') + '"></div>' +
+        '<div class="form-row"><label>Блок "Розташування"</label><input id="home-location" type="text" value="' + escHtml(contacts.locationInfo || '') + '"></div>' +
+        '<div class="form-row" style="margin-bottom:0;"><label>Facebook URL</label><input id="home-facebook" type="text" value="' + escHtml(contacts.facebook || '') + '"></div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="price-section" id="home-sec-7" style="background:#fff;margin-bottom:12px;">' +
+      '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">' +
+        '<strong>7. Підвал</strong>' +
+        '<button type="button" class="btn-small" data-toggle-target="home-footer-editor">Редагувати підвал</button>' +
+      '</div>' +
+      '<div id="home-footer-editor" style="display:none;">' +
+        '<div class="form-row"><label>Заголовок блоку</label><input id="home-footer-title" type="text" value="' + escHtml(footer.aboutTitle || '') + '"></div>' +
+        '<div class="form-row"><label>Основний текст</label><textarea id="home-footer-text">' + escHtml(footer.aboutText || '') + '</textarea></div>' +
+        '<div class="form-row" style="margin-bottom:0;"><label>Додатковий текст</label><textarea id="home-footer-subtext">' + escHtml(footer.aboutSubtext || '') + '</textarea></div>' +
+      '</div>' +
+    '</div>';
+
+  const activityItems = Array.isArray(activity.items) ? activity.items : [];
+  function activityItemRow(text) {
+    return '<div class="price-row home-activity-item" style="grid-template-columns:1fr auto;">' +
+      '<input type="text" class="home-activity-text" placeholder="Пункт" value="' + escHtml(text || '') + '">' +
+      '<button type="button" class="remove-row home-activity-del">×</button>' +
+    '</div>';
+  }
+
+  const activityWrap = document.getElementById('home-activity-items-list');
+  activityWrap.innerHTML = (activityItems.length ? activityItems : ['']).map(activityItemRow).join('');
+
+  document.getElementById('home-save-local-btn').addEventListener('click', () => {
+    if (collectHomeForm()) {
+      showToast('Зміни підготовлено локально', 'success');
+    }
+  });
+
+  document.getElementById('home-add-activity-item').addEventListener('click', () => {
+    activityWrap.insertAdjacentHTML('beforeend', activityItemRow(''));
+    markUnsaved();
+  });
+
+  const homeMain = document.getElementById('main-area');
+
+  homeMain.onchange = (e) => {
+    if (e.target.matches('[data-home-card-picker-folder]')) {
+      const idx = e.target.getAttribute('data-home-card-picker-folder');
+      const folder = e.target.value;
+      const imgSel = document.querySelector('[data-home-card-existing="' + idx + '"]');
+      const hidden = document.querySelector('input[type="hidden"][data-cat-card-image="' + idx + '"]');
+      if (imgSel) imgSel.innerHTML = buildImageSelectOptionsForFolder(folder, hidden ? hidden.value : '');
+      markUnsaved();
+      return;
+    }
+    if (e.target.matches('[data-home-card-existing]')) {
+      const idx = e.target.getAttribute('data-home-card-existing');
+      const input = document.querySelector('input[type="hidden"][data-cat-card-image="' + idx + '"]');
+      if (input && e.target.value) {
+        input.value = e.target.value;
+        updateHomeServiceCardPreview(idx, e.target.value);
+        updateHomeCardPathSpan(idx, e.target.value);
+      }
+    }
+    markUnsaved();
+  };
+
+  homeMain.oninput = (e) => {
+    markUnsaved();
+  };
+
+  homeMain.onclick = (e) => {
+    const qnBtn = e.target.closest('[data-qn-section]');
+    if (qnBtn) {
+      const secId = qnBtn.getAttribute('data-qn-section');
+      const sec = document.getElementById(secId);
+      if (sec) {
+        // find the toggle target inside this section and expand it if collapsed
+        const toggleBtn = sec.querySelector('[data-toggle-target]');
+        if (toggleBtn) {
+          const targetId = toggleBtn.getAttribute('data-toggle-target');
+          const target = document.getElementById(targetId);
+          if (target) target.style.display = 'block';
+        }
+        sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // highlight active nav item
+        document.querySelectorAll('#home-nav-list .home-nav-item').forEach(el => el.classList.remove('active-nav'));
+        document.querySelector('#home-nav-list [data-qn-section="' + secId + '"]')?.classList.add('active-nav');
+      }
+      return;
+    }
+    const qnPopup = e.target.closest('[data-qn-popup]');
+    if (qnPopup) {
+      const section = qnPopup.getAttribute('data-qn-popup');
+      document.querySelectorAll('#home-nav-list .home-nav-item').forEach(el => el.classList.remove('active-nav'));
+      document.querySelector('#home-nav-list [data-qn-popup="' + section + '"]')?.classList.add('active-nav');
+      openHomeCardsModal(section);
+      return;
+    }
+    const actDel = e.target.closest('.home-activity-del');
+    if (actDel) {
+      actDel.closest('.home-activity-item').remove();
+      if (!activityWrap.querySelector('.home-activity-item')) {
+        activityWrap.insertAdjacentHTML('beforeend', activityItemRow(''));
+      }
+      markUnsaved();
+      return;
+    }
+    const applyBtn = e.target.closest('[data-home-card-apply]');
+    if (applyBtn) {
+      const idx = applyBtn.getAttribute('data-home-card-apply');
+      const select = document.querySelector('[data-home-card-existing="' + idx + '"]');
+      const input = document.querySelector('input[type="hidden"][data-cat-card-image="' + idx + '"]');
+      if (select && input && select.value) {
+        input.value = select.value;
+        updateHomeServiceCardPreview(idx, select.value);
+        updateHomeCardPathSpan(idx, select.value);
+        markUnsaved();
+      }
+      return;
+    }
+
+    const uploadBtn = e.target.closest('[data-home-card-upload-btn]');
+    if (uploadBtn) {
+      const idx = uploadBtn.getAttribute('data-home-card-upload-btn');
+      const fileInput = document.querySelector('[data-home-card-upload="' + idx + '"]');
+      const folderSel = document.querySelector('[data-home-card-folder="' + idx + '"]');
+      const pathInput = document.querySelector('input[type="hidden"][data-cat-card-image="' + idx + '"]');
+      const existingSel = document.querySelector('[data-home-card-existing="' + idx + '"]');
+      const file = fileInput && fileInput.files && fileInput.files[0];
+      if (!file) {
+        showToast('Оберіть файл для завантаження', 'error');
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append('image', file);
+      formData.append('folder', (folderSel && folderSel.value) || 'image/Картки послуг');
+      fetchJson(API_UPLOAD_IMAGE_URL, {
+        method: 'POST',
+        headers: { 'X-Admin-Password': ADMIN_PASSWORD },
+        body: formData
+      })
+      .then((data) => {
+        if (!data || !data.ok || !data.path) throw new Error((data && data.error) || 'Не вдалося завантажити зображення');
+        if (pathInput) pathInput.value = data.path;
+        if (fileInput) fileInput.value = '';
+        if (!availableImages.includes(data.path)) availableImages.push(data.path);
+        if (existingSel) {
+          existingSel.innerHTML = buildImageSelectOptions(data.path);
+          existingSel.value = data.path;
+        }
+        updateHomeServiceCardPreview(idx, data.path);
+        updateHomeCardPathSpan(idx, data.path);
+        markUnsaved();
+        showToast('Зображення завантажено', 'success');
+      })
+      .catch((err) => {
+        showToast('Не вдалося завантажити: ' + err.message, 'error');
+      });
+      return;
+    }
+
+    const openCardsBtn = e.target.closest('[data-home-open-cards]');
+    if (openCardsBtn) {
+      openHomeCardsModal(openCardsBtn.getAttribute('data-home-open-cards'));
+      return;
+    }
+
+    const toggleBtn = e.target.closest('[data-toggle-target]');
+    if (toggleBtn) {
+      const targetId = toggleBtn.getAttribute('data-toggle-target');
+      const target = document.getElementById(targetId);
+      if (target) {
+        const isOpen = target.style.display !== 'none';
+        target.style.display = isOpen ? 'none' : 'block';
+      }
+    }
+  };
+}
+
+function collectHomeForm() {
+  if (!siteContentData) return false;
+
+  siteContentData.hero = {
+    title: document.getElementById('home-hero-title').value.trim(),
+    text: document.getElementById('home-hero-text').value.trim(),
+  };
+
+  siteContentData.activity = {
+    title: document.getElementById('home-activity-title').value.trim(),
+    lead: document.getElementById('home-activity-lead').value.trim(),
+    intro: document.getElementById('home-activity-intro').value.trim(),
+    items: Array.from(document.querySelectorAll('#home-activity-items-list .home-activity-text')).map((i) => i.value.trim()).filter(Boolean),
+  };
+
+  siteContentData.contacts = {
+    phoneDisplay: document.getElementById('home-phone-display').value.trim(),
+    phoneRaw: document.getElementById('home-phone-raw').value.trim(),
+    email: document.getElementById('home-email').value.trim(),
+    hours: document.getElementById('home-hours').value.trim(),
+    addressLine1: document.getElementById('home-address-1').value.trim(),
+    addressLine2: document.getElementById('home-address-2').value.trim(),
+    locationInfo: document.getElementById('home-location').value.trim(),
+    facebook: document.getElementById('home-facebook').value.trim(),
+  };
+  siteContentData.footer = {
+    aboutTitle: document.getElementById('home-footer-title').value.trim(),
+    aboutText: document.getElementById('home-footer-text').value.trim(),
+    aboutSubtext: document.getElementById('home-footer-subtext').value.trim(),
+  };
+
+  if (servicesData && Array.isArray(servicesData.categories)) {
+    servicesData.categories.forEach((cat, i) => {
+      const input = document.querySelector('input[type="hidden"][data-cat-card-image="' + i + '"]');
+      if (input) cat.cardImage = input.value.trim();
+    });
+  }
+
+  markUnsaved();
+  return true;
 }
 
 function ensureRequiredCategories() {
@@ -998,6 +1855,7 @@ function ensureRequiredCategories() {
 //  CATEGORY LIST
 // ═══════════════════════════════════════════════════════
 function renderCategoryList() {
+  if (!servicesData || !Array.isArray(servicesData.categories)) return;
   const list = document.getElementById('cat-list');
   list.innerHTML = '';
   servicesData.categories.forEach((cat, i) => {
@@ -1023,6 +1881,14 @@ function renderServiceList() {
   const cat = servicesData.categories[activeCatIndex];
   const main = document.getElementById('main-area');
 
+  if (!availableImages.length) {
+    ensureImageLibraryLoaded().then(() => {
+      if (activeMode === 'services' && servicesData && servicesData.categories[activeCatIndex] && servicesData.categories[activeCatIndex].id === cat.id) {
+        renderServiceList();
+      }
+    });
+  }
+
   let html = '<div class="main-top">';
   html += '<h2>' + escHtml(cat.title) + '</h2>';
   html += '<button class="btn-add" id="add-btn">+ Додати послугу</button>';
@@ -1031,6 +1897,25 @@ function renderServiceList() {
   html += '<div class="priceNote-badge">';
   html += '<label>Примітка категорії:</label>';
   html += '<input type="text" id="cat-price-note" value="' + escHtml(cat.priceNote || '') + '" placeholder="Наприклад: вартість наведена без ПДВ та з ПДВ">';
+  html += '</div>';
+
+  html += '<div class="priceNote-badge">';
+  html += '<label>Зображення картки:</label>';
+  html += '<input type="text" id="cat-card-image" value="' + escHtml(cat.cardImage || '') + '" placeholder="image/Картки послуг/назва.jpg">';
+  html += '</div>';
+
+  const catImgFolder = getImageFolder(cat.cardImage || 'image/Картки послуг');
+  html += '<div class="image-tools">';
+  html += '  <div class="image-picker-row">';
+  html += '    <select id="cat-card-picker-folder">' + buildFolderSelectOptions(catImgFolder) + '</select>';
+  html += '    <select id="cat-card-image-existing">' + buildImageSelectOptionsForFolder(catImgFolder, cat.cardImage || '') + '</select>';
+  html += '    <button type="button" class="btn-small" id="cat-card-apply-image-btn">Підставити</button>';
+  html += '  </div>';
+  html += '  <div class="image-upload-grid">';
+  html += '    <input type="file" id="cat-card-upload-image" accept="image/*">';
+  html += '    <select id="cat-card-upload-folder">' + buildFolderSelectOptions(catImgFolder) + '</select>';
+  html += '    <button type="button" class="btn-small" id="cat-card-upload-btn">Завантажити</button>';
+  html += '  </div>';
   html += '</div>';
 
   if (cat.services.length === 0) {
@@ -1075,8 +1960,75 @@ function renderServiceList() {
     markUnsaved();
   });
 
+  document.getElementById('cat-card-picker-folder').addEventListener('change', (e) => {
+    const folder = e.target.value;
+    const currentPath = document.getElementById('cat-card-image').value.trim();
+    document.getElementById('cat-card-image-existing').innerHTML = buildImageSelectOptionsForFolder(folder, currentPath);
+  });
+
+  document.getElementById('cat-card-image').addEventListener('input', e => {
+    servicesData.categories[activeCatIndex].cardImage = e.target.value;
+    markUnsaved();
+  });
+
+  document.getElementById('cat-card-apply-image-btn').addEventListener('click', () => {
+    const selected = document.getElementById('cat-card-image-existing').value;
+    if (!selected) return;
+    document.getElementById('cat-card-image').value = selected;
+    servicesData.categories[activeCatIndex].cardImage = selected;
+    markUnsaved();
+  });
+
+  document.getElementById('cat-card-image-existing').addEventListener('change', (e) => {
+    if (!e.target.value) return;
+    document.getElementById('cat-card-image').value = e.target.value;
+    servicesData.categories[activeCatIndex].cardImage = e.target.value;
+    markUnsaved();
+  });
+
+  document.getElementById('cat-card-upload-btn').addEventListener('click', () => {
+    const fileInput = document.getElementById('cat-card-upload-image');
+    const folder = document.getElementById('cat-card-upload-folder').value;
+    const file = fileInput.files && fileInput.files[0];
+    if (!file) {
+      showToast('Оберіть файл для завантаження', 'error');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('image', file);
+    formData.append('folder', folder);
+
+    fetchJson(API_UPLOAD_IMAGE_URL, {
+      method: 'POST',
+      headers: { 'X-Admin-Password': ADMIN_PASSWORD },
+      body: formData
+    })
+    .then((data) => {
+      if (!data || !data.ok || !data.path) throw new Error((data && data.error) || 'Не вдалося завантажити зображення');
+      document.getElementById('cat-card-image').value = data.path;
+      servicesData.categories[activeCatIndex].cardImage = data.path;
+      fileInput.value = '';
+      if (!availableImages.includes(data.path)) availableImages.push(data.path);
+      document.getElementById('cat-card-image-existing').innerHTML = buildImageSelectOptions(data.path);
+      document.getElementById('cat-card-image-existing').value = data.path;
+      markUnsaved();
+      showToast('Зображення картки завантажено', 'success');
+    })
+    .catch((err) => {
+      showToast('Не вдалося завантажити: ' + err.message, 'error');
+    });
+  });
+
   main.querySelectorAll('.btn-icon.edit').forEach(btn => {
     btn.addEventListener('click', () => openEditModal(Number(btn.dataset.idx)));
+  });
+  main.querySelectorAll('.svc-row').forEach(row => {
+    row.style.cursor = 'pointer';
+    row.addEventListener('click', (e) => {
+      if (e.target.closest('.btn-icon')) return;
+      openEditModal(Number(row.dataset.idx));
+    });
   });
   main.querySelectorAll('.btn-icon.del').forEach(btn => {
     btn.addEventListener('click', () => openConfirmDelete(Number(btn.dataset.idx)));
@@ -1339,6 +2291,12 @@ function populateCategorySelect(selectedId) {
   });
 }
 
+document.getElementById('f-picker-folder').addEventListener('change', (e) => {
+  const folder = e.target.value;
+  const currentImage = document.getElementById('f-image').value.trim();
+  document.getElementById('f-image-existing').innerHTML = buildImageSelectOptionsForFolder(folder, currentImage);
+});
+
 document.getElementById('f-image').addEventListener('input', e => {
   updateImgPreview(e.target.value);
   populateImageOptions();
@@ -1414,8 +2372,36 @@ function closeEditModal() {
 document.getElementById('modal-close-btn').addEventListener('click', closeEditModal);
 document.getElementById('modal-cancel-btn').addEventListener('click', closeEditModal);
 
-document.getElementById('edit-modal').addEventListener('click', e => {
-  if (e.target === document.getElementById('edit-modal')) closeEditModal();
+document.getElementById('home-cards-modal-close').addEventListener('click', closeHomeCardsModal);
+document.getElementById('home-card-edit-close').addEventListener('click', closeHomeCardEditModal);
+document.getElementById('home-card-edit-cancel').addEventListener('click', closeHomeCardEditModal);
+document.getElementById('home-card-edit-save').addEventListener('click', saveHomeCardEditModal);
+document.getElementById('home-card-edit-type').addEventListener('change', (e) => {
+  const isList = e.target.value === 'list';
+  document.getElementById('home-card-edit-text-row').style.display = isList ? 'none' : 'block';
+  document.getElementById('home-card-edit-items-row').style.display = isList ? 'block' : 'none';
+});
+document.getElementById('home-cards-modal-add-btn').addEventListener('click', () => {
+  openHomeCardEditModal(homeCardModalSection, null);
+});
+
+document.getElementById('home-cards-modal-list').addEventListener('click', (e) => {
+  const editBtn = e.target.closest('[data-home-card-edit]');
+  if (editBtn) {
+    openHomeCardEditModal(homeCardModalSection, Number(editBtn.getAttribute('data-home-card-edit')));
+    return;
+  }
+
+  const delBtn = e.target.closest('[data-home-card-del]');
+  if (delBtn) {
+    const idx = Number(delBtn.getAttribute('data-home-card-del'));
+    const cards = getHomeCardCollection(homeCardModalSection);
+    cards.splice(idx, 1);
+    if (homeCardModalSection === 'directions') siteContentData.directions = cards;
+    else siteContentData.aboutCards = cards;
+    renderHomeCardsModalList();
+    markUnsaved();
+  }
 });
 
 document.getElementById('modal-save-btn').addEventListener('click', saveService);
@@ -1521,46 +2507,104 @@ document.getElementById('del-confirm-btn').addEventListener('click', () => {
 //  SAVE / EXPORT / COPY JSON
 // ═══════════════════════════════════════════════════════
 function getJsonString() {
-  return JSON.stringify(servicesData, null, 2);
+  return activeMode === 'home'
+    ? JSON.stringify(siteContentData, null, 2)
+    : JSON.stringify(servicesData, null, 2);
 }
 
+document.getElementById('home-nav-list').addEventListener('click', (e) => {
+  const item = e.target.closest('[data-qn-section],[data-qn-popup]');
+  if (!item) return;
+  document.querySelectorAll('#home-nav-list .home-nav-item').forEach(el => el.classList.remove('active-nav'));
+  item.classList.add('active-nav');
+  if (item.hasAttribute('data-qn-popup')) {
+    openHomeCardsModal(item.getAttribute('data-qn-popup'));
+  } else {
+    const secId = item.getAttribute('data-qn-section');
+    const sec = document.getElementById(secId);
+    if (sec) {
+      const toggleBtn = sec.querySelector('[data-toggle-target]');
+      if (toggleBtn) {
+        const target = document.getElementById(toggleBtn.getAttribute('data-toggle-target'));
+        if (target) target.style.display = 'block';
+      }
+      sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+});
+
 document.getElementById('download-btn').addEventListener('click', () => {
+  if (activeMode === 'home' && !collectHomeForm()) return;
   const json = getJsonString();
   const blob = new Blob([json], { type: 'application/json' });
   const url  = URL.createObjectURL(blob);
   const a    = document.createElement('a');
   a.href     = url;
-  a.download = 'services.json';
+  a.download = activeMode === 'home' ? 'site-content.json' : 'services.json';
   a.click();
   URL.revokeObjectURL(url);
   clearUnsaved();
-  showToast('services.json завантажено', 'success');
+  showToast((activeMode === 'home' ? 'site-content.json' : 'services.json') + ' завантажено', 'success');
 });
 
 document.getElementById('copy-btn').addEventListener('click', () => {
+  if (activeMode === 'home' && !collectHomeForm()) return;
   navigator.clipboard.writeText(getJsonString())
     .then(() => showToast('JSON скопійовано в буфер обміну', 'success'))
     .catch(() => showToast('Не вдалося скопіювати', 'error'));
 });
 
 // ── Save via PHP API (optional, works only on PHP server) ──
-function saveViaApi() {
+function saveServicesViaApi(options) {
+  const silent = options && options.silent;
+  if (!servicesData || !Array.isArray(servicesData.categories)) {
+    return Promise.reject(new Error('Дані послуг не завантажені'));
+  }
   return fetchJson(API_SAVE_URL, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       'X-Admin-Password': ADMIN_PASSWORD
     },
-    body: getJsonString()
+    body: JSON.stringify(servicesData, null, 2)
   })
   .then(data => {
     if (data.ok) {
-      clearUnsaved();
-      showToast('✓ Збережено на сервері', 'success');
+      if (!silent) {
+        clearUnsaved();
+        showToast('✓ Збережено на сервері', 'success');
+      }
     } else {
       throw new Error(data.error || 'Помилка сервера');
     }
   });
+}
+
+function saveSiteContentViaApi() {
+  return fetchJson(API_SAVE_SITE_CONTENT_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Admin-Password': ADMIN_PASSWORD
+    },
+    body: JSON.stringify(siteContentData, null, 2)
+  })
+  .then(data => {
+    if (!data || !data.ok) {
+      throw new Error((data && data.error) || 'Помилка сервера');
+    }
+  });
+}
+
+function saveViaApi() {
+  if (activeMode === 'home') {
+    if (!collectHomeForm()) return Promise.reject(new Error('Помилка у даних форми'));
+    return Promise.all([saveSiteContentViaApi(), saveServicesViaApi({ silent: true })]).then(() => {
+      clearUnsaved();
+      showToast('✓ Збережено головну + послуги', 'success');
+    });
+  }
+  return saveServicesViaApi();
 }
 
 document.getElementById('save-api-btn').addEventListener('click', () => {
