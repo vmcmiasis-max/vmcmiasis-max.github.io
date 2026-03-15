@@ -1369,8 +1369,10 @@ function switchMode(mode) {
         const targetId = toggleBtn.getAttribute('data-toggle-target');
         const target = document.getElementById(targetId);
         if (target) {
-          const isOpen = target.style.display !== 'none';
-          target.style.display = isOpen ? 'none' : 'block';
+          // Only open if currently hidden
+          if (target.style.display === 'none' || getComputedStyle(target).display === 'none') {
+            target.style.display = 'block';
+          }
         }
       }
     };
