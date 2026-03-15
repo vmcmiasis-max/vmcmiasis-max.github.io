@@ -1539,18 +1539,6 @@ function renderHomeEditor() {
   const activity = siteContentData.activity || {};
   const contacts = siteContentData.contacts || {};
 
-  // After rendering, expand all editable sections for presentation on static hosting
-  setTimeout(() => {
-    [
-      'home-activity-editor',
-      'home-service-cards-editor',
-      'home-contacts-editor',
-      'home-footer-editor'
-    ].forEach(id => {
-      const el = document.getElementById(id);
-      if (el) el.style.display = 'block';
-    });
-  }, 100);
   const footer = siteContentData.footer || {};
 
   const categoriesRows = (servicesData && Array.isArray(servicesData.categories) ? servicesData.categories : [])
