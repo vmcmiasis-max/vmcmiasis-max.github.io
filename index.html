@@ -8,6 +8,27 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
+        .service-card {
+          position: relative;
+        }
+        .service-title {
+          position: absolute;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          margin: 0;
+          padding: 10px 60px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          text-align: center;
+          background: rgba(255,255,255,0.7);
+          font-size: 22px;
+          font-weight: 700;
+          color: #232a33;
+          border-top: 1px solid #e5e9f1;
+          z-index: 2;
+        }
     :root{
       --bg:#ffffff;
       --card:rgba(255,255,255,0.7);
@@ -829,6 +850,8 @@
     }
 
     .service-card{
+        aspect-ratio: 1 / 1;
+        position: relative;
       grid-column:auto;
     }
 
@@ -843,11 +866,7 @@
       display:block;
     }
 
-    .service-card::before{
-      content:"";
-      display:block;
-      padding-top:100%;
-    }
+ 
 
     .service-card:hover{
       box-shadow:0 10px 40px rgba(0,0,0,.15);
@@ -858,11 +877,10 @@
       position:absolute;
       top:0;
       left:0;
-      right:0;
-      bottom:0;
       width:100%;
       height:100%;
       object-fit:cover;
+      z-index:1;
       display:block;
     }
 
@@ -1605,21 +1623,22 @@
         <!-- Геодезичні послуги -->
         <div class="service-card" data-popup="geodetic">
           <img class="service-cover" src="image/Картки послуг/геодезичні.jpg" alt="Геодезичні послуги" />
+          <h3 class="service-title">Геодезичні послуги</h3>
         </div>
-
         <!-- Землевпорядні послуги -->
         <div class="service-card" data-popup="land">
           <img class="service-cover" src="image/Картки послуг/землевпорядні.jpg" alt="Землевпорядні послуги" />
+          <h3 class="service-title">Землевпорядні послуги</h3>
         </div>
-
         <!-- Містобудівні послуги -->
         <div class="service-card" data-popup="urban">
           <img class="service-cover" src="image/Картки послуг/містобудівні.jpg" alt="Містобудівні послуги" />
+          <h3 class="service-title">Містобудівні послуги</h3>
         </div>
-
         <!-- Архітектурне проектування -->
         <div class="service-card" data-popup="arch">
           <img class="service-cover" src="image/Картки послуг/архітектурнеП.jpg" alt="Архітектурне проєктування" />
+          <h3 class="service-title">Архітектурне проєктування</h3>
         </div>
 
       </div>
@@ -1916,16 +1935,13 @@
       mobileNav.classList.toggle('active');
       mobileNavBackdrop.classList.toggle('active');
     });
-    
-    // Закриття меню при кліку поза ним
-    document.addEventListener('click', (e) => {
-      if (!burgerMenu.contains(e.target) && !mobileNav.contains(e.target)) {
-        burgerMenu.classList.remove('active');
-        mobileNav.classList.remove('active');
-        mobileNavBackdrop.classList.remove('active');
-      }
+    mobileNavBackdrop.addEventListener('click', () => {
+      burgerMenu.classList.remove('active');
+      mobileNav.classList.remove('active');
+      mobileNavBackdrop.classList.remove('active');
     });
   }
+  
 
   // Прокручування до секцій
   const buttons = document.querySelectorAll(".btn");

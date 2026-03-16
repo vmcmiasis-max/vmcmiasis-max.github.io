@@ -1,0 +1,2656 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Адмін — послуги</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #f0f2f5;
+      color: #333;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* ── LOGIN ───────────────────────────────── */
+    #login-screen {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #2667ff 0%, #1a40b8 100%);
+    }
+    .login-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 40px 48px;
+      width: 340px;
+      box-shadow: 0 8px 32px rgba(0,0,0,.18);
+      text-align: center;
+    }
+    .login-card h2 { font-size: 22px; margin-bottom: 8px; color: #273846; }
+    .login-card p  { font-size: 13px; color: #888; margin-bottom: 24px; }
+    .login-card input {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1.5px solid #ddd;
+      border-radius: 8px;
+      font-size: 15px;
+      margin-bottom: 14px;
+      outline: none;
+      transition: border-color .2s;
+    }
+    .login-card input:focus { border-color: #2667ff; }
+    .login-card button {
+      width: 100%;
+      padding: 11px;
+      background: #2667ff;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .2s;
+    }
+    .login-card button:hover { background: #1a40b8; }
+    .login-error {
+      color: #d32f2f;
+      font-size: 13px;
+      margin-top: 10px;
+      display: none;
+    }
+
+    /* ── APP SHELL ───────────────────────────── */
+    #app { display: none; flex-direction: column; height: 100vh; overflow: hidden; }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      height: 56px;
+      background: #273846;
+      color: #fff;
+      box-shadow: 0 2px 6px rgba(0,0,0,.25);
+      flex-shrink: 0;
+    }
+    header h1 { font-size: 17px; font-weight: 600; letter-spacing: .3px; }
+    header .header-actions { display: flex; gap: 10px; align-items: center; }
+    .btn-text {
+      background: none;
+      border: 1.5px solid rgba(255,255,255,.6);
+      color: #fff;
+      border-radius: 7px;
+      padding: 5px 14px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: border-color .2s, background .2s;
+    }
+    .btn-text:hover { border-color: #fff; background: rgba(255,255,255,.12); }
+
+    .body-wrap {
+      display: flex;
+      flex: 1;
+      height: calc(100vh - 56px);
+      overflow: hidden;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px;
+    }
+
+    /* ── SIDEBAR ─────────────────────────────── */
+    aside {
+      width: 220px;
+      background: #1e2d3a;
+      color: #c5d3dd;
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      overflow-y: auto;
+      padding-top: 12px;
+      border-radius: 12px;
+      position: relative;
+      top: 0;
+      height: 100%;
+      min-height: 100%;
+      max-height: 100%;
+      align-self: stretch;
+      box-shadow: 0 2px 10px rgba(0,0,0,.12);
+    }
+    aside h3 {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #6b8090;
+      padding: 8px 18px 4px;
+    }
+    .cat-item {
+      padding: 12px 18px;
+      cursor: pointer;
+      font-size: 14px;
+      border-left: 3px solid transparent;
+      transition: background .15s, color .15s;
+      line-height: 1.3;
+    }
+    .cat-item:hover { background: rgba(255,255,255,.07); color: #fff; }
+    .cat-item.active {
+      background: rgba(38,103,255,.18);
+      border-left-color: #2667ff;
+      color: #fff;
+    }
+    .home-nav-item {
+      padding: 10px 18px;
+      cursor: pointer;
+      font-size: 13px;
+      border-left: 3px solid transparent;
+      transition: background .15s, color .15s;
+      color: #c5d3dd;
+      line-height: 1.3;
+    }
+    .home-nav-item:hover { background: rgba(255,255,255,.07); color: #fff; }
+    .home-nav-item.active-nav {
+      background: rgba(38,103,255,.18);
+      border-left-color: #2667ff;
+      color: #fff;
+    }
+    .cat-count {
+      font-size: 11px;
+      color: #6b8090;
+      margin-left: 6px;
+    }
+    .mode-switch {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      padding: 0 12px 12px;
+    }
+    .mode-btn {
+      border: 1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.06);
+      color: #d7e4ef;
+      border-radius: 8px;
+      padding: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .mode-btn.active {
+      background: rgba(38,103,255,.25);
+      border-color: #2667ff;
+      color: #fff;
+    }
+    .aside-footer {
+      margin-top: auto;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      position: sticky;
+      bottom: 0;
+      background: #1e2d3a;
+      border-top: 1px solid rgba(255,255,255,.08);
+    }
+    .btn-download {
+      background: #2667ff;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+      transition: background .2s;
+    }
+    .btn-download:hover { background: #1a40b8; }
+    .btn-copy {
+      background: rgba(255,255,255,.08);
+      color: #c5d3dd;
+      border: 1px solid rgba(255,255,255,.15);
+      border-radius: 8px;
+      padding: 9px;
+      font-size: 13px;
+      cursor: pointer;
+      text-align: center;
+      transition: background .2s;
+    }
+    .btn-copy:hover { background: rgba(255,255,255,.14); color: #fff; }
+
+    /* ── MAIN ────────────────────────────────── */
+    main {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px;
+      height: 100%;
+      max-height: 100%;
+    }
+    .main-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .main-top h2 { font-size: 20px; color: #273846; }
+    .btn-add {
+      background: #2667ff;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 9px 20px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .2s;
+    }
+    .btn-add:hover { background: #1a40b8; }
+
+    .priceNote-badge {
+      font-size: 12px;
+      color: #888;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .priceNote-badge input {
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      padding: 4px 10px;
+      font-size: 12px;
+      color: #555;
+      width: 380px;
+      outline: none;
+    }
+    .priceNote-badge input:focus { border-color: #2667ff; }
+
+    /* service list */
+    .service-list { display: flex; flex-direction: column; gap: 12px; }
+
+    .svc-row {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 1px 4px rgba(0,0,0,.08);
+      padding: 14px 18px;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      transition: box-shadow .15s;
+    }
+    .svc-row:hover { box-shadow: 0 3px 10px rgba(0,0,0,.12); }
+    .svc-row .svc-img {
+      width: 64px;
+      height: 64px;
+      object-fit: cover;
+      border-radius: 7px;
+      background: #e8edf2;
+      flex-shrink: 0;
+    }
+    .svc-row .svc-img-placeholder {
+      width: 64px;
+      height: 64px;
+      border-radius: 7px;
+      background: #e8edf2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #aaa;
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+    .svc-info { flex: 1; min-width: 0; }
+    .svc-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: #273846;
+      margin-bottom: 4px;
+      line-height: 1.3;
+    }
+    .svc-desc-preview {
+      font-size: 12px;
+      color: #888;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 480px;
+    }
+    .svc-actions {
+      display: flex;
+      gap: 6px;
+      flex-shrink: 0;
+      align-items: center;
+    }
+    .btn-icon {
+      background: none;
+      border: 1.5px solid #ddd;
+      border-radius: 7px;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 16px;
+      transition: border-color .15s, background .15s;
+    }
+    .btn-icon.edit  { color: #2667ff; }
+    .btn-icon.edit:hover  { background: #ebf0ff; border-color: #2667ff; }
+    .btn-icon.del   { color: #d32f2f; }
+    .btn-icon.del:hover   { background: #ffeaea; border-color: #d32f2f; }
+    .btn-icon.move-up, .btn-icon.move-down { color: #666; }
+    .btn-icon.move-up:hover, .btn-icon.move-down:hover { background: #f0f0f0; border-color: #aaa; }
+
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: #aaa;
+    }
+    .empty-state .icon { font-size: 48px; margin-bottom: 12px; }
+    .empty-state p { font-size: 15px; }
+
+    /* unsaved indicator */
+    .unsaved-dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #ff9800;
+      margin-left: 8px;
+      vertical-align: middle;
+      display: none;
+    }
+
+    /* ── MODAL ───────────────────────────────── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.55);
+      backdrop-filter: blur(4px);
+      z-index: 200;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 24px 16px;
+      overflow-y: auto;
+    }
+    .modal-overlay.hidden { display: none; }
+    .modal-card {
+      background: #fff;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 740px;
+      box-shadow: 0 12px 40px rgba(0,0,0,.2);
+      overflow: hidden;
+      margin: auto;
+    }
+    .modal-header {
+      padding: 18px 24px;
+      background: #273846;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .modal-header h3 { font-size: 16px; }
+    .modal-close {
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 22px;
+      cursor: pointer;
+      line-height: 1;
+      opacity: .7;
+      transition: opacity .15s;
+    }
+    .modal-close:hover { opacity: 1; }
+    .modal-body { padding: 24px; }
+    .form-row { margin-bottom: 18px; }
+    .form-row label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: #555;
+      margin-bottom: 6px;
+    }
+    .form-row input,
+    .form-row textarea,
+    .form-row select {
+      width: 100%;
+      border: 1.5px solid #ddd;
+      border-radius: 8px;
+      padding: 9px 12px;
+      font-size: 14px;
+      font-family: inherit;
+      outline: none;
+      transition: border-color .2s;
+      resize: vertical;
+    }
+    .form-row input:focus,
+    .form-row textarea:focus,
+    .form-row select:focus { border-color: #2667ff; }
+    .form-row textarea { min-height: 90px; }
+    .form-row textarea.code { font-family: 'Consolas', 'Courier New', monospace; font-size: 13px; min-height: 120px; }
+    .form-hint { font-size: 11px; color: #aaa; margin-top: 4px; }
+    .price-sections { display: flex; flex-direction: column; gap: 10px; }
+    .price-section {
+      border: 1.5px solid #e7ecff;
+      border-radius: 10px;
+      background: #f9fbff;
+      padding: 12px;
+    }
+    .price-section-head {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .price-section-head input {
+      flex: 1;
+      margin: 0;
+    }
+    .section-remove-btn {
+      border: 1.5px solid #f0caca;
+      background: #fff4f4;
+      color: #b71c1c;
+      border-radius: 8px;
+      height: 38px;
+      width: 38px;
+      cursor: pointer;
+      font-size: 17px;
+      line-height: 1;
+    }
+    .section-remove-btn:hover {
+      background: #ffe8e8;
+      border-color: #e0a0a0;
+    }
+    .price-rows { display: flex; flex-direction: column; gap: 8px; }
+    .price-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr auto;
+      gap: 8px;
+      align-items: center;
+    }
+    .price-row .remove-row {
+      border: 1.5px solid #f0caca;
+      background: #fff4f4;
+      color: #b71c1c;
+      border-radius: 8px;
+      height: 38px;
+      width: 38px;
+      cursor: pointer;
+      font-size: 17px;
+      line-height: 1;
+    }
+    .price-row .remove-row:hover {
+      background: #ffe8e8;
+      border-color: #e0a0a0;
+    }
+    .add-row-btn {
+      margin-top: 8px;
+      background: #f5f7ff;
+      color: #2667ff;
+      border: 1.5px dashed #b3c4ff;
+      border-radius: 8px;
+      padding: 9px 12px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .add-row-btn:hover {
+      background: #ecf1ff;
+      border-color: #8da6ff;
+    }
+    .add-section-btn {
+      margin-top: 10px;
+      background: #e9f2ff;
+      color: #1447b8;
+      border: 1.5px solid #bfd7ff;
+      border-radius: 8px;
+      padding: 9px 12px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .add-section-btn:hover {
+      background: #deebff;
+      border-color: #9fc3ff;
+    }
+    .image-tools {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 10px;
+        margin-bottom: 10px;
+    }
+    .image-picker-row,
+    .image-upload-row {
+      display: grid;
+      grid-template-columns: 180px 1fr auto;
+      gap: 8px;
+      align-items: center;
+    }
+    .image-upload-grid {
+      display: grid;
+      grid-template-columns: 1fr 220px auto;
+      gap: 8px;
+      align-items: center;
+    }
+    .image-tools select,
+    .image-tools input[type="file"] {
+      width: 100%;
+      border: 1.5px solid #ddd;
+      border-radius: 8px;
+      padding: 9px 12px;
+      font-size: 14px;
+      background: #fff;
+    }
+    .btn-small {
+      background: #2667ff;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 9px 14px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .btn-small:hover { background: #1a40b8; }
+    .price-actions {
+      margin-top: 10px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .img-preview-wrap { display: flex; gap: 12px; align-items: flex-start; margin-top: 8px; }
+    .img-preview {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 8px;
+      border: 1.5px solid #eee;
+      display: none;
+    }
+    .mini-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .mini-list-item {
+      border: 1px solid #e4e9ef;
+      border-radius: 8px;
+      padding: 8px 10px;
+      background: #fafcff;
+      display: grid;
+      grid-template-columns: 26px 1fr;
+      gap: 8px;
+      align-items: start;
+    }
+    .mini-list-icon {
+      font-size: 18px;
+      line-height: 1;
+    }
+    .mini-list-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #273846;
+      margin-bottom: 2px;
+    }
+    .mini-list-text {
+      font-size: 12px;
+      color: #607080;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .card-collection-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .card-collection-item {
+      border: 1px solid #e4e9ef;
+      border-radius: 10px;
+      background: #fff;
+      padding: 12px;
+      display: grid;
+      grid-template-columns: 36px minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: start;
+    }
+    .card-collection-item .icon-box {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: #eef4ff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+    .card-collection-actions {
+      display: flex;
+      gap: 8px;
+      flex-shrink: 0;
+      align-self: center;
+    }
+    .card-collection-item > div:nth-child(2) {
+      min-width: 0;
+    }
+    .home-image-card {
+      border: 1.5px solid #e7ecff;
+      border-radius: 10px;
+      background: #f9fbff;
+      padding: 12px;
+      margin-bottom: 12px;
+    }
+    .home-image-card-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #273846;
+      margin-bottom: 8px;
+    }
+    .home-image-card .img-preview-wrap {
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+    .home-image-card .img-preview {
+      display: block;
+      background: #eef3f8;
+    }
+    .img-cur-path {
+      display: block;
+      font-size: 12px;
+      font-family: 'Consolas', 'Courier New', monospace;
+      color: #666;
+      padding: 2px 0 6px;
+      word-break: break-all;
+    }
+    .home-quicknav {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+      background: #f0f4ff;
+      border: 1px solid #d4e0ff;
+      border-radius: 10px;
+      padding: 10px 14px;
+      margin-bottom: 14px;
+    }
+    .home-qn-label {
+      font-size: 12px;
+      color: #888;
+      margin-right: 4px;
+    }
+    .home-qn-btn {
+      background: #fff;
+      border: 1px solid #c5d5f5;
+      border-radius: 7px;
+      padding: 5px 11px;
+      font-size: 12px;
+      cursor: pointer;
+      color: #1447b8;
+      font-weight: 600;
+      transition: background 0.15s;
+    }
+    .home-qn-btn:hover {
+      background: #e6edff;
+    }
+    .btn-secondary {
+      background: #eef4ff;
+      color: #1447b8;
+      border: 1px solid #bfd7ff;
+      border-radius: 8px;
+      padding: 9px 12px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn-secondary:hover {
+      background: #deebff;
+    }
+    .modal-footer {
+      padding: 16px 24px;
+      border-top: 1px solid #f0f0f0;
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+    }
+    .btn-cancel {
+      background: #f5f5f5;
+      color: #555;
+      border: none;
+      border-radius: 8px;
+      padding: 9px 20px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background .15s;
+    }
+    .btn-cancel:hover { background: #eee; }
+    .btn-save {
+      background: #2667ff;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 9px 24px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .2s;
+    }
+    .btn-save:hover { background: #1a40b8; }
+
+    /* ── CONFIRM DIALOG ──────────────────────── */
+    .confirm-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.55);
+      z-index: 300;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .confirm-overlay.hidden { display: none; }
+    .confirm-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 28px 32px;
+      max-width: 360px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 8px 30px rgba(0,0,0,.2);
+    }
+    .confirm-card h4 { font-size: 17px; margin-bottom: 10px; color: #273846; }
+    .confirm-card p { font-size: 14px; color: #666; margin-bottom: 22px; }
+    .confirm-btns { display: flex; gap: 10px; justify-content: center; }
+    .btn-confirm-del {
+      background: #d32f2f;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 9px 22px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn-confirm-del:hover { background: #b71c1c; }
+
+    /* ── TOAST ───────────────────────────────── */
+    #toast {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: #273846;
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 14px;
+      transition: transform .3s;
+      z-index: 500;
+      white-space: nowrap;
+    }
+    #toast.show { transform: translateX(-50%) translateY(0); }
+    #toast.success { background: #1b5e20; }
+    #toast.error   { background: #b71c1c; }
+
+    /* ── RESPONSIVE ──────────────────────────── */
+    @media (max-width: 640px) {
+      .body-wrap {
+        padding: 8px;
+        gap: 8px;
+        height: calc(100vh - 56px);
+      }
+      aside {
+        width: 180px;
+        top: 0;
+        height: 100%;
+        min-height: 100%;
+        max-height: 100%;
+      }
+      main {
+        padding: 8px;
+        height: 100%;
+        max-height: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ────────────── LOGIN ────────────── -->
+<div id="login-screen">
+  <div class="login-card">
+    <h2>Адмін панель</h2>
+    <p>Введіть пароль для доступу до редактора послуг</p>
+    <input type="password" id="pwd-input" placeholder="Пароль" autocomplete="current-password">
+    <button id="login-btn">Увійти</button>
+    <div class="login-error" id="login-error">Невірний пароль</div>
+  </div>
+</div>
+
+<!-- ────────────── APP ────────────── -->
+<div id="app">
+  <header>
+    <h1>Редактор послуг <span class="unsaved-dot" id="unsaved-dot"></span></h1>
+    <div class="header-actions">
+      <a href="../index.html" target="_blank" class="btn-text">↗ Сайт</a>
+      <button class="btn-text" id="logout-btn">Вийти</button>
+    </div>
+  </header>
+
+  <div class="body-wrap">
+    <aside>
+      <div class="mode-switch">
+        <button id="mode-services-btn" class="mode-btn active" type="button">Послуги</button>
+        <button id="mode-home-btn" class="mode-btn" type="button">Головна</button>
+      </div>
+      <h3 id="aside-title">Категорії</h3>
+      <div id="cat-list"></div>
+      <div id="home-nav-list" style="display:none;">
+        <div class="home-nav-item" data-qn-section="home-sec-1">1. Перший блок</div>
+        <div class="home-nav-item" data-qn-popup="about">2. Про нас: картки</div>
+        <div class="home-nav-item" data-qn-section="home-sec-3">3. Напрямки роботи</div>
+        <div class="home-nav-item" data-qn-popup="directions">4. Напрямки діяльності</div>
+        <div class="home-nav-item" data-qn-section="home-sec-5">5. Послуги</div>
+        <div class="home-nav-item" data-qn-section="home-sec-6">6. Контакти</div>
+        <div class="home-nav-item" data-qn-section="home-sec-7">7. Підвал</div>
+      </div>
+      <div class="aside-footer">
+        <button class="btn-download" id="save-api-btn">💾 Зберегти й застосувати</button>
+        <button class="btn-download" id="download-btn">⬇ Експорт JSON</button>
+        <button class="btn-copy" id="copy-btn">📋 Скопіювати JSON</button>
+      </div>
+    </aside>
+
+    <main id="main-area">
+      <div class="empty-state">
+        <div class="icon">←</div>
+        <p>Виберіть категорію щоб редагувати послуги</p>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- ────────────── EDIT MODAL ────────────── -->
+<div class="modal-overlay hidden" id="edit-modal">
+  <div class="modal-card">
+    <div class="modal-header">
+      <h3 id="modal-title">Редагувати послугу</h3>
+      <button class="modal-close" id="modal-close-btn">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <label>Назва послуги</label>
+        <input type="text" id="f-title" placeholder="Наприклад: 1. Назва послуги">
+      </div>
+      <div class="form-row">
+        <label>Категорія</label>
+        <select id="f-category"></select>
+      </div>
+      <div class="form-row">
+        <label>Шлях до зображення</label>
+        <div class="img-preview-wrap">
+          <input type="text" id="f-image" placeholder="image/Геодезичні картинки/назва.jpg" style="flex:1">
+          <img id="img-preview" class="img-preview" src="" alt="preview">
+        </div>
+        <div class="image-tools">
+          <div class="image-picker-row">
+            <select id="f-picker-folder">
+              <option value="">Папка...</option>
+            </select>
+            <select id="f-image-existing">
+              <option value="">Зображення...</option>
+            </select>
+            <button type="button" class="btn-small" id="apply-existing-image-btn">Підставити</button>
+          </div>
+          <div class="image-upload-grid">
+            <input type="file" id="f-upload-image" accept="image/*">
+            <select id="f-upload-folder"></select>
+            <button type="button" class="btn-small" id="upload-image-btn">Завантажити</button>
+          </div>
+        </div>
+        <div class="form-hint">Відносний шлях від кореня сайту. Прев'ю оновлюється при зміні.</div>
+      </div>
+      <div class="form-row">
+        <label>Примітка до ціни <span style="font-weight:400;color:#aaa">(необов'язково)</span></label>
+        <input type="text" id="f-priceNote" placeholder="Наприклад: БЕЗ ПОГОДЖЕНЬ ПрАТ «УКРТЕЛЕКОМ»">
+      </div>
+      <div class="form-row">
+        <label>Опис: Що це?</label>
+        <textarea id="f-desc-what" placeholder="Коротко опишіть суть послуги"></textarea>
+      </div>
+      <div class="form-row">
+        <label>Опис: Для чого потрібна ця послуга?</label>
+        <textarea id="f-desc-why" placeholder="Опишіть, коли та навіщо замовляється послуга"></textarea>
+      </div>
+      <div class="form-row">
+        <label>Варіанти цін (підзаголовок додається за потреби)</label>
+        <div class="price-sections" id="f-priceSections"></div>
+        <div class="price-actions">
+          <button type="button" class="add-row-btn" id="add-base-price-row-btn">+ Додати послугу</button>
+          <button type="button" class="add-section-btn" id="add-price-section-btn">+ Додати підзаголовок</button>
+        </div>
+        <div class="form-hint">Структура як у 4-й послузі архітектурного проєктування: спочатку послуги без підзаголовка, далі блоки з підзаголовками.</div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" id="modal-cancel-btn">Скасувати</button>
+      <button class="btn-save" id="modal-save-btn">Зберегти</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay hidden" id="home-cards-modal">
+  <div class="modal-card" style="max-width:800px;">
+    <div class="modal-header">
+      <h3 id="home-cards-modal-title">Редагувати картки</h3>
+      <button class="modal-close" id="home-cards-modal-close">✕</button>
+    </div>
+    <div class="modal-body">
+      <div id="home-cards-modal-list" class="card-collection-list"></div>
+      <div class="price-actions">
+        <button type="button" class="add-section-btn" id="home-cards-modal-add-btn">+ Додати картку</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay hidden" id="home-card-edit-modal">
+  <div class="modal-card" style="max-width:720px;">
+    <div class="modal-header">
+      <h3 id="home-card-edit-title">Редагувати картку</h3>
+      <button class="modal-close" id="home-card-edit-close">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <label>Іконка</label>
+        <input type="text" id="home-card-edit-icon" placeholder="Наприклад: 🎯">
+      </div>
+      <div class="form-row">
+        <label>Заголовок</label>
+        <input type="text" id="home-card-edit-heading" placeholder="Назва картки">
+      </div>
+      <div class="form-row" id="home-card-type-row">
+        <label>Тип контенту</label>
+        <select id="home-card-edit-type">
+          <option value="text">Текст</option>
+          <option value="list">Список</option>
+        </select>
+      </div>
+      <div class="form-row" id="home-card-edit-text-row">
+        <label>Текст</label>
+        <textarea id="home-card-edit-text" placeholder="Текст картки"></textarea>
+      </div>
+      <div class="form-row" id="home-card-edit-items-row">
+        <label>Пункти списку</label>
+        <textarea id="home-card-edit-items" placeholder="Кожен пункт з нового рядка"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" id="home-card-edit-cancel">Скасувати</button>
+      <button class="btn-save" id="home-card-edit-save">Зберегти</button>
+    </div>
+  </div>
+</div>
+
+<!-- ────────────── CONFIRM DELETE ────────────── -->
+<div class="confirm-overlay hidden" id="confirm-del">
+  <div class="confirm-card">
+    <h4>Видалити послугу?</h4>
+    <p id="confirm-del-name">Ви впевнені, що хочете видалити цю послугу?</p>
+    <div class="confirm-btns">
+      <button class="btn-cancel" id="del-cancel-btn">Скасувати</button>
+      <button class="btn-confirm-del" id="del-confirm-btn">Видалити</button>
+    </div>
+  </div>
+</div>
+
+<!-- ────────────── TOAST ────────────── -->
+<div id="toast"></div>
+
+<script>
+// ═══════════════════════════════════════════════════════
+//  CONFIGURATION
+// ═══════════════════════════════════════════════════════
+// Change this password before deploying!
+const ADMIN_PASSWORD = 'admin2024';
+
+// PHP API endpoint for saving
+const API_SAVE_URL = '../api/save-services.php';
+const API_SAVE_SITE_CONTENT_URL = '../api/save-site-content.php';
+const API_LIST_IMAGES_URL = '../api/list-images.php';
+const API_UPLOAD_IMAGE_URL = '../api/upload-image.php';
+const SITE_CONTENT_URL = '../site-content.json';
+
+// ═══════════════════════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════════════════════
+let servicesData = null;          // loaded from services.json
+let siteContentData = null;       // loaded from site-content.json
+let activeCatIndex = -1;          // currently selected category
+let editingServiceIndex = null;   // null = adding new, number = editing existing
+let pendingDeleteIndex = null;    // index pending confirmation
+let hasUnsavedChanges = false;
+let availableImages = [];
+let availableImageFolders = [];
+let activeMode = 'services';
+let imageLibraryPromise = null;
+let homeCardModalSection = 'about';
+let homeCardEditIndex = null;
+
+// ═══════════════════════════════════════════════════════
+//  HELPERS
+// ═══════════════════════════════════════════════════════
+function showToast(msg, type = '') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'show' + (type ? ' ' + type : '');
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => { t.className = ''; }, 3000);
+}
+
+function markUnsaved() {
+  hasUnsavedChanges = true;
+  document.getElementById('unsaved-dot').style.display = 'inline-block';
+}
+
+function clearUnsaved() {
+  hasUnsavedChanges = false;
+  document.getElementById('unsaved-dot').style.display = 'none';
+}
+
+function stripHtmlTags(html) {
+  const div = document.createElement('div');
+  div.innerHTML = html;
+  return div.textContent || div.innerText || '';
+}
+
+function getRelativePath(path) {
+  // Images are relative to site root, but admin.html is in /admin/
+  // So prepend '../' for src attributes
+  if (!path) return '';
+  if (path.startsWith('http') || path.startsWith('/') || path.startsWith('../')) return path;
+  return '../' + path;
+}
+
+function getImageFolder(path) {
+  if (!path) return '';
+  const normalized = path.replace(/\\/g, '/');
+  const idx = normalized.lastIndexOf('/');
+  return idx >= 0 ? normalized.slice(0, idx) : '';
+}
+
+function ensureImageLibraryLoaded() {
+  if (availableImages.length && availableImageFolders.length) {
+    return Promise.resolve();
+  }
+  if (imageLibraryPromise) return imageLibraryPromise;
+  imageLibraryPromise = fetchJson(API_LIST_IMAGES_URL, {
+    headers: { 'X-Admin-Password': ADMIN_PASSWORD }
+  })
+  .then((data) => {
+    if (!data || !data.ok) throw new Error((data && data.error) || 'Не вдалося отримати список зображень');
+    availableImages = Array.isArray(data.images) ? data.images : [];
+    availableImageFolders = Array.isArray(data.folders) ? data.folders : [];
+  })
+  .catch((err) => {
+    console.error(err);
+  })
+  .finally(() => {
+    imageLibraryPromise = null;
+  });
+  return imageLibraryPromise;
+}
+
+function buildImageSelectOptions(currentPath) {
+  const current = (currentPath || '').trim();
+  const opts = ['<option value="">Вибрати зображення</option>'];
+  availableImages.forEach((p) => {
+    opts.push('<option value="' + escHtml(p) + '"' + (p === current ? ' selected' : '') + '>' + escHtml(p) + '</option>');
+  });
+  return opts.join('');
+}
+
+function buildImageSelectOptionsForFolder(folder, currentPath) {
+  const current = (currentPath || '').trim();
+  const prefix = folder ? folder + '/' : '';
+  const imgs = folder ? availableImages.filter(p => p.startsWith(prefix)) : availableImages;
+  const opts = ['<option value="">Зображення...</option>'];
+  imgs.forEach((p) => {
+    const name = p.replace(prefix, '');
+    opts.push('<option value="' + escHtml(p) + '"' + (p === current ? ' selected' : '') + '>' + escHtml(name) + '</option>');
+  });
+  return opts.join('');
+}
+
+function buildFolderSelectOptions(currentFolder) {
+  const folders = availableImageFolders.length ? availableImageFolders : ['image'];
+  const selected = currentFolder && folders.includes(currentFolder) ? currentFolder : (folders[0] || '');
+  return '<option value="">Папка...</option>' + folders.map((folder) => {
+    const label = folder.replace(/^image\//, '');
+    return '<option value="' + escHtml(folder) + '"' + (folder === selected ? ' selected' : '') + '>' + escHtml(label) + '</option>';
+  }).join('');
+}
+
+function fetchJson(url, options) {
+  return fetch(url, options).then(async (r) => {
+    const contentType = (r.headers.get('content-type') || '').toLowerCase();
+    const raw = await r.text();
+    let data = null;
+
+    if (raw) {
+      try {
+        data = JSON.parse(raw);
+      } catch (_) {
+        const trimmed = raw.trim();
+        if (trimmed.startsWith('<!DOCTYPE') || trimmed.startsWith('<html') || trimmed.startsWith('<')) {
+          throw new Error('Сервер повернув HTML замість JSON. Переконайтесь, що сайт запущено на PHP-сервері (а не статичному).');
+        }
+        if (trimmed.startsWith('<?php')) {
+          throw new Error('PHP-код повернувся як текст. PHP не виконується на цьому сервері.');
+        }
+        throw new Error('Некоректна відповідь сервера: очікувався JSON.');
+      }
+    }
+
+    if (!r.ok) {
+      throw new Error((data && data.error) || ('HTTP ' + r.status));
+    }
+
+    if (!contentType.includes('application/json') && !data) {
+      throw new Error('Сервер не повернув JSON.');
+    }
+
+    return data;
+  });
+}
+
+function loadImageLibrary(force) {
+  if (!force && availableImages.length) {
+    populateImageOptions();
+    return Promise.resolve();
+  }
+
+  return fetchJson(API_LIST_IMAGES_URL, {
+    headers: { 'X-Admin-Password': ADMIN_PASSWORD }
+  })
+  .then(data => {
+    if (!data || !data.ok) throw new Error((data && data.error) || 'Не вдалося отримати список зображень');
+    availableImages = Array.isArray(data.images) ? data.images : [];
+    availableImageFolders = Array.isArray(data.folders) ? data.folders : [];
+    populateImageOptions();
+  })
+  .catch(err => {
+    showToast('Не вдалося завантажити зображення: ' + err.message, 'error');
+  });
+}
+
+function populateImageOptions() {
+  const imageSelect = document.getElementById('f-image-existing');
+  const folderSelect = document.getElementById('f-upload-folder');
+  const pickerFolderSelect = document.getElementById('f-picker-folder');
+  const currentImage = document.getElementById('f-image').value.trim();
+  const currentImageFolder = getImageFolder(currentImage);
+
+  // populate picker folder select
+  if (pickerFolderSelect) {
+    pickerFolderSelect.innerHTML = '<option value="">Папка...</option>';
+    const folders = availableImageFolders.length ? availableImageFolders : [];
+    folders.forEach((folder) => {
+      const opt = document.createElement('option');
+      opt.value = folder;
+      opt.textContent = folder.replace(/^image\//, '');
+      if (folder === currentImageFolder) opt.selected = true;
+      pickerFolderSelect.appendChild(opt);
+    });
+  }
+
+  // populate image select filtered by current folder
+  const pickerFolder = pickerFolderSelect ? pickerFolderSelect.value : '';
+  const prefix = pickerFolder ? pickerFolder + '/' : '';
+  const imgs = pickerFolder ? availableImages.filter(p => p.startsWith(prefix)) : availableImages;
+  imageSelect.innerHTML = '<option value="">Зображення...</option>';
+  imgs.forEach((path) => {
+    const opt = document.createElement('option');
+    opt.value = path;
+    opt.textContent = path.replace(prefix, '');
+    if (path === currentImage) opt.selected = true;
+    imageSelect.appendChild(opt);
+  });
+
+  folderSelect.innerHTML = '';
+  const folders = availableImageFolders.length ? availableImageFolders : ['image'];
+  folders.forEach((folder) => {
+    const opt = document.createElement('option');
+    opt.value = folder;
+    opt.textContent = folder.replace(/^image\//, '');
+    folderSelect.appendChild(opt);
+  });
+
+  const uploadFolder = getImageFolder(currentImage);
+  if (uploadFolder && folders.includes(uploadFolder)) {
+    folderSelect.value = uploadFolder;
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+//  AUTH
+// ═══════════════════════════════════════════════════════
+function checkLogin() {
+  return sessionStorage.getItem('admin_auth') === 'ok';
+}
+
+document.getElementById('login-btn').addEventListener('click', doLogin);
+document.getElementById('pwd-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') doLogin();
+});
+
+function doLogin() {
+  const val = document.getElementById('pwd-input').value;
+  const errEl = document.getElementById('login-error');
+  if (val === ADMIN_PASSWORD) {
+    sessionStorage.setItem('admin_auth', 'ok');
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('app').style.display = 'flex';
+    loadServicesData();
+    loadSiteContentData();
+  } else {
+    errEl.style.display = 'block';
+    document.getElementById('pwd-input').value = '';
+    document.getElementById('pwd-input').focus();
+    setTimeout(() => { errEl.style.display = 'none'; }, 3000);
+  }
+}
+
+document.getElementById('logout-btn').addEventListener('click', () => {
+  if (hasUnsavedChanges && !confirm('Є незбережені зміни. Все одно вийти?')) return;
+  sessionStorage.removeItem('admin_auth');
+  location.reload();
+});
+
+// Auto-login if session active
+if (checkLogin()) {
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('app').style.display = 'flex';
+  loadServicesData();
+  loadSiteContentData();
+}
+
+document.getElementById('mode-services-btn').addEventListener('click', () => switchMode('services'));
+document.getElementById('mode-home-btn').addEventListener('click', () => switchMode('home'));
+
+// ═══════════════════════════════════════════════════════
+//  DATA LOADING
+// ═══════════════════════════════════════════════════════
+function loadServicesData() {
+  fetch('../services.json?_=' + Date.now())
+    .then(r => {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    })
+    .then(data => {
+      servicesData = data;
+      ensureRequiredCategories();
+      if (activeMode === 'services') {
+        renderCategoryList();
+      }
+      if (activeMode === 'services' && servicesData.categories.length > 0) {
+        selectCategory(0);
+      }
+    })
+    .catch(err => {
+      document.getElementById('main-area').innerHTML =
+        '<div class="empty-state"><div class="icon">⚠</div><p>Не вдалося завантажити services.json<br><small>' + err.message + '</small></p></div>';
+    });
+}
+
+function loadSiteContentData() {
+  fetch(SITE_CONTENT_URL + '?_=' + Date.now())
+    .then(r => {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    })
+    .then(data => {
+      siteContentData = data;
+      if (activeMode === 'home') renderHomeEditor();
+    })
+    .catch(err => {
+      console.error('site-content.json error', err);
+      if (!siteContentData) {
+        siteContentData = {
+          hero: { title: '', text: '' },
+          aboutCards: [],
+          activity: { title: '', lead: '', intro: '', items: [] },
+          directions: [],
+          contacts: { phoneDisplay: '', phoneRaw: '', email: '', hours: '', addressLine1: '', addressLine2: '', locationInfo: '', facebook: '' },
+          footer: { aboutTitle: '', aboutText: '', aboutSubtext: '' }
+        };
+      }
+      if (activeMode === 'home') {
+        document.getElementById('main-area').innerHTML =
+          '<div class="empty-state"><div class="icon">⚠</div><p>Не вдалося завантажити site-content.json<br><small>' + err.message + '</small></p></div>';
+      }
+    });
+}
+
+function switchMode(mode) {
+  activeMode = mode === 'home' ? 'home' : 'services';
+  const mainArea = document.getElementById('main-area');
+  document.getElementById('mode-services-btn').classList.toggle('active', activeMode === 'services');
+  document.getElementById('mode-home-btn').classList.toggle('active', activeMode === 'home');
+  document.getElementById('aside-title').textContent = activeMode === 'services' ? 'Категорії' : 'Розділи';
+  document.getElementById('cat-list').style.display = activeMode === 'services' ? '' : 'none';
+  document.getElementById('home-nav-list').style.display = activeMode === 'home' ? '' : 'none';
+
+  if (activeMode === 'services') {
+    mainArea.onclick = null;
+    mainArea.onchange = null;
+    mainArea.oninput = null;
+    renderCategoryList();
+    if (activeCatIndex < 0 && servicesData && servicesData.categories && servicesData.categories.length) {
+      activeCatIndex = 0;
+    }
+    if (servicesData) renderServiceList();
+  } else {
+    renderHomeEditor();
+    // Ensure toggle logic is set for static/demo
+    mainArea.onclick = function(e) {
+      const openCardsBtn = e.target.closest('[data-home-open-cards]');
+      if (openCardsBtn) {
+        openHomeCardsModal(openCardsBtn.getAttribute('data-home-open-cards'));
+        return;
+      }
+      const toggleBtn = e.target.closest('[data-toggle-target]');
+      if (toggleBtn) {
+        const targetId = toggleBtn.getAttribute('data-toggle-target');
+        const target = document.getElementById(targetId);
+        if (target) {
+          // Only open if currently hidden
+          if (target.style.display === 'none' || getComputedStyle(target).display === 'none') {
+            target.style.display = 'block';
+          }
+        }
+      }
+    };
+  }
+}
+
+function getHomeCardCollection(section) {
+  if (!siteContentData) return [];
+  return section === 'directions'
+    ? (Array.isArray(siteContentData.directions) ? siteContentData.directions : [])
+    : (Array.isArray(siteContentData.aboutCards) ? siteContentData.aboutCards : []);
+}
+
+function cardPreviewText(card, section) {
+  if (section === 'directions') {
+    return (card && card.text) || '';
+  }
+  const type = card && card.type === 'list' ? 'list' : 'text';
+  if (type === 'list') {
+    const first = Array.isArray(card.items) ? (card.items[0] || '') : '';
+    return first;
+  }
+  return (card && card.text) || '';
+}
+
+function trimPreview(s) {
+  const t = String(s || '').replace(/\s+/g, ' ').trim();
+  if (t.length <= 90) return t;
+  return t.slice(0, 90).trim() + '...';
+}
+
+function renderHomeCardPreviewList(section, targetId) {
+  const target = document.getElementById(targetId);
+  if (!target) return;
+  const cards = getHomeCardCollection(section);
+  target.innerHTML = cards.map((card) => {
+    const icon = escHtml(card.icon || '•');
+    const title = escHtml(card.title || 'Без назви');
+    const text = escHtml(trimPreview(cardPreviewText(card, section)) || 'Немає опису');
+    return '<div class="mini-list-item">' +
+      '<div class="mini-list-icon">' + icon + '</div>' +
+      '<div>' +
+        '<div class="mini-list-title">' + title + '</div>' +
+        '<div class="mini-list-text">' + text + '</div>' +
+      '</div>' +
+    '</div>';
+  }).join('') || '<div class="empty-state" style="padding:20px 10px;"><p>Карток поки немає</p></div>';
+}
+
+function openHomeCardsModal(section) {
+  homeCardModalSection = section;
+  const modal = document.getElementById('home-cards-modal');
+  const title = document.getElementById('home-cards-modal-title');
+  title.textContent = section === 'directions' ? 'Картки: Напрямки діяльності' : 'Картки: Про нас';
+  renderHomeCardsModalList();
+  modal.classList.remove('hidden');
+}
+
+function renderHomeCardsModalList() {
+  const list = document.getElementById('home-cards-modal-list');
+  const cards = getHomeCardCollection(homeCardModalSection);
+  list.innerHTML = cards.map((card, index) => {
+    const icon = escHtml(card.icon || '•');
+    const title = escHtml(card.title || 'Без назви');
+    const text = escHtml(trimPreview(cardPreviewText(card, homeCardModalSection)) || 'Немає опису');
+    return '<div class="card-collection-item">' +
+      '<div class="icon-box">' + icon + '</div>' +
+      '<div>' +
+        '<div class="mini-list-title">' + title + '</div>' +
+        '<div class="mini-list-text">' + text + '</div>' +
+      '</div>' +
+      '<div class="card-collection-actions">' +
+        '<button type="button" class="btn-secondary" data-home-card-edit="' + index + '">Редагувати</button>' +
+        '<button type="button" class="btn-confirm-del" data-home-card-del="' + index + '">Видалити</button>' +
+      '</div>' +
+    '</div>';
+  }).join('') || '<div class="empty-state" style="padding:20px 10px;"><p>Карток поки немає</p></div>';
+}
+
+function closeHomeCardsModal() {
+  document.getElementById('home-cards-modal').classList.add('hidden');
+}
+
+function openHomeCardEditModal(section, index) {
+  homeCardModalSection = section;
+  homeCardEditIndex = index;
+  const cards = getHomeCardCollection(section);
+  const item = index === null
+    ? (section === 'directions'
+      ? { icon: '', title: '', text: '' }
+      : { icon: '', title: '', type: 'text', text: '', items: [] })
+    : (cards[index] || {});
+
+  document.getElementById('home-card-edit-title').textContent = section === 'directions' ? 'Редагувати картку напряму' : 'Редагувати картку "Про нас"';
+  document.getElementById('home-card-edit-icon').value = item.icon || '';
+  document.getElementById('home-card-edit-heading').value = item.title || '';
+  document.getElementById('home-card-edit-type').value = item.type === 'list' ? 'list' : 'text';
+  document.getElementById('home-card-edit-text').value = item.text || '';
+  document.getElementById('home-card-edit-items').value = Array.isArray(item.items) ? item.items.join('\n') : '';
+
+  const isDirections = section === 'directions';
+  document.getElementById('home-card-type-row').style.display = isDirections ? 'none' : 'block';
+  document.getElementById('home-card-edit-items-row').style.display = isDirections ? 'none' : (document.getElementById('home-card-edit-type').value === 'list' ? 'block' : 'none');
+  document.getElementById('home-card-edit-text-row').style.display = isDirections ? 'block' : (document.getElementById('home-card-edit-type').value === 'text' ? 'block' : 'none');
+  document.getElementById('home-card-edit-modal').classList.remove('hidden');
+}
+
+function closeHomeCardEditModal() {
+  document.getElementById('home-card-edit-modal').classList.add('hidden');
+  homeCardEditIndex = null;
+}
+
+function saveHomeCardEditModal() {
+  const section = homeCardModalSection;
+  const cards = getHomeCardCollection(section);
+  const title = document.getElementById('home-card-edit-heading').value.trim();
+  if (!title) {
+    showToast('Введіть заголовок картки', 'error');
+    return;
+  }
+
+  const item = {
+    icon: document.getElementById('home-card-edit-icon').value.trim(),
+    title,
+  };
+
+  if (section === 'directions') {
+    item.text = document.getElementById('home-card-edit-text').value.trim();
+  } else {
+    item.type = document.getElementById('home-card-edit-type').value === 'list' ? 'list' : 'text';
+    item.text = document.getElementById('home-card-edit-text').value.trim();
+    item.items = document.getElementById('home-card-edit-items').value.split('\n').map((v) => v.trim()).filter(Boolean);
+  }
+
+  if (homeCardEditIndex === null) {
+    cards.push(item);
+  } else {
+    cards[homeCardEditIndex] = item;
+  }
+
+  if (section === 'directions') siteContentData.directions = cards;
+  else siteContentData.aboutCards = cards;
+
+  renderHomeCardsModalList();
+  markUnsaved();
+  closeHomeCardEditModal();
+}
+
+function updateHomeServiceCardPreview(index, path) {
+  const preview = document.querySelector('[data-home-card-preview="' + index + '"]');
+  if (!preview) return;
+  const value = (path || '').trim();
+  if (value) {
+    preview.src = getRelativePath(value);
+    preview.style.display = 'block';
+    preview.onerror = () => {
+      preview.style.display = 'none';
+    };
+  } else {
+    preview.removeAttribute('src');
+    preview.style.display = 'none';
+  }
+}
+
+function updateHomeCardPathSpan(index, path) {
+  const span = document.querySelector('.img-cur-path[data-cat-card-image="' + index + '"]');
+  if (span) span.textContent = (path || '').trim() || '(не вказано)';
+}
+
+function renderHomeEditor() {
+  if (!siteContentData) {
+    document.getElementById('main-area').innerHTML = '<div class="empty-state"><div class="icon">⏳</div><p>Завантаження контенту головної...</p></div>';
+    return;
+  }
+
+  if (!availableImages.length) {
+    ensureImageLibraryLoaded().then(() => {
+      if (activeMode === 'home') renderHomeEditor();
+    });
+  }
+
+  const hero = siteContentData.hero || {};
+  const activity = siteContentData.activity || {};
+  const contacts = siteContentData.contacts || {};
+
+  const footer = siteContentData.footer || {};
+
+  const categoriesRows = (servicesData && Array.isArray(servicesData.categories) ? servicesData.categories : [])
+    .map((cat, i) => {
+      const img = (cat.cardImage || '');
+      const folder = getImageFolder(img || 'image/Картки послуг');
+      return '<div class="home-image-card">' +
+        '<div class="home-image-card-title">' + escHtml(cat.title) + '</div>' +
+        '<div class="img-preview-wrap">' +
+          '<span class="img-cur-path" data-cat-card-image="' + i + '">' + escHtml(img || '(не вказано)') + '</span>' +
+          '<input type="hidden" data-cat-card-image="' + i + '" value="' + escHtml(img) + '">' +
+          '<img data-home-card-preview="' + i + '" class="img-preview" src="' + escHtml(getRelativePath(img || '')) + '" alt="preview"' + (img ? '' : ' style="display:none"') + '>' +
+        '</div>' +
+        '<div class="image-tools">' +
+          '<div class="image-picker-row">' +
+            '<select data-home-card-picker-folder="' + i + '">' + buildFolderSelectOptions(folder) + '</select>' +
+            '<select data-home-card-existing="' + i + '">' + buildImageSelectOptionsForFolder(folder, img) + '</select>' +
+            '<button type="button" class="btn-small" data-home-card-apply="' + i + '">Підставити</button>' +
+          '</div>' +
+          '<div class="image-upload-grid">' +
+            '<input type="file" data-home-card-upload="' + i + '" accept="image/*">' +
+            '<select data-home-card-folder="' + i + '">' + buildFolderSelectOptions(folder) + '</select>' +
+            '<button type="button" class="btn-small" data-home-card-upload-btn="' + i + '">Завантажити</button>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+    }).join('');
+
+  document.getElementById('main-area').innerHTML =
+    '<div class="main-top"><h2>Головна сторінка</h2><button class="btn-add" id="home-save-local-btn">Застосувати локально</button></div>' +
+    '<div class="price-section" id="home-sec-1" style="background:#fff;margin-bottom:12px;">' +
+      '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">' +
+        '<strong>1. Перший блок</strong>' +
+      '</div>' +
+      '<div class="form-row"><label>Заголовок</label><textarea id="home-hero-title">' + escHtml(hero.title || '') + '</textarea></div>' +
+      '<div class="form-row" style="margin-bottom:0;"><label>Текст</label><textarea id="home-hero-text">' + escHtml(hero.text || '') + '</textarea></div>' +
+    '</div>' +
+    '<div class="price-section" id="home-sec-2" style="background:#fff;margin-bottom:12px;">' +
+      '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">' +
+        '<strong>2. Про нас: картки</strong>' +
+        '<button type="button" class="btn-small" data-home-open-cards="about">Редагувати картки</button>' +
+      '</div>' +
+    '</div>' +
+    '<div class="price-section" id="home-sec-3" style="background:#fff;margin-bottom:12px;">' +
+      '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">' +
+        '<strong>3. Про нас: Наші напрямки роботи</strong>' +
+        '<button type="button" class="btn-small" data-toggle-target="home-activity-editor">Редагувати блок</button>' +
+      '</div>' +
+      '<div id="home-activity-editor" style="display:none;">' +
+        '<div class="form-row"><label>Заголовок</label><input id="home-activity-title" type="text" value="' + escHtml(activity.title || '') + '"></div>' +
+        '<div class="form-row"><label>Опис</label><textarea id="home-activity-lead">' + escHtml(activity.lead || '') + '</textarea></div>' +
+        '<div class="form-row"><label>Вступ</label><input id="home-activity-intro" type="text" value="' + escHtml(activity.intro || '') + '"></div>' +
+        '<div class="form-row" style="margin-bottom:0;"><label>Пункти</label><div id="home-activity-items-list"></div><button type="button" class="btn-small" id="home-add-activity-item">+ Додати пункт</button></div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="price-section" id="home-sec-4" style="background:#fff;margin-bottom:12px;">' +
+      '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">' +
+        '<strong>4. Напрямки діяльності: картки</strong>' +
+        '<button type="button" class="btn-small" data-home-open-cards="directions">Редагувати картки</button>' +
+      '</div>' +
+    '</div>' +
+    '<div class="price-section" id="home-sec-5" style="background:#fff;margin-bottom:12px;">' +
+      '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">' +
+        '<strong>5. Послуги: картки та фони попапів</strong>' +
+        '<button type="button" class="btn-small" data-toggle-target="home-service-cards-editor">Редагувати зображення</button>' +
+      '</div>' +
+      '<div id="home-service-cards-editor" style="display:none;">' + categoriesRows + '</div>' +
+    '</div>' +
+    '<div class="price-section" id="home-sec-6" style="background:#fff;margin-bottom:12px;">' +
+      '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">' +
+        '<strong>6. Контакти</strong>' +
+        '<button type="button" class="btn-small" data-toggle-target="home-contacts-editor">Редагувати контакти</button>' +
+      '</div>' +
+      '<div id="home-contacts-editor" style="display:none;">' +
+        '<div class="form-row"><label>Телефон (видимий)</label><input id="home-phone-display" type="text" value="' + escHtml(contacts.phoneDisplay || '') + '"></div>' +
+        '<div class="form-row"><label>Телефон (цифри, без + і пробілів)</label><input id="home-phone-raw" type="text" value="' + escHtml(contacts.phoneRaw || '') + '"></div>' +
+        '<div class="form-row"><label>Email</label><input id="home-email" type="text" value="' + escHtml(contacts.email || '') + '"></div>' +
+        '<div class="form-row"><label>Графік</label><input id="home-hours" type="text" value="' + escHtml(contacts.hours || '') + '"></div>' +
+        '<div class="form-row"><label>Адреса рядок 1</label><input id="home-address-1" type="text" value="' + escHtml(contacts.addressLine1 || '') + '"></div>' +
+        '<div class="form-row"><label>Адреса рядок 2</label><input id="home-address-2" type="text" value="' + escHtml(contacts.addressLine2 || '') + '"></div>' +
+        '<div class="form-row"><label>Блок "Розташування"</label><input id="home-location" type="text" value="' + escHtml(contacts.locationInfo || '') + '"></div>' +
+        '<div class="form-row" style="margin-bottom:0;"><label>Facebook URL</label><input id="home-facebook" type="text" value="' + escHtml(contacts.facebook || '') + '"></div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="price-section" id="home-sec-7" style="background:#fff;margin-bottom:12px;">' +
+      '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">' +
+        '<strong>7. Підвал</strong>' +
+        '<button type="button" class="btn-small" data-toggle-target="home-footer-editor">Редагувати підвал</button>' +
+      '</div>' +
+      '<div id="home-footer-editor" style="display:none;">' +
+        '<div class="form-row"><label>Заголовок блоку</label><input id="home-footer-title" type="text" value="' + escHtml(footer.aboutTitle || '') + '"></div>' +
+        '<div class="form-row"><label>Основний текст</label><textarea id="home-footer-text">' + escHtml(footer.aboutText || '') + '</textarea></div>' +
+        '<div class="form-row" style="margin-bottom:0;"><label>Додатковий текст</label><textarea id="home-footer-subtext">' + escHtml(footer.aboutSubtext || '') + '</textarea></div>' +
+      '</div>' +
+    '</div>';
+
+  const activityItems = Array.isArray(activity.items) ? activity.items : [];
+  function activityItemRow(text) {
+    return '<div class="price-row home-activity-item" style="grid-template-columns:1fr auto;">' +
+      '<input type="text" class="home-activity-text" placeholder="Пункт" value="' + escHtml(text || '') + '">' +
+      '<button type="button" class="remove-row home-activity-del">×</button>' +
+    '</div>';
+  }
+
+  const activityWrap = document.getElementById('home-activity-items-list');
+  activityWrap.innerHTML = (activityItems.length ? activityItems : ['']).map(activityItemRow).join('');
+
+  document.getElementById('home-save-local-btn').addEventListener('click', () => {
+    if (collectHomeForm()) {
+      showToast('Зміни підготовлено локально', 'success');
+    }
+  });
+
+  document.getElementById('home-add-activity-item').addEventListener('click', () => {
+    activityWrap.insertAdjacentHTML('beforeend', activityItemRow(''));
+    markUnsaved();
+  });
+
+  const homeMain = document.getElementById('main-area');
+
+  homeMain.onchange = (e) => {
+    if (e.target.matches('[data-home-card-picker-folder]')) {
+      const idx = e.target.getAttribute('data-home-card-picker-folder');
+      const folder = e.target.value;
+      const imgSel = document.querySelector('[data-home-card-existing="' + idx + '"]');
+      const hidden = document.querySelector('input[type="hidden"][data-cat-card-image="' + idx + '"]');
+      if (imgSel) imgSel.innerHTML = buildImageSelectOptionsForFolder(folder, hidden ? hidden.value : '');
+      markUnsaved();
+      return;
+    }
+    if (e.target.matches('[data-home-card-existing]')) {
+      const idx = e.target.getAttribute('data-home-card-existing');
+      const input = document.querySelector('input[type="hidden"][data-cat-card-image="' + idx + '"]');
+      if (input && e.target.value) {
+        input.value = e.target.value;
+        updateHomeServiceCardPreview(idx, e.target.value);
+        updateHomeCardPathSpan(idx, e.target.value);
+      }
+    }
+    markUnsaved();
+  };
+
+  homeMain.oninput = (e) => {
+    markUnsaved();
+  };
+
+  homeMain.onclick = (e) => {
+    const qnBtn = e.target.closest('[data-qn-section]');
+    if (qnBtn) {
+      const secId = qnBtn.getAttribute('data-qn-section');
+      const sec = document.getElementById(secId);
+      if (sec) {
+        // find the toggle target inside this section and expand it if collapsed
+        const toggleBtn = sec.querySelector('[data-toggle-target]');
+        if (toggleBtn) {
+          const targetId = toggleBtn.getAttribute('data-toggle-target');
+          const target = document.getElementById(targetId);
+          if (target) target.style.display = 'block';
+        }
+        sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // highlight active nav item
+        document.querySelectorAll('#home-nav-list .home-nav-item').forEach(el => el.classList.remove('active-nav'));
+        document.querySelector('#home-nav-list [data-qn-section="' + secId + '"]')?.classList.add('active-nav');
+      }
+      return;
+    }
+    const qnPopup = e.target.closest('[data-qn-popup]');
+    if (qnPopup) {
+      const section = qnPopup.getAttribute('data-qn-popup');
+      document.querySelectorAll('#home-nav-list .home-nav-item').forEach(el => el.classList.remove('active-nav'));
+      document.querySelector('#home-nav-list [data-qn-popup="' + section + '"]')?.classList.add('active-nav');
+      openHomeCardsModal(section);
+      return;
+    }
+    const actDel = e.target.closest('.home-activity-del');
+    if (actDel) {
+      actDel.closest('.home-activity-item').remove();
+      if (!activityWrap.querySelector('.home-activity-item')) {
+        activityWrap.insertAdjacentHTML('beforeend', activityItemRow(''));
+      }
+      markUnsaved();
+      return;
+    }
+    const applyBtn = e.target.closest('[data-home-card-apply]');
+    if (applyBtn) {
+      const idx = applyBtn.getAttribute('data-home-card-apply');
+      const select = document.querySelector('[data-home-card-existing="' + idx + '"]');
+      const input = document.querySelector('input[type="hidden"][data-cat-card-image="' + idx + '"]');
+      if (select && input && select.value) {
+        input.value = select.value;
+        updateHomeServiceCardPreview(idx, select.value);
+        updateHomeCardPathSpan(idx, select.value);
+        markUnsaved();
+      }
+      return;
+    }
+
+    const uploadBtn = e.target.closest('[data-home-card-upload-btn]');
+    if (uploadBtn) {
+      const idx = uploadBtn.getAttribute('data-home-card-upload-btn');
+      const fileInput = document.querySelector('[data-home-card-upload="' + idx + '"]');
+      const folderSel = document.querySelector('[data-home-card-folder="' + idx + '"]');
+      const pathInput = document.querySelector('input[type="hidden"][data-cat-card-image="' + idx + '"]');
+      const existingSel = document.querySelector('[data-home-card-existing="' + idx + '"]');
+      const file = fileInput && fileInput.files && fileInput.files[0];
+      if (!file) {
+        showToast('Оберіть файл для завантаження', 'error');
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append('image', file);
+      formData.append('folder', (folderSel && folderSel.value) || 'image/Картки послуг');
+      fetchJson(API_UPLOAD_IMAGE_URL, {
+        method: 'POST',
+        headers: { 'X-Admin-Password': ADMIN_PASSWORD },
+        body: formData
+      })
+      .then((data) => {
+        if (!data || !data.ok || !data.path) throw new Error((data && data.error) || 'Не вдалося завантажити зображення');
+        if (pathInput) pathInput.value = data.path;
+        if (fileInput) fileInput.value = '';
+        if (!availableImages.includes(data.path)) availableImages.push(data.path);
+        if (existingSel) {
+          existingSel.innerHTML = buildImageSelectOptions(data.path);
+          existingSel.value = data.path;
+        }
+        updateHomeServiceCardPreview(idx, data.path);
+        updateHomeCardPathSpan(idx, data.path);
+        markUnsaved();
+        showToast('Зображення завантажено', 'success');
+      })
+      .catch((err) => {
+        showToast('Не вдалося завантажити: ' + err.message, 'error');
+      });
+      return;
+    }
+
+    const openCardsBtn = e.target.closest('[data-home-open-cards]');
+    if (openCardsBtn) {
+      openHomeCardsModal(openCardsBtn.getAttribute('data-home-open-cards'));
+      return;
+    }
+
+    const toggleBtn = e.target.closest('[data-toggle-target]');
+    if (toggleBtn) {
+      const targetId = toggleBtn.getAttribute('data-toggle-target');
+      const target = document.getElementById(targetId);
+      if (target) {
+        const isOpen = target.style.display !== 'none';
+        target.style.display = isOpen ? 'none' : 'block';
+      }
+    }
+  };
+}
+
+function collectHomeForm() {
+  if (!siteContentData) return false;
+
+  siteContentData.hero = {
+    title: document.getElementById('home-hero-title').value.trim(),
+    text: document.getElementById('home-hero-text').value.trim(),
+  };
+
+  siteContentData.activity = {
+    title: document.getElementById('home-activity-title').value.trim(),
+    lead: document.getElementById('home-activity-lead').value.trim(),
+    intro: document.getElementById('home-activity-intro').value.trim(),
+    items: Array.from(document.querySelectorAll('#home-activity-items-list .home-activity-text')).map((i) => i.value.trim()).filter(Boolean),
+  };
+
+  siteContentData.contacts = {
+    phoneDisplay: document.getElementById('home-phone-display').value.trim(),
+    phoneRaw: document.getElementById('home-phone-raw').value.trim(),
+    email: document.getElementById('home-email').value.trim(),
+    hours: document.getElementById('home-hours').value.trim(),
+    addressLine1: document.getElementById('home-address-1').value.trim(),
+    addressLine2: document.getElementById('home-address-2').value.trim(),
+    locationInfo: document.getElementById('home-location').value.trim(),
+    facebook: document.getElementById('home-facebook').value.trim(),
+  };
+  siteContentData.footer = {
+    aboutTitle: document.getElementById('home-footer-title').value.trim(),
+    aboutText: document.getElementById('home-footer-text').value.trim(),
+    aboutSubtext: document.getElementById('home-footer-subtext').value.trim(),
+  };
+
+  if (servicesData && Array.isArray(servicesData.categories)) {
+    servicesData.categories.forEach((cat, i) => {
+      const input = document.querySelector('input[type="hidden"][data-cat-card-image="' + i + '"]');
+      if (input) cat.cardImage = input.value.trim();
+    });
+  }
+
+  markUnsaved();
+  return true;
+}
+
+function ensureRequiredCategories() {
+  if (!Array.isArray(servicesData.categories)) {
+    servicesData.categories = [];
+  }
+  if (!servicesData.categories.some(c => c.id === 'other')) {
+    servicesData.categories.push({
+      id: 'other',
+      title: 'Інші послуги',
+      cardImage: 'image/Картки послуг/інші.jpg',
+      priceNote: '',
+      services: []
+    });
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+//  CATEGORY LIST
+// ═══════════════════════════════════════════════════════
+function renderCategoryList() {
+  if (!servicesData || !Array.isArray(servicesData.categories)) return;
+  const list = document.getElementById('cat-list');
+  list.innerHTML = '';
+  servicesData.categories.forEach((cat, i) => {
+    const el = document.createElement('div');
+    el.className = 'cat-item' + (i === activeCatIndex ? ' active' : '');
+    el.innerHTML = cat.title + '<span class="cat-count">(' + cat.services.length + ')</span>';
+    el.addEventListener('click', () => selectCategory(i));
+    list.appendChild(el);
+  });
+}
+
+function selectCategory(index) {
+  activeCatIndex = index;
+  renderCategoryList();
+  renderServiceList();
+}
+
+// ═══════════════════════════════════════════════════════
+//  SERVICE LIST
+// ═══════════════════════════════════════════════════════
+function renderServiceList() {
+  if (activeCatIndex < 0 || !servicesData) return;
+  const cat = servicesData.categories[activeCatIndex];
+  const main = document.getElementById('main-area');
+
+  if (!availableImages.length) {
+    ensureImageLibraryLoaded().then(() => {
+      if (activeMode === 'services' && servicesData && servicesData.categories[activeCatIndex] && servicesData.categories[activeCatIndex].id === cat.id) {
+        renderServiceList();
+      }
+    });
+  }
+
+  let html = '<div class="main-top">';
+  html += '<h2>' + escHtml(cat.title) + '</h2>';
+  html += '<button class="btn-add" id="add-btn">+ Додати послугу</button>';
+  html += '</div>';
+
+  html += '<div class="priceNote-badge">';
+  html += '<label>Примітка категорії:</label>';
+  html += '<input type="text" id="cat-price-note" value="' + escHtml(cat.priceNote || '') + '" placeholder="Наприклад: вартість наведена без ПДВ та з ПДВ">';
+  html += '</div>';
+
+  html += '<div class="priceNote-badge">';
+  html += '<label>Зображення картки:</label>';
+  html += '<input type="text" id="cat-card-image" value="' + escHtml(cat.cardImage || '') + '" placeholder="image/Картки послуг/назва.jpg">';
+  html += '</div>';
+
+  const catImgFolder = getImageFolder(cat.cardImage || 'image/Картки послуг');
+  html += '<div class="image-tools">';
+  html += '  <div class="image-picker-row">';
+  html += '    <select id="cat-card-picker-folder">' + buildFolderSelectOptions(catImgFolder) + '</select>';
+  html += '    <select id="cat-card-image-existing">' + buildImageSelectOptionsForFolder(catImgFolder, cat.cardImage || '') + '</select>';
+  html += '    <button type="button" class="btn-small" id="cat-card-apply-image-btn">Підставити</button>';
+  html += '  </div>';
+  html += '  <div class="image-upload-grid">';
+  html += '    <input type="file" id="cat-card-upload-image" accept="image/*">';
+  html += '    <select id="cat-card-upload-folder">' + buildFolderSelectOptions(catImgFolder) + '</select>';
+  html += '    <button type="button" class="btn-small" id="cat-card-upload-btn">Завантажити</button>';
+  html += '  </div>';
+  html += '</div>';
+
+  if (cat.services.length === 0) {
+    html += '<div class="empty-state"><div class="icon">📋</div><p>Послуг ще немає. Натисніть "+ Додати послугу"</p></div>';
+  } else {
+    html += '<div class="service-list" id="service-list">';
+    cat.services.forEach((svc, i) => {
+      const descText = stripHtmlTags(svc.description || '').substring(0, 100);
+      const imgSrc = svc.image ? getRelativePath(svc.image) : '';
+      html += '<div class="svc-row" data-idx="' + i + '">';
+      if (imgSrc) {
+        html += '<img class="svc-img" src="' + escHtml(imgSrc) + '" alt="" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">';
+        html += '<div class="svc-img-placeholder" style="display:none">🖼</div>';
+      } else {
+        html += '<div class="svc-img-placeholder">🖼</div>';
+      }
+      html += '<div class="svc-info">';
+      html += '<div class="svc-title">' + escHtml(svc.title) + '</div>';
+      html += '<div class="svc-desc-preview">' + escHtml(descText) + (descText.length >= 100 ? '…' : '') + '</div>';
+      html += '</div>';
+      html += '<div class="svc-actions">';
+      if (i > 0) {
+        html += '<button class="btn-icon move-up" title="Вгору" data-idx="' + i + '">↑</button>';
+      }
+      if (i < cat.services.length - 1) {
+        html += '<button class="btn-icon move-down" title="Вниз" data-idx="' + i + '">↓</button>';
+      }
+      html += '<button class="btn-icon edit" title="Редагувати" data-idx="' + i + '">✏</button>';
+      html += '<button class="btn-icon del" title="Видалити" data-idx="' + i + '">🗑</button>';
+      html += '</div>';
+      html += '</div>';
+    });
+    html += '</div>';
+  }
+
+  main.innerHTML = html;
+
+  document.getElementById('add-btn').addEventListener('click', () => openEditModal(null));
+
+  document.getElementById('cat-price-note').addEventListener('input', e => {
+    servicesData.categories[activeCatIndex].priceNote = e.target.value;
+    markUnsaved();
+  });
+
+  document.getElementById('cat-card-picker-folder').addEventListener('change', (e) => {
+    const folder = e.target.value;
+    const currentPath = document.getElementById('cat-card-image').value.trim();
+    document.getElementById('cat-card-image-existing').innerHTML = buildImageSelectOptionsForFolder(folder, currentPath);
+  });
+
+  document.getElementById('cat-card-image').addEventListener('input', e => {
+    servicesData.categories[activeCatIndex].cardImage = e.target.value;
+    markUnsaved();
+  });
+
+  document.getElementById('cat-card-apply-image-btn').addEventListener('click', () => {
+    const selected = document.getElementById('cat-card-image-existing').value;
+    if (!selected) return;
+    document.getElementById('cat-card-image').value = selected;
+    servicesData.categories[activeCatIndex].cardImage = selected;
+    markUnsaved();
+  });
+
+  document.getElementById('cat-card-image-existing').addEventListener('change', (e) => {
+    if (!e.target.value) return;
+    document.getElementById('cat-card-image').value = e.target.value;
+    servicesData.categories[activeCatIndex].cardImage = e.target.value;
+    markUnsaved();
+  });
+
+  document.getElementById('cat-card-upload-btn').addEventListener('click', () => {
+    const fileInput = document.getElementById('cat-card-upload-image');
+    const folder = document.getElementById('cat-card-upload-folder').value;
+    const file = fileInput.files && fileInput.files[0];
+    if (!file) {
+      showToast('Оберіть файл для завантаження', 'error');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('image', file);
+    formData.append('folder', folder);
+
+    fetchJson(API_UPLOAD_IMAGE_URL, {
+      method: 'POST',
+      headers: { 'X-Admin-Password': ADMIN_PASSWORD },
+      body: formData
+    })
+    .then((data) => {
+      if (!data || !data.ok || !data.path) throw new Error((data && data.error) || 'Не вдалося завантажити зображення');
+      document.getElementById('cat-card-image').value = data.path;
+      servicesData.categories[activeCatIndex].cardImage = data.path;
+      fileInput.value = '';
+      if (!availableImages.includes(data.path)) availableImages.push(data.path);
+      document.getElementById('cat-card-image-existing').innerHTML = buildImageSelectOptions(data.path);
+      document.getElementById('cat-card-image-existing').value = data.path;
+      markUnsaved();
+      showToast('Зображення картки завантажено', 'success');
+    })
+    .catch((err) => {
+      showToast('Не вдалося завантажити: ' + err.message, 'error');
+    });
+  });
+
+  main.querySelectorAll('.btn-icon.edit').forEach(btn => {
+    btn.addEventListener('click', () => openEditModal(Number(btn.dataset.idx)));
+  });
+  main.querySelectorAll('.svc-row').forEach(row => {
+    row.style.cursor = 'pointer';
+    row.addEventListener('click', (e) => {
+      if (e.target.closest('.btn-icon')) return;
+      openEditModal(Number(row.dataset.idx));
+    });
+  });
+  main.querySelectorAll('.btn-icon.del').forEach(btn => {
+    btn.addEventListener('click', () => openConfirmDelete(Number(btn.dataset.idx)));
+  });
+  main.querySelectorAll('.btn-icon.move-up').forEach(btn => {
+    btn.addEventListener('click', () => moveService(Number(btn.dataset.idx), -1));
+  });
+  main.querySelectorAll('.btn-icon.move-down').forEach(btn => {
+    btn.addEventListener('click', () => moveService(Number(btn.dataset.idx), 1));
+  });
+}
+
+function escHtml(str) {
+  if (!str) return '';
+  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+function parseDescriptionFields(descriptionHtml) {
+  const holder = document.createElement('div');
+  holder.innerHTML = descriptionHtml || '';
+  const paragraphs = Array.from(holder.querySelectorAll('p')).map(p => (p.textContent || '').trim()).filter(Boolean);
+
+  let whatText = '';
+  let whyText = '';
+
+  const normalize = (text) => text.replace(/\s+/g, ' ').trim();
+  const stripWhatLabel = (text) => normalize(text).replace(/^\s*Що\s+це\?\s*/i, '');
+  const stripWhyLabel = (text) => normalize(text).replace(/^\s*Для\s+чого\s+потрібна\s+ця\s+послуга\?\s*/i, '').replace(/^\s*Для\s+чого\s+потрібна\s+послуга\?\s*/i, '');
+
+  paragraphs.forEach((line) => {
+    if (!whatText && /^\s*Що\s+це\?/i.test(line)) {
+      whatText = stripWhatLabel(line);
+      return;
+    }
+    if (!whyText && /^\s*Для\s+чого\s+потрібна/i.test(line)) {
+      whyText = stripWhyLabel(line);
+    }
+  });
+
+  if (!whatText && paragraphs[0]) whatText = stripWhatLabel(paragraphs[0]);
+  if (!whyText && paragraphs[1]) whyText = stripWhyLabel(paragraphs[1]);
+
+  return { whatText, whyText };
+}
+
+function parsePriceFields(priceHtml) {
+  const holder = document.createElement('div');
+  holder.innerHTML = priceHtml || '';
+
+  const sections = [];
+  let pendingSubtitle = '';
+
+  Array.from(holder.children).forEach((node) => {
+    if (node.tagName === 'P' || (node.classList && node.classList.contains('price-subtitle'))) {
+      pendingSubtitle = (node.textContent || '').trim();
+      return;
+    }
+
+    if (node.tagName === 'TABLE' && node.classList.contains('price-table')) {
+      const rows = [];
+      node.querySelectorAll('tr').forEach((tr) => {
+        const cells = tr.querySelectorAll('td');
+        const label = (cells[0]?.textContent || '').trim();
+        const value = (cells[1]?.textContent || '').trim();
+        if (label || value) rows.push({ label, value });
+      });
+
+      sections.push({ subtitle: pendingSubtitle, rows });
+      pendingSubtitle = '';
+    }
+  });
+
+  if (!sections.length) {
+    const fallbackRows = [];
+    holder.querySelectorAll('tr').forEach((tr) => {
+      const cells = tr.querySelectorAll('td');
+      const label = (cells[0]?.textContent || '').trim();
+      const value = (cells[1]?.textContent || '').trim();
+      if (label || value) fallbackRows.push({ label, value });
+    });
+    if (fallbackRows.length || pendingSubtitle) {
+      sections.push({ subtitle: pendingSubtitle, rows: fallbackRows });
+    }
+  }
+
+  return { sections };
+}
+
+function setPriceSections(sections) {
+  const wrap = document.getElementById('f-priceSections');
+  wrap.innerHTML = '';
+  const items = sections && sections.length ? sections : [{ subtitle: '', rows: [{ label: '', value: '' }] }];
+  items.forEach(item => addPriceSection(item.subtitle || '', item.rows || [{ label: '', value: '' }]));
+}
+
+function getBasePriceSection() {
+  const wrap = document.getElementById('f-priceSections');
+  const sections = Array.from(wrap.querySelectorAll('.price-section'));
+  const base = sections.find((sec) => {
+    const subtitleInput = sec.querySelector('.price-subtitle-input');
+    return subtitleInput && !subtitleInput.value.trim();
+  });
+  return base || null;
+}
+
+function addPriceRow(rowsWrap, label = '', value = '') {
+  const row = document.createElement('div');
+  row.className = 'price-row';
+  row.innerHTML =
+    '<input type="text" class="price-label" placeholder="Варіант (наприклад: До 0,10 га)">' +
+    '<input type="text" class="price-value" placeholder="Вартість (наприклад: 5 640 / 6 768 грн)">' +
+    '<button type="button" class="remove-row" title="Видалити рядок">×</button>';
+
+  row.querySelector('.price-label').value = label || '';
+  row.querySelector('.price-value').value = value || '';
+
+  row.querySelector('.remove-row').addEventListener('click', () => {
+    row.remove();
+    if (!rowsWrap.querySelector('.price-row')) addPriceRow(rowsWrap, '', '');
+  });
+
+  rowsWrap.appendChild(row);
+}
+
+function addPriceSection(subtitle = '', rows = [{ label: '', value: '' }]) {
+  const wrap = document.getElementById('f-priceSections');
+  const section = document.createElement('div');
+  section.className = 'price-section';
+  section.innerHTML =
+    '<div class="price-section-head">' +
+      '<input type="text" class="price-subtitle-input" placeholder="Підзаголовок (необов\'язково)">' +
+      '<button type="button" class="section-remove-btn" title="Видалити підзаголовок">×</button>' +
+    '</div>' +
+    '<div class="price-rows"></div>' +
+    '<button type="button" class="add-row-btn">+ Додати послугу</button>';
+
+  section.querySelector('.price-subtitle-input').value = subtitle || '';
+  const rowsWrap = section.querySelector('.price-rows');
+  const initialRows = rows && rows.length ? rows : [{ label: '', value: '' }];
+  initialRows.forEach((r) => addPriceRow(rowsWrap, r.label, r.value));
+
+  section.querySelector('.add-row-btn').addEventListener('click', () => {
+    addPriceRow(rowsWrap, '', '');
+  });
+
+  section.querySelector('.section-remove-btn').addEventListener('click', () => {
+    section.remove();
+    if (!wrap.querySelector('.price-section')) {
+      addPriceSection('', [{ label: '', value: '' }]);
+    }
+  });
+
+  wrap.appendChild(section);
+}
+
+function buildDescriptionHtml(whatText, whyText) {
+  const parts = [];
+  if (whatText) parts.push('<p><b>Що це?</b> ' + escHtml(whatText) + '</p>');
+  if (whyText) parts.push('<p><b>Для чого потрібна ця послуга?</b> ' + escHtml(whyText) + '</p>');
+  return parts.join('');
+}
+
+function buildPriceHtml(sections) {
+  let html = '';
+  sections.forEach((section) => {
+    const subtitle = (section.subtitle || '').trim();
+    const cleanRows = (section.rows || []).filter(r => r.label || r.value);
+    if (!subtitle && !cleanRows.length) return;
+
+    if (subtitle) html += '<p class="price-subtitle">' + escHtml(subtitle) + '</p>';
+    if (cleanRows.length) {
+      html += '<table class="price-table">';
+      cleanRows.forEach((r) => {
+        const rowClass = subtitle ? 'price-subitem-row' : 'subtitle-like-row';
+        html += '<tr class="' + rowClass + '"><td>' + escHtml(r.label) + '</td><td>' + escHtml(r.value) + '</td></tr>';
+      });
+      html += '</table>';
+    }
+  });
+
+  return html;
+}
+
+function moveService(idx, dir) {
+  const services = servicesData.categories[activeCatIndex].services;
+  const newIdx = idx + dir;
+  if (newIdx < 0 || newIdx >= services.length) return;
+  [services[idx], services[newIdx]] = [services[newIdx], services[idx]];
+  markUnsaved();
+  renderServiceList();
+}
+
+// ═══════════════════════════════════════════════════════
+//  EDIT MODAL
+// ═══════════════════════════════════════════════════════
+function openEditModal(svcIndex) {
+  editingServiceIndex = svcIndex;
+  const modal = document.getElementById('edit-modal');
+  const titleEl = document.getElementById('modal-title');
+  const preview = document.getElementById('img-preview');
+
+  if (svcIndex === null) {
+    // New service
+    titleEl.textContent = 'Додати послугу';
+    document.getElementById('f-title').value = '';
+    populateCategorySelect(servicesData.categories[activeCatIndex]?.id || '');
+    document.getElementById('f-image').value = '';
+    document.getElementById('f-image-existing').value = '';
+    document.getElementById('f-upload-image').value = '';
+    document.getElementById('f-priceNote').value = '';
+    document.getElementById('f-desc-what').value = '';
+    document.getElementById('f-desc-why').value = '';
+    setPriceSections([{ subtitle: '', rows: [{ label: '', value: '' }] }]);
+    preview.style.display = 'none';
+  } else {
+    const svc = servicesData.categories[activeCatIndex].services[svcIndex];
+    const desc = parseDescriptionFields(svc.description || '');
+    const price = parsePriceFields(svc.priceHtml || '');
+    titleEl.textContent = 'Редагувати послугу';
+    document.getElementById('f-title').value = svc.title || '';
+    populateCategorySelect(servicesData.categories[activeCatIndex]?.id || '');
+    document.getElementById('f-image').value = svc.image || '';
+    document.getElementById('f-image-existing').value = svc.image || '';
+    document.getElementById('f-upload-image').value = '';
+    document.getElementById('f-priceNote').value = svc.priceNote || '';
+    document.getElementById('f-desc-what').value = desc.whatText || '';
+    document.getElementById('f-desc-why').value = desc.whyText || '';
+    setPriceSections(price.sections);
+    updateImgPreview(svc.image);
+  }
+
+  loadImageLibrary(false).then(() => {
+    populateImageOptions();
+  });
+
+  modal.classList.remove('hidden');
+  document.getElementById('f-title').focus();
+}
+
+function updateImgPreview(path) {
+  const preview = document.getElementById('img-preview');
+  if (path) {
+    preview.src = getRelativePath(path);
+    preview.style.display = 'block';
+    preview.onerror = () => { preview.style.display = 'none'; };
+  } else {
+    preview.style.display = 'none';
+  }
+}
+
+function populateCategorySelect(selectedId) {
+  const select = document.getElementById('f-category');
+  select.innerHTML = '';
+  servicesData.categories.forEach((cat) => {
+    const opt = document.createElement('option');
+    opt.value = cat.id;
+    opt.textContent = cat.title;
+    if (cat.id === selectedId) opt.selected = true;
+    select.appendChild(opt);
+  });
+}
+
+document.getElementById('f-picker-folder').addEventListener('change', (e) => {
+  const folder = e.target.value;
+  const currentImage = document.getElementById('f-image').value.trim();
+  document.getElementById('f-image-existing').innerHTML = buildImageSelectOptionsForFolder(folder, currentImage);
+});
+
+document.getElementById('f-image').addEventListener('input', e => {
+  updateImgPreview(e.target.value);
+  populateImageOptions();
+});
+
+document.getElementById('apply-existing-image-btn').addEventListener('click', () => {
+  const selected = document.getElementById('f-image-existing').value;
+  if (!selected) return;
+  document.getElementById('f-image').value = selected;
+  updateImgPreview(selected);
+});
+
+document.getElementById('f-image-existing').addEventListener('change', (e) => {
+  if (!e.target.value) return;
+  document.getElementById('f-image').value = e.target.value;
+  updateImgPreview(e.target.value);
+});
+
+document.getElementById('upload-image-btn').addEventListener('click', () => {
+  const fileInput = document.getElementById('f-upload-image');
+  const folder = document.getElementById('f-upload-folder').value;
+  const file = fileInput.files && fileInput.files[0];
+  if (!file) {
+    showToast('Оберіть файл для завантаження', 'error');
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append('image', file);
+  formData.append('folder', folder);
+
+  fetchJson(API_UPLOAD_IMAGE_URL, {
+    method: 'POST',
+    headers: { 'X-Admin-Password': ADMIN_PASSWORD },
+    body: formData
+  })
+  .then(data => {
+    if (!data || !data.ok || !data.path) {
+      throw new Error((data && data.error) || 'Не вдалося завантажити зображення');
+    }
+    document.getElementById('f-image').value = data.path;
+    document.getElementById('f-upload-image').value = '';
+    updateImgPreview(data.path);
+    return loadImageLibrary(true).then(() => {
+      document.getElementById('f-image-existing').value = data.path;
+      showToast('Зображення завантажено', 'success');
+    });
+  })
+  .catch(err => {
+    showToast('Не вдалося завантажити: ' + err.message, 'error');
+  });
+});
+
+document.getElementById('add-price-section-btn').addEventListener('click', () => {
+  addPriceSection('', [{ label: '', value: '' }]);
+});
+
+document.getElementById('add-base-price-row-btn').addEventListener('click', () => {
+  let baseSection = getBasePriceSection();
+  if (!baseSection) {
+    addPriceSection('', [{ label: '', value: '' }]);
+    baseSection = getBasePriceSection();
+  }
+  const rowsWrap = baseSection ? baseSection.querySelector('.price-rows') : null;
+  if (rowsWrap) addPriceRow(rowsWrap, '', '');
+});
+
+function closeEditModal() {
+  document.getElementById('edit-modal').classList.add('hidden');
+  editingServiceIndex = null;
+}
+
+document.getElementById('modal-close-btn').addEventListener('click', closeEditModal);
+document.getElementById('modal-cancel-btn').addEventListener('click', closeEditModal);
+
+document.getElementById('home-cards-modal-close').addEventListener('click', closeHomeCardsModal);
+document.getElementById('home-card-edit-close').addEventListener('click', closeHomeCardEditModal);
+document.getElementById('home-card-edit-cancel').addEventListener('click', closeHomeCardEditModal);
+document.getElementById('home-card-edit-save').addEventListener('click', saveHomeCardEditModal);
+document.getElementById('home-card-edit-type').addEventListener('change', (e) => {
+  const isList = e.target.value === 'list';
+  document.getElementById('home-card-edit-text-row').style.display = isList ? 'none' : 'block';
+  document.getElementById('home-card-edit-items-row').style.display = isList ? 'block' : 'none';
+});
+document.getElementById('home-cards-modal-add-btn').addEventListener('click', () => {
+  openHomeCardEditModal(homeCardModalSection, null);
+});
+
+document.getElementById('home-cards-modal-list').addEventListener('click', (e) => {
+  const editBtn = e.target.closest('[data-home-card-edit]');
+  if (editBtn) {
+    openHomeCardEditModal(homeCardModalSection, Number(editBtn.getAttribute('data-home-card-edit')));
+    return;
+  }
+
+  const delBtn = e.target.closest('[data-home-card-del]');
+  if (delBtn) {
+    const idx = Number(delBtn.getAttribute('data-home-card-del'));
+    const cards = getHomeCardCollection(homeCardModalSection);
+    cards.splice(idx, 1);
+    if (homeCardModalSection === 'directions') siteContentData.directions = cards;
+    else siteContentData.aboutCards = cards;
+    renderHomeCardsModalList();
+    markUnsaved();
+  }
+});
+
+document.getElementById('modal-save-btn').addEventListener('click', saveService);
+
+function saveService() {
+  const title = document.getElementById('f-title').value.trim();
+  if (!title) {
+    showToast('Введіть назву послуги', 'error');
+    document.getElementById('f-title').focus();
+    return;
+  }
+
+  const descriptionWhat = document.getElementById('f-desc-what').value.trim();
+  const descriptionWhy = document.getElementById('f-desc-why').value.trim();
+  const targetCategoryId = document.getElementById('f-category').value;
+  const targetCategoryIndex = servicesData.categories.findIndex(c => c.id === targetCategoryId);
+  if (targetCategoryIndex < 0) {
+    showToast('Не знайдено цільову категорію', 'error');
+    return;
+  }
+
+  const priceSections = Array.from(document.querySelectorAll('#f-priceSections .price-section')).map((section) => ({
+    subtitle: (section.querySelector('.price-subtitle-input')?.value || '').trim(),
+    rows: Array.from(section.querySelectorAll('.price-row')).map((row) => ({
+      label: (row.querySelector('.price-label')?.value || '').trim(),
+      value: (row.querySelector('.price-value')?.value || '').trim(),
+    }))
+  }));
+
+  const builtDescriptionHtml = buildDescriptionHtml(descriptionWhat, descriptionWhy);
+  const builtPriceHtml = buildPriceHtml(priceSections);
+
+  const svcData = {
+    title,
+    image: document.getElementById('f-image').value.trim(),
+    priceNote: document.getElementById('f-priceNote').value.trim() || undefined,
+    description: builtDescriptionHtml,
+    priceHtml: builtPriceHtml,
+  };
+  // Remove undefined keys so JSON stays clean
+  if (!svcData.priceNote) delete svcData.priceNote;
+  if (!svcData.image) delete svcData.image;
+
+  const sourceCategory = servicesData.categories[activeCatIndex];
+  const targetCategory = servicesData.categories[targetCategoryIndex];
+  const sourceServices = sourceCategory.services;
+  const targetServices = targetCategory.services;
+
+  if (editingServiceIndex === null) {
+    const maxId = targetServices.reduce((m, s) => Math.max(m, s.id || 0), 0);
+    svcData.id = maxId + 1;
+    targetServices.push(svcData);
+    activeCatIndex = targetCategoryIndex;
+    showToast('Послугу додано', 'success');
+  } else {
+    if (targetCategoryIndex === activeCatIndex) {
+      svcData.id = sourceServices[editingServiceIndex].id;
+      sourceServices[editingServiceIndex] = svcData;
+    } else {
+      sourceServices.splice(editingServiceIndex, 1);
+      const targetMaxId = targetServices.reduce((m, s) => Math.max(m, s.id || 0), 0);
+      svcData.id = targetMaxId + 1;
+      targetServices.push(svcData);
+      activeCatIndex = targetCategoryIndex;
+    }
+    showToast('Зміни збережено локально', 'success');
+  }
+
+  markUnsaved();
+  closeEditModal();
+  renderServiceList();
+  renderCategoryList();
+}
+
+// ═══════════════════════════════════════════════════════
+//  DELETE
+// ═══════════════════════════════════════════════════════
+function openConfirmDelete(idx) {
+  pendingDeleteIndex = idx;
+  const svc = servicesData.categories[activeCatIndex].services[idx];
+  document.getElementById('confirm-del-name').textContent =
+    'Видалити "' + svc.title + '"?';
+  document.getElementById('confirm-del').classList.remove('hidden');
+}
+
+document.getElementById('del-cancel-btn').addEventListener('click', () => {
+  document.getElementById('confirm-del').classList.add('hidden');
+  pendingDeleteIndex = null;
+});
+
+document.getElementById('del-confirm-btn').addEventListener('click', () => {
+  if (pendingDeleteIndex === null) return;
+  servicesData.categories[activeCatIndex].services.splice(pendingDeleteIndex, 1);
+  pendingDeleteIndex = null;
+  document.getElementById('confirm-del').classList.add('hidden');
+  markUnsaved();
+  renderServiceList();
+  renderCategoryList();
+  showToast('Послугу видалено', 'success');
+});
+
+// ═══════════════════════════════════════════════════════
+//  SAVE / EXPORT / COPY JSON
+// ═══════════════════════════════════════════════════════
+function getJsonString() {
+  return activeMode === 'home'
+    ? JSON.stringify(siteContentData, null, 2)
+    : JSON.stringify(servicesData, null, 2);
+}
+
+document.getElementById('home-nav-list').addEventListener('click', (e) => {
+  const item = e.target.closest('[data-qn-section],[data-qn-popup]');
+  if (!item) return;
+  document.querySelectorAll('#home-nav-list .home-nav-item').forEach(el => el.classList.remove('active-nav'));
+  item.classList.add('active-nav');
+  if (item.hasAttribute('data-qn-popup')) {
+    openHomeCardsModal(item.getAttribute('data-qn-popup'));
+  } else {
+    const secId = item.getAttribute('data-qn-section');
+    const sec = document.getElementById(secId);
+    if (sec) {
+      const toggleBtn = sec.querySelector('[data-toggle-target]');
+      if (toggleBtn) {
+        const target = document.getElementById(toggleBtn.getAttribute('data-toggle-target'));
+        if (target) target.style.display = 'block';
+      }
+      sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+});
+
+document.getElementById('download-btn').addEventListener('click', () => {
+  if (activeMode === 'home' && !collectHomeForm()) return;
+  const json = getJsonString();
+  const blob = new Blob([json], { type: 'application/json' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href     = url;
+  a.download = activeMode === 'home' ? 'site-content.json' : 'services.json';
+  a.click();
+  URL.revokeObjectURL(url);
+  clearUnsaved();
+  showToast((activeMode === 'home' ? 'site-content.json' : 'services.json') + ' завантажено', 'success');
+});
+
+document.getElementById('copy-btn').addEventListener('click', () => {
+  if (activeMode === 'home' && !collectHomeForm()) return;
+  navigator.clipboard.writeText(getJsonString())
+    .then(() => showToast('JSON скопійовано в буфер обміну', 'success'))
+    .catch(() => showToast('Не вдалося скопіювати', 'error'));
+});
+
+// ── Save via PHP API (optional, works only on PHP server) ──
+function saveServicesViaApi(options) {
+  const silent = options && options.silent;
+  if (!servicesData || !Array.isArray(servicesData.categories)) {
+    return Promise.reject(new Error('Дані послуг не завантажені'));
+  }
+  return fetchJson(API_SAVE_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Admin-Password': ADMIN_PASSWORD
+    },
+    body: JSON.stringify(servicesData, null, 2)
+  })
+  .then(data => {
+    if (data.ok) {
+      if (!silent) {
+        clearUnsaved();
+        showToast('✓ Збережено на сервері', 'success');
+      }
+    } else {
+      throw new Error(data.error || 'Помилка сервера');
+    }
+  });
+}
+
+function saveSiteContentViaApi() {
+  return fetchJson(API_SAVE_SITE_CONTENT_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Admin-Password': ADMIN_PASSWORD
+    },
+    body: JSON.stringify(siteContentData, null, 2)
+  })
+  .then(data => {
+    if (!data || !data.ok) {
+      throw new Error((data && data.error) || 'Помилка сервера');
+    }
+  });
+}
+
+function saveViaApi() {
+  if (activeMode === 'home') {
+    if (!collectHomeForm()) return Promise.reject(new Error('Помилка у даних форми'));
+    return Promise.all([saveSiteContentViaApi(), saveServicesViaApi({ silent: true })]).then(() => {
+      clearUnsaved();
+      showToast('✓ Збережено головну + послуги', 'success');
+    });
+  }
+  return saveServicesViaApi();
+}
+
+document.getElementById('save-api-btn').addEventListener('click', () => {
+  saveViaApi().catch((err) => {
+    showToast('Не вдалося зберегти: ' + (err && err.message ? err.message : 'помилка'), 'error');
+  });
+});
+
+// Save via API on Ctrl+S
+document.addEventListener('keydown', e => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+    e.preventDefault();
+    if (!checkLogin()) return;
+    saveViaApi().catch((err) => {
+      showToast('Не вдалося зберегти: ' + (err && err.message ? err.message : 'помилка'), 'error');
+    });
+  }
+});
+
+// Warn before leaving with unsaved changes
+window.addEventListener('beforeunload', e => {
+  if (hasUnsavedChanges) {
+    e.preventDefault();
+    e.returnValue = '';
+  }
+});
+</script>
+</body>
+</html>
